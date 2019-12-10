@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-
+using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungPierburg.Models
 {
     public class Mitarbeiter
     {
        // [Display(Name = "Id")]
-        public int ID { get; set; }
-
+        public int Identifier { get; set; }
+        
         [Required(ErrorMessage = "Du musst noch die Kostenstelle eingeben.")]
         public int Kostenstelle { get; set; }
 

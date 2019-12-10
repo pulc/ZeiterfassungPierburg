@@ -176,11 +176,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FertigungsteilController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MitarbeiterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MitarbeiterDBHandle.cs" />
+    <Compile Include="Models\Produktion\FertigungsteilDBHandle.cs" />
     <Compile Include="Models\Users\AccountViewModels.cs" />
     <Compile Include="Models\Produktion\Fertigungsteil.cs" />
     <Compile Include="Models\Users\IdentityModels.cs" />
@@ -214,7 +218,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -248,6 +254,12 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Mitarbeiter\Index.cshtml" />
+    <Content Include="Views\Mitarbeiter\Create.cshtml" />
+    <Content Include="Views\Mitarbeiter\Edit.cshtml" />
+    <Content Include="Views\Fertigungsteil\Index.cshtml" />
+    <Content Include="Views\Fertigungsteil\Create.cshtml" />
+    <Content Include="Views\Fertigungsteil\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

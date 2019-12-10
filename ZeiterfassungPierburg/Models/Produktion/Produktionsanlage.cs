@@ -17,5 +17,5 @@ namespace ZeiterfassungPierburg.Models
         public int SAPAPNr { get; set; }
         // Ist die Anlage ein Band (true) oder eine Maschine (false)?
         public bool IstEineMaschine { get; set; }
-    }
+    }   
 }

@@ -5,14 +5,14 @@ using System.Data.SqlClient;
 using System.Configuration;
 using ZeiterfassungPierburg.Models;
 
-namespace Zeiterfassung.Models
+namespace ZeiterfassungPierburg.Models
 {
     public class MitarbeiterDBHandle
     {
         private SqlConnection con;
         private void connection()
         {
-            string constring = ConfigurationManager.ConnectionStrings["mitarbeiterconn"].ToString();
+            string constring = ConfigurationManager.ConnectionStrings["ZeiterfassungConn"].ToString();
             con = new SqlConnection(constring);
         }
         // **************** ADD NEW MITARBEITER *********************
@@ -29,7 +29,6 @@ namespace Zeiterfassung.Models
             cmd.Parameters.AddWithValue("@Abrechnungkreis", mitarbeitermodel.Abrechnungskreis);
             cmd.Parameters.AddWithValue("@Mitarbeiterkreis", mitarbeitermodel.Mitarbeiterkreis);
             cmd.Parameters.AddWithValue("@Beschäftigungsart", mitarbeitermodel.Beschäftigungsart);
-
 
             con.Open();
             int i = cmd.ExecuteNonQuery();

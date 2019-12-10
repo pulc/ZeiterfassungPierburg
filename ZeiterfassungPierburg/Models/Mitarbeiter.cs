@@ -7,31 +7,56 @@ using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungPierburg.Models
 {
-    public class Mitarbeiter
+    public class Mitarbeiter: BasicModelObject
     {
-       // [Display(Name = "Id")]
-        public int Identifier { get; set; }
-        
         [Required(ErrorMessage = "Du musst noch die Kostenstelle eingeben.")]
-        public int Kostenstelle { get; set; }
+        public int Kostenstelle
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
 
         [Required(ErrorMessage = "Du musst noch die Personalnummber eingeben.")]
-        public int Personalnummer { get; set; }
+        public int Personalnummer
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
 
         [Required(ErrorMessage = "Du musst noch den Nachnamen eingeben.")]
-        public string Nachname { get; set; }
+        public string Nachname
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
 
         [Required(ErrorMessage = "Du musst noch den Vornamen eingeben.")]
-        public string Vorname { get; set; }
+        public string Vorname
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
 
         [Required(ErrorMessage = "Du musst noch den Abrechnungskreis eingeben.")]
-        public int Abrechnungskreis { get; set; }
+        public int Abrechnungskreis
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
 
         [Required(ErrorMessage = "Du musst noch den Mitarbeiterkreis eingeben.")]
-        public int Mitarbeiterkreis { get; set; }
+        public int Mitarbeiterkreis
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
 
         [Required(ErrorMessage = "Du musst noch die Beschäftigungsart eingeben.")]
-        public string Beschäftigungsart { get; set; }
+        public string Beschäftigungsart
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
     }
 }
  

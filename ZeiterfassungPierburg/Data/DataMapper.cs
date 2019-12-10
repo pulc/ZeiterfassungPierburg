@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace ZeiterfassungPierburg.Data
@@ -17,8 +18,22 @@ namespace ZeiterfassungPierburg.Data
 
             defaultTableName = tableName;
             propertyFieldMappings = new Dictionary<string, string>();
+            RegisterStandardMappings();
         }
 
+        protected void RegisterStandardMappings()
+        {
+            Type t = typeof(T);
+            if (t.IsDefined(typeof(NoStandardMappingAttribute))) return;
+
+            foreach (PropertyInfo pi in t.GetProperties())
+            {
+                if (!t.IsDefined(typeof(NoStandardMappingAttribute)))
+                {
+                    propertyFieldMappings[pi.Name] = pi.Name.ToLower();
+                }
+            }
+        }
         public void RegisterPropertyMapping(string propertyName, string columnName, string tableName = "")
         {
             propertyFieldMappings[propertyName.ToLower()] = tableName == "" ? tableName + "|" + columnName : columnName;
@@ -51,18 +66,6 @@ namespace ZeiterfassungPierburg.Data
         public static string MakeSQLStringValue(object value)
         {
             return value.ToString();
-        }
-    }
-
-    public static class DataModelHelper
-    {
-        public static Dictionary<string,string> GetPropertyDictionary (this BasicModelObject model)
-        {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-
-
-
-            return dic;
         }
     }
 }

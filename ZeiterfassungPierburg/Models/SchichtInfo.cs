@@ -10,11 +10,7 @@ namespace ZeiterfassungPierburg.Models
     {
         public enum Schichtart { Früh, Spät, Nacht }
 
-        public int MitarbeiterSchichtID
-        {
-            get => GetValue<int>();
-            set => SetValue(value);
-        }
+        [DateTime(DateTimeAttribute.DateTimeUsage.Date)]
         public DateTime Datum
         {
             get => GetValue<DateTime>();

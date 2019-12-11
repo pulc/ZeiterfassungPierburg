@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeiterfassungPierburg", "ZeiterfassungPierburg\ZeiterfassungPierburg.csproj", "{2B55A743-CAE6-487F-9C9B-E7D264860AA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeiterfassungTests", "ZeiterfassungTests\ZeiterfassungTests.csproj", "{A41CCEE2-1EFF-45AD-BB54-B7B92A23B53C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2B55A743-CAE6-487F-9C9B-E7D264860AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B55A743-CAE6-487F-9C9B-E7D264860AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B55A743-CAE6-487F-9C9B-E7D264860AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A41CCEE2-1EFF-45AD-BB54-B7B92A23B53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A41CCEE2-1EFF-45AD-BB54-B7B92A23B53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A41CCEE2-1EFF-45AD-BB54-B7B92A23B53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A41CCEE2-1EFF-45AD-BB54-B7B92A23B53C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

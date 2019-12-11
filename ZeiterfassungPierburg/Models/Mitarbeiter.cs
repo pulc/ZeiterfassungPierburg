@@ -9,6 +9,10 @@ namespace ZeiterfassungPierburg.Models
 {
     public class Mitarbeiter: BasicModelObject
     {
+        public Mitarbeiter()
+        {
+            FillValuesDictionaryWithDefaultValues();
+        }
         [Required(ErrorMessage = "Du musst noch die Kostenstelle eingeben.")]
         public int Kostenstelle
         {

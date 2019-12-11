@@ -10,33 +10,49 @@ namespace ZeiterfassungPierburg.Data
     public class DataMapper<T> where T: BasicModelObject
     {
         private string defaultTableName;
-        private Dictionary<string, string> propertyFieldMappings;
-
+        private Dictionary<string, string> propertyColumnMappings;
+        private Dictionary<string, Func<object, string>> propertyToStringFunctions;
         public DataMapper(string tableName)
         {
             if (String.IsNullOrEmpty(tableName)) throw new ArgumentNullException("tableName");
 
             defaultTableName = tableName;
-            propertyFieldMappings = new Dictionary<string, string>();
+            propertyColumnMappings = new Dictionary<string, string>();
+            propertyToStringFunctions = new Dictionary<string, Func<object, string>>();
             RegisterStandardMappings();
+            RegisterToStringFunctions();
         }
 
+        protected void RegisterToStringFunctions()
+        {
+
+        }
+
+        /*
+* Checks all properties for DataAttributes and applies standard mapping
+* to column names, if not prohibited by NoStandardMapping attribute
+* */
         protected void RegisterStandardMappings()
         {
             Type t = typeof(T);
-            if (t.IsDefined(typeof(NoStandardMappingAttribute))) return;
+            // if NoStandardMapping set on class, disable for all properties
+            bool registerStandardMapping = t.IsDefined(typeof(NoStandardMappingAttribute));
 
             foreach (PropertyInfo pi in t.GetProperties())
             {
-                if (!t.IsDefined(typeof(NoStandardMappingAttribute)))
+                if (registerStandardMapping)
                 {
-                    propertyFieldMappings[pi.Name] = pi.Name.ToLower();
+                    // check if NoStandardMapping is set for individual property
+                    if (!t.IsDefined(typeof(NoStandardMappingAttribute)))
+                    {
+                        propertyColumnMappings[pi.Name] = pi.Name.ToLower();
+                    }
                 }
             }
         }
         public void RegisterPropertyMapping(string propertyName, string columnName, string tableName = "")
         {
-            propertyFieldMappings[propertyName.ToLower()] = tableName == "" ? tableName + "|" + columnName : columnName;
+            propertyColumnMappings[propertyName.ToLower()] = tableName == "" ? tableName + "|" + columnName : columnName;
         }
 
         /* mapping functions */
@@ -44,9 +60,11 @@ namespace ZeiterfassungPierburg.Data
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
-            foreach (string property in propertyFieldMappings.Keys)
+            foreach (string property in propertyColumnMappings.Keys)
             {
-                dic.Add(propertyFieldMappings[property],
+                Console.WriteLine(model.ToString());
+                Console.WriteLine("GetValue : " + property + " , " + model.GetValue(property));
+                dic.Add(propertyColumnMappings[property],
                         MakeSQLStringValue(model.GetValue(property)));
             }
             return dic;
@@ -65,7 +83,14 @@ namespace ZeiterfassungPierburg.Data
 
         public static string MakeSQLStringValue(object value)
         {
-            return value.ToString();
+            string s = value.ToString();
+
+            if (value is String)
+                return String.Format("'{0}'", (string)value);
+
+            if (value is DateTime)
+                return ((DateTime)value).ToString("yyyy-MM-dd ");
+            return s;
         }
     }
 }

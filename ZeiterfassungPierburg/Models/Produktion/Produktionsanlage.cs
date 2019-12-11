@@ -2,20 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungPierburg.Models
 {
-    public class Produktionsanlage
+    public class Produktionsanlage : BasicModelObject
     {
-        public int ID { get; set; }
-        public string Bezeichner { get; set; }
         // Arbeitsplatznummer
-        public int APNr { get; set; }
+        public int APNr
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
         // Kostenstelle
-        public int Kostenstelle { get; set; }
+        public int Kostenstelle
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
         // SAP-Arbeitsplatz
-        public int SAPAPNr { get; set; }
+
+        public int SAPAPNr
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+        public String Bezeichner
+        {
+            get => GetValue<String>();
+            set => SetValue(value);
+        }
+
         // Ist die Anlage ein Band (true) oder eine Maschine (false)?
-        public bool IstEineMaschine { get; set; }
+        public bool IstEineMaschine
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
     }   
 }

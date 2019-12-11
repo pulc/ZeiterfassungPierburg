@@ -1,21 +1,57 @@
 ﻿    using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungPierburg.Models
 {
-    public class MitarbeiterInSchicht
+    public class MitarbeiterInSchicht : BasicModelObject
     {
-        public int ID { get; set; }
-        public int SchichtInfoID { get; set; }
-        public int MitarbeiterID { get; set; }
-        public int Produktionsanlage { get; set; }
-        public int FertigungsteilID { get; set; }
-        public int Stück { get; set; }
-        // todo: Direkt / Indirekt-Stunden trennen? Was ist SZ?
-        public float Stunden { get; set; }
+        public int SchichtInfoID
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+
+        public int MitarbeiterID
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+
+        public int Stück
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+
+        public int FertigungsteilID
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+
+        public int Produktionsanlage
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+
+        public float Stunden
+        {
+            get => GetValue<float>();
+            set => SetValue(value);
+        }
         /* Administrativ */
-        public bool IstInSAPEintragen { get; set; }
+        public bool IstInSAPEintragen
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
+        // TODO: Direkt / Indirekt-Stunden trennen? Was ist SZ?
+
     }
 }

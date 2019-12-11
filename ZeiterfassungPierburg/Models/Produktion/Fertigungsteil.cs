@@ -2,13 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ZeiterfassungPierburg.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace ZeiterfassungPierburg.Models
 {
-    public class Fertigungsteil
+    public class Fertigungsteil : BasicModelObject
     {
-        public int ID { get; set; }
-        public string ZeichenNr { get; set; }
-        public string Bezeichnung { get; set; }
+        [Required(ErrorMessage = "Du musst noch die ZeichenNr eingeben.")]
+        public string ZeichenNr
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
+
+        [Required(ErrorMessage = "Du musst noch die Bezeichnung eingeben.")]
+        public string Bezeichnung
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
+        
     }
 }

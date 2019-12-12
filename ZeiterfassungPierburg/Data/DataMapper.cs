@@ -7,11 +7,15 @@ using System.Web;
 
 namespace ZeiterfassungPierburg.Data
 {
-    public class DataMapper<T> where T: BasicModelObject
+    public interface IDataMapper
     {
-        private string defaultTableName;
-        private Dictionary<string, string> propertyColumnMappings;
-        private Dictionary<string, Func<object, string>> propertyToStringFunctions;
+        string GetItemsSQLString();
+    }
+    public class DataMapper<T> : IDataMapper where T: BasicModelObject
+    {
+        private readonly string defaultTableName;
+        internal readonly Dictionary<string, string> propertyColumnMappings;
+        internal readonly Dictionary<string, Func<object, string>> propertyToStringFunctions;
         public DataMapper(string tableName)
         {
             if (String.IsNullOrEmpty(tableName)) throw new ArgumentNullException("tableName");
@@ -25,7 +29,25 @@ namespace ZeiterfassungPierburg.Data
 
         protected void RegisterToStringFunctions()
         {
+            Type attType = typeof(IPropertyStringFunctionAttribute);
+            // find all properties with an attribute that defines
+            // a custom ToString function for its value
+            foreach (var property in typeof(T).GetProperties())
+            {
+                IPropertyStringFunctionAttribute attribute = null;
+                var found =
+                property.GetCustomAttributes()
+                        .Where(a => a is IPropertyStringFunctionAttribute);
+                // always select only the first attribute, as only one should be set
+                // (multiple attributes with this interface is not valid)
+                if (found.Count() > 0)
+                    attribute = (IPropertyStringFunctionAttribute)found.First();
 
+                // add to dictionary
+                if (attribute != null)
+                    propertyToStringFunctions.Add(property.Name,
+                        attribute.ToStringFunction);
+            }
         }
 
         /*
@@ -36,7 +58,7 @@ namespace ZeiterfassungPierburg.Data
         {
             Type t = typeof(T);
             // if NoStandardMapping set on class, disable for all properties
-            bool registerStandardMapping = t.IsDefined(typeof(NoStandardMappingAttribute));
+            bool registerStandardMapping = !t.IsDefined(typeof(NoStandardMappingAttribute));
 
             foreach (PropertyInfo pi in t.GetProperties())
             {
@@ -91,6 +113,14 @@ namespace ZeiterfassungPierburg.Data
             if (value is DateTime)
                 return ((DateTime)value).ToString("yyyy-MM-dd ");
             return s;
+        }
+
+        // IDataMapper interface
+        public string GetItemsSQLString()
+        {
+            string sql = "SELECT {0} FROM {1}";
+            return String.Format(sql, String.Join(", ", propertyColumnMappings.Values), defaultTableName);
+            throw new NotImplementedException();
         }
     }
 }

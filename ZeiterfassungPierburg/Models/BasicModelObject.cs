@@ -12,6 +12,7 @@ namespace ZeiterfassungPierburg.Data
         {
             // on creation of a new object, fill values dictionary with
             // default values
+            FillValuesDictionaryWithDefaultValues();
         }
 
         protected void FillValuesDictionaryWithDefaultValues()
@@ -23,7 +24,7 @@ namespace ZeiterfassungPierburg.Data
                     // try to invoke parameterless constructor of respective
                     // property Type
                     Type t = pi.PropertyType;
-                    object value = null;
+                    object value;
                     if (t == typeof(string))
                     {
                         value = String.Empty;
@@ -33,6 +34,16 @@ namespace ZeiterfassungPierburg.Data
                     if (t.IsPrimitive)
                     {
                         value = Activator.CreateInstance(t);
+                    }
+                    else
+                    if (t.IsEnum)
+                    {
+                        value = (int)0;
+                    }
+                    else
+                    if (t == typeof(DateTime))
+                    {
+                        value = DateTime.Now;
                     }
                     else
                     {
@@ -46,7 +57,7 @@ namespace ZeiterfassungPierburg.Data
         protected Dictionary<string, object> values = new Dictionary<string, object>();
         internal object GetValue([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
-            object val = null;
+            object val;
 
             if (String.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("PropertyName is <null>");
             if (!values.TryGetValue(propertyName.ToLower(), out val))

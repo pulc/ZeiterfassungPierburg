@@ -8,6 +8,10 @@ namespace ZeiterfassungPierburg.Models
 {
     public class SchichtInfo : BasicModelObject
     {
+        public SchichtInfo()
+        {
+            FillValuesDictionaryWithDefaultValues();
+        }
         public enum Schichtart { Früh, Spät, Nacht }
 
         [DateTime(DateTimeAttribute.DateTimeUsage.Date)]

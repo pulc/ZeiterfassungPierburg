@@ -5,7 +5,7 @@ using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungTests
 {
-    [TestClass]
+     [TestClass]
     public class SchichtInfoDataMappingTest
     {
         DataMapper<SchichtInfo> dmS;

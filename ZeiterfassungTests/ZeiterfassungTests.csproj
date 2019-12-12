@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="DataMappingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

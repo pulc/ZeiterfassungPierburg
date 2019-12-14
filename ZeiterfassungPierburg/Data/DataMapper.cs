@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -10,50 +12,59 @@ namespace ZeiterfassungPierburg.Data
     public interface IDataMapper
     {
         string GetItemsSQLString();
+        IEnumerable ReadItems(IDataReader reader);
     }
-    public class DataMapper<T> : IDataMapper where T: BasicModelObject
+    public class DataMapper<T> : IDataMapper where T: BasicModelObject, new()
     {
         private readonly string defaultTableName;
-        internal readonly Dictionary<string, string> propertyColumnMappings;
-        internal readonly Dictionary<string, Func<object, string>> propertyToStringFunctions;
+        internal readonly Dictionary<string, PropertyMappingInfo> propertyMappingInfos;
         public DataMapper(string tableName)
         {
             if (String.IsNullOrEmpty(tableName)) throw new ArgumentNullException("tableName");
 
             defaultTableName = tableName;
-            propertyColumnMappings = new Dictionary<string, string>();
-            propertyToStringFunctions = new Dictionary<string, Func<object, string>>();
+            propertyMappingInfos = new Dictionary<string, PropertyMappingInfo>();
             RegisterStandardMappings();
-            RegisterToStringFunctions();
         }
 
-        protected void RegisterToStringFunctions()
+        protected Func<object, string> GetPropertyToStringFunction(PropertyInfo property)
         {
-            Type attType = typeof(IPropertyStringFunctionAttribute);
-            // find all properties with an attribute that defines
-            // a custom ToString function for its value
-            foreach (var property in typeof(T).GetProperties())
-            {
-                IPropertyStringFunctionAttribute attribute = null;
-                var found =
-                property.GetCustomAttributes()
-                        .Where(a => a is IPropertyStringFunctionAttribute);
-                // always select only the first attribute, as only one should be set
-                // (multiple attributes with this interface is not valid)
-                if (found.Count() > 0)
-                    attribute = (IPropertyStringFunctionAttribute)found.First();
+            IPropertyStringFunctionAttribute attribute = null;
+            var found =
+            property.GetCustomAttributes()
+                    .Where(a => a is IPropertyStringFunctionAttribute);
+            // always select only the first attribute, as only one should be set
+            // (multiple attributes with this interface is not valid)
+            if (found.Count() > 0)
+                attribute = (IPropertyStringFunctionAttribute)found.First();
 
-                // add to dictionary
-                if (attribute != null)
-                    propertyToStringFunctions.Add(property.Name,
-                        attribute.ToStringFunction);
+            // overwrite default ToStringFunction (object.ToString)
+            if (attribute != null)
+            {
+                return attribute.ToStringFunction;
+            }
+            else
+            // represent enum selection as the underlying int value
+            if (property.PropertyType.IsEnum)
+            {
+                return (o) => { return ((int)o).ToString(); };
+            }
+            else
+            // strings need to be quoted
+            if (property.PropertyType == typeof(string))
+            {
+                return PropertyMappingInfo.QuotedStringFunction;
+            }
+            else
+            {
+                return PropertyMappingInfo.DefaultToStringFunction;
             }
         }
 
         /*
-* Checks all properties for DataAttributes and applies standard mapping
-* to column names, if not prohibited by NoStandardMapping attribute
-* */
+        * Checks all properties for DataAttributes and applies standard mapping
+        * to column names, if not prohibited by NoStandardMapping attribute
+        * */
         protected void RegisterStandardMappings()
         {
             Type t = typeof(T);
@@ -62,19 +73,18 @@ namespace ZeiterfassungPierburg.Data
 
             foreach (PropertyInfo pi in t.GetProperties())
             {
-                if (registerStandardMapping)
+                // check if NoStandardMapping is set for individual property
+                if (!t.IsDefined(typeof(NoStandardMappingAttribute)))
                 {
-                    // check if NoStandardMapping is set for individual property
-                    if (!t.IsDefined(typeof(NoStandardMappingAttribute)))
-                    {
-                        propertyColumnMappings[pi.Name] = pi.Name.ToLower();
-                    }
+                    propertyMappingInfos[pi.Name] = new PropertyMappingInfo(
+                                        pi.Name,
+                                        defaultTableName,
+                                        pi.Name.ToLower(),
+                                        pi.PropertyType,
+                                        GetPropertyToStringFunction(pi)
+                                        );
                 }
             }
-        }
-        public void RegisterPropertyMapping(string propertyName, string columnName, string tableName = "")
-        {
-            propertyColumnMappings[propertyName.ToLower()] = tableName == "" ? tableName + "|" + columnName : columnName;
         }
 
         /* mapping functions */
@@ -82,12 +92,10 @@ namespace ZeiterfassungPierburg.Data
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
 
-            foreach (string property in propertyColumnMappings.Keys)
+            foreach (var pmi in propertyMappingInfos.Values)
             {
-                Console.WriteLine(model.ToString());
-                Console.WriteLine("GetValue : " + property + " , " + model.GetValue(property));
-                dic.Add(propertyColumnMappings[property],
-                        MakeSQLStringValue(model.GetValue(property)));
+                dic.Add(pmi.ColumnName,
+                        pmi.ToStringFunction.Invoke(model.GetValue(pmi.PropertyName)));
             }
             return dic;
         }
@@ -103,24 +111,26 @@ namespace ZeiterfassungPierburg.Data
             return String.Format(sql, defaultTableName, columnsString, valuesString);
         }
 
-        public static string MakeSQLStringValue(object value)
-        {
-            string s = value.ToString();
-
-            if (value is String)
-                return String.Format("'{0}'", (string)value);
-
-            if (value is DateTime)
-                return ((DateTime)value).ToString("yyyy-MM-dd ");
-            return s;
-        }
-
         // IDataMapper interface
         public string GetItemsSQLString()
         {
             string sql = "SELECT {0} FROM {1}";
-            return String.Format(sql, String.Join(", ", propertyColumnMappings.Values), defaultTableName);
-            throw new NotImplementedException();
+            return String.Format(sql, String.Join(", ", propertyMappingInfos.Values.Select(v=>v.ColumnName)), defaultTableName);
+        }
+        public IEnumerable ReadItems(IDataReader reader)
+        {
+            List<T> results = new List<T>();
+            while (reader.Read())
+            {
+                T result = new T();
+                foreach (PropertyMappingInfo pmi in propertyMappingInfos.Values)
+                {
+                    int index = reader.GetOrdinal(pmi.ColumnName);
+                    result.SetValue(reader.GetValue(index), pmi.PropertyName.ToLower());
+                }
+                results.Add(result);
+            }
+            return results.ToArray();
         }
     }
 }

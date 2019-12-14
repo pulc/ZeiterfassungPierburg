@@ -20,31 +20,32 @@ namespace ZeiterfassungPierburg.Tests
             {
                 Art = SchichtInfo.Schichtart.Früh,
                 Datum = new DateTime(2019, 12, 6),
-                Identifier = 65
+                ID = 65
             };
             dmSi = new DataMapper<SchichtInfo>("SchichtInfo");
         }
+    }
 
+    [TestClass]
+    public class MitarbeiterTests
+    {
         [TestMethod]
-        public void CustomToStringFunctionsAreAllFound()
+        public void ReadRecordsFromSQLServerWorks()
         {
-            Assert.AreEqual(dmSi.propertyToStringFunctions.Count, 1);
+            IEnumerable<Mitarbeiter> data = SQLServer.Instance.GetItems<Mitarbeiter>();
+            Console.WriteLine("Test: reading Mitarbeiter objects from SQL server");
+            foreach (var item in data)
+                Console.WriteLine(item.ToString());
+            Assert.AreEqual(2, data.Count());
         }
 
         [TestMethod]
-        public void DatumCustomStringFunctionYieldsValidDateFormat()
+        public void FilteringMitarbeiterWorks()
         {
-            Assert.AreEqual(
-            dmSi.propertyToStringFunctions["Datum"].Invoke(
-                new DateTime(2019, 12, 6)), "2019-12-06");
-        }
-
-        [TestMethod]
-        public void GetItemsSQLStringIsOkay()
-        {
-            Console.WriteLine(dmSi.GetItemsSQLString());
-            Console.WriteLine(String.Join(", ",dmSi.propertyColumnMappings.Values));
-            Assert.IsTrue(true);
+            Dictionary<string, string> filter = new Dictionary<string, string>();
+            filter.Add("vorname", "'Frodo'");
+            IEnumerable<Mitarbeiter> data = SQLServer.Instance.GetItems<Mitarbeiter>(filter);
+            Assert.AreEqual(1, data.Count());
         }
     }
 }

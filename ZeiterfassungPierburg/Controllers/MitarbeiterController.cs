@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ZeiterfassungPierburg.Data;
+using ZeiterfassungPierburg.Models;
 
 namespace ZeiterfassungPierburg.Controllers
 {
@@ -11,13 +13,21 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Mitarbeiter
         public ActionResult Index()
         {
-            return View();
+            var results = SQLServer.Instance.GetItems<Mitarbeiter>();
+            return View(results);
         }
 
-        // GET: Mitarbeiter/Details/5
-        public ActionResult Details(int id)
+        // GET: Mitarbeiter/Edit/5
+        public ActionResult Edit(int id)
         {
-            return View();
+            var results = SQLServer.Instance.GetItems<Mitarbeiter>("id = " + id.ToString());
+            if (results.Count() != 1)
+            {
+                // todo: implement proper error message to be displayed
+                return HttpNotFound("Der Mitarbeiter wurde nicht gefunden.");
+            }
+            else
+            return View(results.First());
         }
 
         // GET: Mitarbeiter/Create
@@ -40,12 +50,6 @@ namespace ZeiterfassungPierburg.Controllers
             {
                 return View();
             }
-        }
-
-        // GET: Mitarbeiter/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
         }
 
         // POST: Mitarbeiter/Edit/5

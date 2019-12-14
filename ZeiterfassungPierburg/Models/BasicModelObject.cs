@@ -49,7 +49,7 @@ namespace ZeiterfassungPierburg.Data
                     {
                         value = t.GetConstructor(Type.EmptyTypes).Invoke(new object[] { });
                     }
-                    values[pi.Name] = value;
+                    values[pi.Name.ToLower()] = value;
                 }
             }
         }
@@ -57,10 +57,9 @@ namespace ZeiterfassungPierburg.Data
         protected Dictionary<string, object> values = new Dictionary<string, object>();
         internal object GetValue([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
         {
-            object val;
-
             if (String.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("PropertyName is <null>");
-            if (!values.TryGetValue(propertyName.ToLower(), out val))
+
+            if (!values.TryGetValue(propertyName.ToLower(), out object val))
                 throw new ArgumentOutOfRangeException("Property not found");
             return val;
         }
@@ -73,7 +72,7 @@ namespace ZeiterfassungPierburg.Data
             if (String.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("PropertyName is <null>");
             values[propertyName.ToLower()] = value;
         }
-        public int Identifier
+        public int ID
         {
             get => GetValue<int>();
             set => SetValue(value);

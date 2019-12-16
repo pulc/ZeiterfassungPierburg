@@ -32,6 +32,6 @@ namespace ZeiterfassungPierburg.Data
             return result;
         }
         public static Func<object, string> DefaultToStringFunction => (object o) => { return o.ToString(); };
-        public static Func<object, string> QuotedStringFunction => (object o) => { return String.Format(DefaultToStringFunction.Invoke(o)); };
+        public static Func<object, string> QuotedStringFunction => (object o) => { return String.Format("'{0}'", DefaultToStringFunction.Invoke(o)); };
     }
 }

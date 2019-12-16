@@ -39,7 +39,7 @@ namespace ZeiterfassungPierburg.Data
             {
                 conn.Open();
                 IDataMapper mapper = GetMapper<T>();
-                string sqlstring = mapper.GetItemsSQLString();
+                string sqlstring = mapper.GetSelectSqlString();
 
                 if (filter != null)
                 {
@@ -71,7 +71,7 @@ namespace ZeiterfassungPierburg.Data
             {
                 conn.Open();
                 IDataMapper mapper = GetMapper<T>();
-                string sqlstring = mapper.GetItemsSQLString();
+                string sqlstring = mapper.GetSelectSqlString();
 
                 // possible to do: the filter string is not checked
                 // -> might be a security risk
@@ -79,6 +79,15 @@ namespace ZeiterfassungPierburg.Data
 
                 return (IEnumerable<T>)mapper.ReadItems(
                         ExecuteSelectStatement(conn, sqlstring));
+            }
+        }
+        public int InsertItem<T>(T model) where T: BasicModelObject, new()
+        {
+            IDataMapper m = GetMapper<T>();
+            using (SqlConnection conn = NewConnection)
+            {
+                conn.Open();
+                return ExecuteUpdateStatement(conn, m.GetInsertSqlString(model));
             }
         }
         // SqlConnection
@@ -107,6 +116,12 @@ namespace ZeiterfassungPierburg.Data
         {
             SqlCommand c = new SqlCommand(sqlstring, connection);
             return c.ExecuteReader();
+        }
+        protected int ExecuteUpdateStatement(SqlConnection connection, string sqlstring)
+        {
+            SqlCommand c = new SqlCommand(sqlstring, connection);
+            Decimal result = (Decimal)c.ExecuteScalar();
+            return Convert.ToInt32(result);
         }
     }
 }

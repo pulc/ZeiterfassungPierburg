@@ -47,5 +47,32 @@ namespace ZeiterfassungPierburg.Tests
             IEnumerable<Mitarbeiter> data = SQLServer.Instance.GetItems<Mitarbeiter>(filter);
             Assert.AreEqual(1, data.Count());
         }
+
+        [TestMethod]
+        public void InsertCommandIsValid()
+        {
+            Mitarbeiter m = new Mitarbeiter()
+            {
+                Nachname = "Schmidt",
+                Vorname = "Günther",
+                Kostenstelle = 23,
+                Mitarbeiterkreis = 565,
+                Abrechnungskreis = 2,
+                Beschäftigungsart = "intern",
+                Personalnummer = 273
+            };
+            Console.WriteLine(new DataMapper<Mitarbeiter>("Mitarbeiter").GetInsertSqlString(m));
+            int newId = -1;
+            try
+            {
+               newId= SQLServer.Instance.InsertItem<Mitarbeiter>(m);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error inserting item: " + e.Message);
+                Assert.IsTrue(false);
+            }
+            Assert.AreNotEqual(-1, newId);
+        }
     }
 }

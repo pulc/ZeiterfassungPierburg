@@ -177,9 +177,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ModelControllers\FertigungsteilController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MitarbeiterController.cs" />
+    <Compile Include="Controllers\ModelControllers\MitarbeiterController.cs" />
+    <Compile Include="Controllers\ModelControllers\MitarbeiterSchichtController.cs" />
+    <Compile Include="Controllers\ModelControllers\ProduktionsanlageController.cs" />
+    <Compile Include="Controllers\ModelControllers\SchichtInfoController.cs" />
     <Compile Include="Data\DataAttributes.cs" />
     <Compile Include="Data\DataMapper.cs" />
     <Compile Include="Data\PropertyMappingInfo.cs" />
@@ -309,6 +313,7 @@
     <Content Include="Views\Fertigungsteil\Index.cshtml" />
     <Content Include="Views\Fertigungsteil\Create.cshtml" />
     <Content Include="Views\Fertigungsteil\Edit.cshtml" />
+    <Content Include="Views\Produktionsanlage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -325,6 +330,10 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\MitarbeiterSchicht\" />
+    <Folder Include="Views\Schichtinfo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

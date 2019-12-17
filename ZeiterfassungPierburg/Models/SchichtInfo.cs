@@ -12,7 +12,7 @@ namespace ZeiterfassungPierburg.Models
         {
             FillValuesDictionaryWithDefaultValues();
         }
-        public enum Schichtart { Früh, Spät, Nacht }
+        public enum Schichtart { Früh = 1, Spät = 2, Nacht = 3 }
 
         [DateTime(DateTimeAttribute.DateTimeUsage.Date)]
         public DateTime Datum

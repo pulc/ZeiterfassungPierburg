@@ -15,7 +15,7 @@ namespace ZeiterfassungPierburg.Models
         }
         [Required(ErrorMessage = "Du musst noch die Kostenstelle eingeben.")]
         public int Kostenstelle
-        {
+        { 
             get => GetValue<int>();
             set => SetValue(value);
         }

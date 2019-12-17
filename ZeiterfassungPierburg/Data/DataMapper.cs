@@ -11,7 +11,8 @@ namespace ZeiterfassungPierburg.Data
 {
     public interface IDataMapper
     {
-        string GetItemsSQLString();
+        string GetSelectSqlString();
+        string GetInsertSqlString(object obj);
         IEnumerable ReadItems(IDataReader reader);
     }
     public class DataMapper<T> : IDataMapper where T: BasicModelObject, new()
@@ -99,11 +100,18 @@ namespace ZeiterfassungPierburg.Data
             }
             return dic;
         }
-        public string InsertCommand(T model)
+        public string GetInsertSqlString(object mdl)
         {
-            string sql = "INSERT INTO {0} ({1}) VALUES ({2})";
+            string sql = "INSERT INTO {0} ({1}) VALUES ({2}); SELECT @@IDENTITY AS 'Identity';";
+
+            if (mdl.GetType() != typeof(T))
+                throw new InvalidCastException("Wrong argument type");
+
+            T model = (T)mdl;
 
             Dictionary<string, string> columnValuePairs = GetColumnValuePairs(model);
+            // no id value allowed (setting an identity column would fail
+            columnValuePairs.Remove("id");
 
             string columnsString = String.Join(", ", columnValuePairs.Keys);
             string valuesString = String.Join(", ", columnValuePairs.Values);
@@ -112,7 +120,7 @@ namespace ZeiterfassungPierburg.Data
         }
 
         // IDataMapper interface
-        public string GetItemsSQLString()
+        public string GetSelectSqlString()
         {
             string sql = "SELECT {0} FROM {1}";
             return String.Format(sql, String.Join(", ", propertyMappingInfos.Values.Select(v=>v.ColumnName)), defaultTableName);

@@ -29,6 +29,7 @@ namespace ZeiterfassungPierburg.Tests
     [TestClass]
     public class MitarbeiterTests
     {
+        /*
         [TestMethod]
         public void ReadRecordsFromSQLServerWorks()
         {
@@ -38,6 +39,7 @@ namespace ZeiterfassungPierburg.Tests
                 Console.WriteLine(item.ToString());
             Assert.AreEqual(2, data.Count());
         }
+        */
 
         [TestMethod]
         public void FilteringMitarbeiterWorks()
@@ -65,7 +67,7 @@ namespace ZeiterfassungPierburg.Tests
             int newId = -1;
             try
             {
-               newId= SQLServer.Instance.InsertItem<Mitarbeiter>(m);
+                newId = SQLServer.Instance.InsertItem<Mitarbeiter>(m);
             }
             catch (Exception e)
             {
@@ -74,5 +76,19 @@ namespace ZeiterfassungPierburg.Tests
             }
             Assert.AreNotEqual(-1, newId);
         }
+
+        [TestMethod]
+        public void FormToModelValid()
+        {
+            Mitarbeiter n = new Mitarbeiter();
+
+            n.GetType();
+
+
+            Assert.IsTrue(true);
+        }
+
+
+
     }
 }

@@ -119,6 +119,32 @@ namespace ZeiterfassungPierburg.Data
             return String.Format(sql, defaultTableName, columnsString, valuesString);
         }
 
+        public string GetUpdateSqlString(object mdl, int id)
+        {
+            string sql = "UPDATE {0} SET {1} WHERE ID = {2}";
+
+            if (mdl.GetType() != typeof(T))
+                throw new InvalidCastException("Wrong argument type");
+
+            T model = (T)mdl;
+
+            Dictionary<string, string> columnValuePairs = GetColumnValuePairs(model);
+            // no id value allowed (setting an identity column would fail
+            columnValuePairs.Remove("id");
+
+            string valuesString = "";
+            foreach (KeyValuePair<string, string> entry in columnValuePairs)
+            {
+                valuesString = valuesString + entry.Key + "=" + entry.Value + ",";
+            }
+            return String.Format(sql, defaultTableName, valuesString.Substring(0, valuesString.Length - 1), id.ToString());
+        }
+        public string GetDeleteSqlString(int id)
+        {
+            string sql = "DELETE FROM {0} WHERE ID = {1}";
+            return String.Format(sql, defaultTableName, id.ToString());
+        }
+
         // IDataMapper interface
         public string GetSelectSqlString()
         {

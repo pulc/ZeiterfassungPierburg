@@ -58,9 +58,6 @@ namespace ZeiterfassungPierburg.Data
                         }));
                     sqlstring += wherestring;
                 }
-
-                
-
                 return (IEnumerable<T>)mapper.ReadItems(
                         ExecuteSelectStatement(conn, sqlstring));
             }
@@ -122,6 +119,22 @@ namespace ZeiterfassungPierburg.Data
             SqlCommand c = new SqlCommand(sqlstring, connection);
             Decimal result = (Decimal)c.ExecuteScalar();
             return Convert.ToInt32(result);
+        }
+        // for quick testing of SQL commands
+        public static void RunSqlCommand(String cmmd)
+        {
+            SqlConnection cnn;
+
+            cnn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            cnn.Open();
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            command = new SqlCommand(cmmd, cnn);
+            dataReader = command.ExecuteReader();
+
+            dataReader.Close();
+            cnn.Close();
         }
     }
 }

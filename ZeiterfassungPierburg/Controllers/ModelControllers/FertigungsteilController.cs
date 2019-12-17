@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models;
-
 
 namespace ZeiterfassungPierburg.Controllers
 {
@@ -43,15 +43,25 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
+
+                Fertigungsteil m = new Fertigungsteil();
+
+                foreach (KeyValuePair<string, string> entry in form)
+                {
+                    m.SetValue(entry.Value, entry.Key);
+                }
+                SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetInsertSqlString(m));
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception t)
             {
                 return View();
             }
         }
+
+
 
         // POST: Fertigungsteil/Edit/5
         [HttpPost]
@@ -59,11 +69,19 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
+
+                Fertigungsteil m = new Fertigungsteil();
+
+                foreach (KeyValuePair<string, string> entry in form)
+                {
+                    m.SetValue(entry.Value, entry.Key);
+                }
+                SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetUpdateSqlString(m, id));
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception t)
             {
                 return View();
             }
@@ -72,23 +90,20 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Fertigungsteil/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: Fertigungsteil/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
             try
             {
-                // TODO: Add delete logic here
-
+                SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetDeleteSqlString(id));
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("~/Views/Shared/Error.cshtml");
+
             }
         }
+
+
+
+
     }
 }

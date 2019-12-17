@@ -181,7 +181,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModelControllers\MitarbeiterController.cs" />
-    <Compile Include="Controllers\ModelControllers\MitarbeiterSchichtController.cs" />
+    <Compile Include="Controllers\ModelControllers\MitarbeiterInSchichtController.cs" />
     <Compile Include="Controllers\ModelControllers\ProduktionsanlageController.cs" />
     <Compile Include="Controllers\ModelControllers\SchichtInfoController.cs" />
     <Compile Include="Data\DataAttributes.cs" />
@@ -314,6 +314,8 @@
     <Content Include="Views\Fertigungsteil\Create.cshtml" />
     <Content Include="Views\Fertigungsteil\Edit.cshtml" />
     <Content Include="Views\Produktionsanlage\Index.cshtml" />
+    <Content Include="Views\Mitarbeiter\Delete.cshtml" />
+    <Content Include="Views\Fertigungsteil\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

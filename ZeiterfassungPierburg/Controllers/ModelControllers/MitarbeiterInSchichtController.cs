@@ -44,7 +44,6 @@ namespace ZeiterfassungPierburg.Controllers
             try
             {
 
-                Mitarbeiter.InsertCommand()
                 // TODO: Add insert logic here
 
                 return RedirectToAction("Index");

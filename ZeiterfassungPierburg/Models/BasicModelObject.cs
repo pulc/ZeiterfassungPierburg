@@ -14,7 +14,6 @@ namespace ZeiterfassungPierburg.Data
             // default values
             FillValuesDictionaryWithDefaultValues();
         }
-
         protected void FillValuesDictionaryWithDefaultValues()
         {
             foreach (PropertyInfo pi in this.GetType().GetProperties())

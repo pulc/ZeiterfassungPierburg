@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ZeiterfassungPierburg.Models.MitarbeiterInSchicht>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SchichtInfoID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MitarbeiterID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stück)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FertigungsteilID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Produktionsanlage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stunden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IstInSAPEintragen)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchichtInfoID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MitarbeiterID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stück)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FertigungsteilID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Produktionsanlage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stunden)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IstInSAPEintragen)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

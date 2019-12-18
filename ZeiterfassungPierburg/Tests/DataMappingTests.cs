@@ -40,7 +40,7 @@ namespace ZeiterfassungPierburg.Tests
             Assert.AreEqual(2, data.Count());
         }
         */
-
+        /*
         [TestMethod]
         public void FilteringMitarbeiterWorks()
         {
@@ -49,7 +49,7 @@ namespace ZeiterfassungPierburg.Tests
             IEnumerable<Mitarbeiter> data = SQLServer.Instance.GetItems<Mitarbeiter>(filter);
             Assert.AreEqual(1, data.Count());
         }
-
+        */
         [TestMethod]
         public void InsertCommandIsValid()
         {
@@ -81,10 +81,7 @@ namespace ZeiterfassungPierburg.Tests
         public void FormToModelValid()
         {
             Mitarbeiter n = new Mitarbeiter();
-
             n.GetType();
-
-
             Assert.IsTrue(true);
         }
 

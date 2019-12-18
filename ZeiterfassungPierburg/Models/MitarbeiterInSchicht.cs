@@ -33,7 +33,7 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        public int Produktionsanlage
+        public int ProduktionsanlageID
         {
             get => GetValue<int>();
             set => SetValue(value);

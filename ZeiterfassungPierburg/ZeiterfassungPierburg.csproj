@@ -316,6 +316,15 @@
     <Content Include="Views\Produktionsanlage\Index.cshtml" />
     <Content Include="Views\Mitarbeiter\Delete.cshtml" />
     <Content Include="Views\Fertigungsteil\Delete.cshtml" />
+    <Content Include="Views\Produktionsanlage\Create.cshtml" />
+    <Content Include="Views\Produktionsanlage\Delete.cshtml" />
+    <Content Include="Views\Produktionsanlage\Edit.cshtml" />
+    <Content Include="Views\MitarbeiterInSchicht\Index.cshtml" />
+    <Content Include="Views\Schichtinfo\Index.cshtml" />
+    <Content Include="Views\Schichtinfo\Create.cshtml" />
+    <Content Include="Views\MitarbeiterInSchicht\Create.cshtml" />
+    <Content Include="Views\Zeiterfassung\Band\Create.cshtml" />
+    <Content Include="Views\Zeiterfassung\MEBA\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -333,10 +342,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\MitarbeiterSchicht\" />
-    <Folder Include="Views\Schichtinfo\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

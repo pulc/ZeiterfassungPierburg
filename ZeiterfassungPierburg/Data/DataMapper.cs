@@ -52,7 +52,7 @@ namespace ZeiterfassungPierburg.Data
             }
             else
             // strings need to be quoted
-            if (property.PropertyType == typeof(string))
+            if (property.PropertyType == typeof(string) || property.PropertyType == typeof(bool))
             {
                 return PropertyMappingInfo.QuotedStringFunction;
             }
@@ -60,6 +60,8 @@ namespace ZeiterfassungPierburg.Data
             {
                 return PropertyMappingInfo.DefaultToStringFunction;
             }
+
+            
         }
 
         /*

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ZeiterfassungPierburg.Models.Fertigungsteil>
+﻿@model IEnumerable<ZeiterfassungPierburg.Models.Produktionsanlage>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -6,30 +6,49 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ZeichenNr)
+            @Html.DisplayNameFor(model => model.Bezeichner)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Bezeichnung)
+            @Html.DisplayNameFor(model => model.APNr)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kostenstelle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SAPAPNr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IstEineMaschine)
+        </th>
+        <th>
 
-        <th></th>
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ZeichenNr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bezeichnung)
-            </td>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bezeichner)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.APNr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kostenstelle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SAPAPNr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IstEineMaschine)
+        </td>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { onclick = "return confirm('Are sure wants to delete?');" })
-            </td>
-        </tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { onclick = "return confirm('Are sure wants to delete?');" })
+        </td>
+    </tr>
     }
 
 </table>

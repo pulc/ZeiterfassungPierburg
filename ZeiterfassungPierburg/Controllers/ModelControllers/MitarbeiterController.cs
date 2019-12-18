@@ -36,7 +36,22 @@ namespace ZeiterfassungPierburg.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult Create(Mitarbeiter m)
+        {
+            try
+            { 
+                SQLServer.RunSqlCommand(new DataMapper<Mitarbeiter>("Mitarbeiter").GetInsertSqlString(m));
 
+                return RedirectToAction("Index");
+            }
+            catch 
+            {
+                return View();
+            }
+        }
+
+        /*
         // POST: Mitarbeiter/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -60,23 +75,44 @@ namespace ZeiterfassungPierburg.Controllers
                 return View();
             }
         }
+        */
+
+        /*
+    // POST: Mitarbeiter/Edit/5
 
 
+    [HttpPost]
+    public ActionResult Edit(int id, FormCollection collection)
+    {
+        try
+        {
+            Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
+
+            Mitarbeiter m = new Mitarbeiter();
+
+            foreach (KeyValuePair<string, string> entry in form)
+            {
+                m.SetValue(entry.Value, entry.Key);
+            }
+            SQLServer.RunSqlCommand(new DataMapper<Mitarbeiter>("Mitarbeiter").GetUpdateSqlString(m, id));
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception t)
+        {
+            return View();
+        }
+    }
+    */
 
         // POST: Mitarbeiter/Edit/5
+
+
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Mitarbeiter m)
         {
             try
             {
-                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
-
-                Mitarbeiter m = new Mitarbeiter();
-
-                foreach (KeyValuePair<string, string> entry in form)
-                {
-                    m.SetValue(entry.Value, entry.Key);
-                }
                 SQLServer.RunSqlCommand(new DataMapper<Mitarbeiter>("Mitarbeiter").GetUpdateSqlString(m, id));
 
                 return RedirectToAction("Index");
@@ -86,7 +122,6 @@ namespace ZeiterfassungPierburg.Controllers
                 return View();
             }
         }
-
         // GET: Mitarbeiter/Delete/5
         public ActionResult Delete(int id)
         {
@@ -97,14 +132,8 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch
             {
-                
                 return View("~/Views/Shared/Error.cshtml");
-
             }
         }
-
-
-
-
     }
 }

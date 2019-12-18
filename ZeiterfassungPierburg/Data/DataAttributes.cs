@@ -39,7 +39,6 @@ namespace ZeiterfassungPierburg.Data
                    return ((DateTime)o).ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
                 };
         }
-
         public DateTimeAttribute(DateTimeUsage usage)
         {
             Usage = usage;

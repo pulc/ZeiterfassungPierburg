@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
@@ -38,56 +39,58 @@ namespace ZeiterfassungPierburg.Controllers
 
         // POST: SchichtInfo/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(SchichtInfo m)
         {
             try
             {
-                // TODO: Add insert logic here
+                SQLServer.RunSqlCommand(new DataMapper<SchichtInfo>("SchichtInfo").GetInsertSqlString(m));
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception t)
             {
                 return View();
             }
         }
 
+
+
         // POST: SchichtInfo/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, SchichtInfo m)
         {
             try
             {
-                // TODO: Add update logic here
+                new DataMapper<SchichtInfo>("SchichtInfo").GetInsertSqlString(m);
+                int ID = SQLServer.Instance.InsertItem<SchichtInfo>(m);
 
+                Console.WriteLine("SchichtInfo mit ID " + ID + " wurde geändert.");
                 return RedirectToAction("Index");
+
             }
-            catch
+            catch (Exception t)
             {
-                return View();
+                return HttpNotFound("SchichtInfo konnte nicht bearbeitet werden.");
             }
         }
 
         // GET: SchichtInfo/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: SchichtInfo/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
             try
             {
-                // TODO: Add delete logic here
-
+                SQLServer.RunSqlCommand(new DataMapper<SchichtInfo>("SchichtInfo").GetDeleteSqlString(id));
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("~/Views/Shared/Error.cshtml");
+
             }
         }
+
+
+
+
     }
 }

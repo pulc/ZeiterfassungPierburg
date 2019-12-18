@@ -39,18 +39,10 @@ namespace ZeiterfassungPierburg.Controllers
 
         // POST: Fertigungsteil/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Fertigungsteil m)
         {
             try
             {
-                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
-
-                Fertigungsteil m = new Fertigungsteil();
-
-                foreach (KeyValuePair<string, string> entry in form)
-                {
-                    m.SetValue(entry.Value, entry.Key);
-                }
                 SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetInsertSqlString(m));
 
                 return RedirectToAction("Index");
@@ -61,29 +53,22 @@ namespace ZeiterfassungPierburg.Controllers
             }
         }
 
-
-
         // POST: Fertigungsteil/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Fertigungsteil m)
         {
             try
             {
-                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
+             new DataMapper<Fertigungsteil>("Fertigungsteil").GetInsertSqlString(m);
+             int ID = SQLServer.Instance.InsertItem<Fertigungsteil>(m);
 
-                Fertigungsteil m = new Fertigungsteil();
-
-                foreach (KeyValuePair<string, string> entry in form)
-                {
-                    m.SetValue(entry.Value, entry.Key);
-                }
-                SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetUpdateSqlString(m, id));
-
+                Console.WriteLine("Fertigungsteil mit ID " + ID + " wurde geändert.");
                 return RedirectToAction("Index");
+
             }
             catch (Exception t)
             {
-                return View();
+                return HttpNotFound("Fertigungsteil konnte nicht bearbeitet werden.");
             }
         }
 
@@ -101,9 +86,5 @@ namespace ZeiterfassungPierburg.Controllers
 
             }
         }
-
-
-
-
     }
 }

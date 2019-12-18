@@ -12,6 +12,18 @@ namespace ZeiterfassungPierburg.Models
         {
             FillValuesDictionaryWithDefaultValues();
         }
+        /*
+        public String Art
+        {
+            get => GetValue<String>();
+            set => SetValue(value);
+        }
+        public DateTime Datum
+        {
+            get => GetValue<DateTime>();
+            set => SetValue(value);
+        }
+        */
         public enum Schichtart { Früh = 1, Spät = 2, Nacht = 3 }
 
         [DateTime(DateTimeAttribute.DateTimeUsage.Date)]
@@ -25,5 +37,6 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<Schichtart>();
             set => SetValue(value);
         }
+        
     }
 }

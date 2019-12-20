@@ -182,8 +182,10 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModelControllers\MitarbeiterController.cs" />
     <Compile Include="Controllers\ModelControllers\MitarbeiterInSchichtController.cs" />
+    <Compile Include="Controllers\ModelControllers\NeueZeiterfassungController.cs" />
     <Compile Include="Controllers\ModelControllers\ProduktionsanlageController.cs" />
     <Compile Include="Controllers\ModelControllers\SchichtInfoController.cs" />
+    <Compile Include="Data\ControllerHelper.cs" />
     <Compile Include="Data\DataAttributes.cs" />
     <Compile Include="Data\DataMapper.cs" />
     <Compile Include="Data\PropertyMappingInfo.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\NeueZeiterfassung\NeueZeiterfassungDBHandler.cs" />
     <Compile Include="Models\Users\AccountViewModels.cs" />
     <Compile Include="Models\Produktion\Fertigungsteil.cs" />
     <Compile Include="Models\Users\IdentityModels.cs" />
@@ -253,7 +256,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Compile Include="Models\MEBAViewModel.cs" />
+    <Compile Include="Models\NeueZeiterfassung\NeueZeiterfassung.cs" />
     <Content Include="Scripts\adminlte.js" />
     <Content Include="Scripts\adminlte.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -325,8 +328,8 @@
     <Content Include="Views\Schichtinfo\Index.cshtml" />
     <Content Include="Views\Schichtinfo\Create.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\Create.cshtml" />
-    <Content Include="Views\Zeiterfassung\Band\Create.cshtml" />
-    <Content Include="Views\Zeiterfassung\MEBA\MEBA.cshtml" />
+    <Content Include="Views\NeueZeiterfassung\MEBA.cshtml" />
+    <Content Include="Views\NeueZeiterfassung\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

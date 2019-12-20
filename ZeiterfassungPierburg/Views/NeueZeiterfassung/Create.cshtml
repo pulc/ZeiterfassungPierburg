@@ -1,0 +1,159 @@
+﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
+
+<section class="content-header">
+    <h2>Neue Mitarbeiter*innen hinzufügen</h2>
+
+</section>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.LabelFor(model => model.Produktionsanlage)
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Datum)
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Schicht)
+                                        </th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                @Html.DropDownListFor(m => m.Produktionsanlage, // 1. Store selected value in Model.State;
+                                                                                    // when page is rendered after postback,
+                                                                                    // take selected value from Model.Produktionsanlage.
+
+                                                                      // 2. Take list of values from Model.produktionsanlagen
+                                                                      Model.Produktionsanlage,
+
+                                                                      // 3. Text for the first 'default' option
+                                                                      "- Wähle die Produktionsanlage -",
+
+                                                                      //4. A class name to assign to <select> tag
+                                                                      new { @class = "form-control" })
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="form-group">
+                                                @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                @Html.EditorFor(model => model.Schicht, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Schicht, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table no-margin">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.LabelFor(model => model.Name)
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Fertigungsteil)
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Stückzahl)
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.Zeit)
+
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                            <div class="form-group">
+                                                @Html.EditorFor(model => model.Fertigungsteil, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </td>
+
+
+
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Zeit, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Zeit, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+}
+    </div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

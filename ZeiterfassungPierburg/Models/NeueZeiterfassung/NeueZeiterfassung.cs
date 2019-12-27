@@ -15,10 +15,10 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 
         public string Name { get; set; }
 
-        public string Schicht { get; set; }
+        public int Schicht { get; set; }
 
-        [Display(Name = "Name")]
-        public IEnumerable<SelectListItem> Produktionsanlage { get; set; }
+        [Display(Name = "Produktionsanlage")]
+        public IEnumerable<SelectListItem> ProduktionsanlageList { get; set; }
 
         //public string Produktionsanlage { get; set; }
 
@@ -29,6 +29,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 
         public decimal Zeit { get; set; }
 
+        public string Produktionsanlage { get; set; }
         /*
         public Fertigungsteil fertigungsteil;
         public Produktionsanlage produktionsanlage;

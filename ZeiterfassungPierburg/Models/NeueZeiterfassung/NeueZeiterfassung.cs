@@ -20,23 +20,36 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Display(Name = "Produktionsanlage")]
         public IEnumerable<SelectListItem> ProduktionsanlageList { get; set; }
 
+        [Display(Name = "Schicht")]
+        public IEnumerable<SelectListItem> SchichtList { get; set; } = new List<SelectListItem>()
+        {
+        new SelectListItem{ Text="Früh", Value="1"},
+        new SelectListItem{ Text="Spät", Value="2"},
+        new SelectListItem{ Text="Nacht", Value="3"},
+        };
+
+        [Display(Name = "Name")]
+        public IEnumerable<SelectListItem> NameList { get; set; }
+
+
+
         //public string Produktionsanlage { get; set; }
 
         [Display(Name = "Teil")]
-        public string Fertigungsteil { get; set;  }
+        public string Fertigungsteil { get; set; }
 
         public int Stückzahl { get; set; }
 
         public decimal Zeit { get; set; }
 
         public string Produktionsanlage { get; set; }
-        /*
-        public Fertigungsteil fertigungsteil;
-        public Produktionsanlage produktionsanlage;
-        public Mitarbeiter mitarbeiter;
-        public MitarbeiterInSchicht mitarbeiterInSchicht;
-        public SchichtInfo schichtInfo;
-        */
+
+        enum SchichtArt
+        {
+            Früh,     // 0
+            Spät,    // 1
+            Nacht,  // 2
+        }
     }
 }
 

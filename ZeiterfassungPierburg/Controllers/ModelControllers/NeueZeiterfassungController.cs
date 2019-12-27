@@ -26,11 +26,13 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         public ActionResult Create()
         {
             var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
-
+            var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname,+" + "' '+" + "+Vorname"), "Nachname,Vorname");
             var model = new NeueZeiterfassung();
 
             // Create a list of SelectListItems so these can be rendered on the page
             model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
+            model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
+
             return View(model);
         }
 
@@ -42,12 +44,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             {
                 // Get all states again
                 var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
+                var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "' '" + "Vorname"), "Nachname,Vorname");
 
                 // Set these states on the model. We need to do this because
                 // only the selected value from the DropDownList is posted back, not the whole
                 // list of states.
                 model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
+                model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
 
+                /*
                 // In case everything is fine - i.e. both "Name" and "State" are entered/selected,
                 // redirect user to the "Done" page, and pass the user object along via Session
                 
@@ -56,8 +61,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                     Session["NeueZeiterfassung"] = model;
                     return RedirectToAction("Done");
                 }
-                
-                
+                */
+
                 if (ModelState.IsValid)
                 {
                     

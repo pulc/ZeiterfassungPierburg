@@ -34,7 +34,7 @@
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                @Html.DropDownListFor(m => m.ProduktionsanlageList, // 1. Store selected value in Model.State;
+                                                @Html.DropDownListFor(m => m.Produktionsanlage, // 1. Store selected value in Model.State;
                                                                                     // when page is rendered after postback,
                                                                                     // take selected value from Model.Produktionsanlage.
 
@@ -48,7 +48,7 @@
                                                                       new { @class = "form-control" })
                                             </div>
                                         </td>
-                                       
+
                                         <td>
                                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                             <div class="form-group">
@@ -59,8 +59,7 @@
 
                                         <td>
                                             <div class="form-group">
-                                                @Html.EditorFor(model => model.Schicht, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Schicht, "", new { @class = "text-danger" })
+                                                @Html.DropDownListFor(m => m.Schicht, Model.SchichtList,"- Wähle die Schicht -",new { @class = "form-control" })
                                             </div>
                                         </td>
                                     </tr>
@@ -69,8 +68,6 @@
                             </table>
                         </div>
                     </div>
-
-
 
                     <div class="box-body">
                         <div class="table-responsive">
@@ -97,8 +94,7 @@
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control" })
                                             </div>
                                         </td>
                                         <td>
@@ -116,9 +112,6 @@
                                                 </div>
                                             </div>
                                         </td>
-
-
-
                                         <td>
                                             <div class="form-group">
                                                 <div class="col-md-10">

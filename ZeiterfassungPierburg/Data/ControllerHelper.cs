@@ -51,7 +51,7 @@ order by " + orderby;
 
             while (dataReader.Read())
             {
-                values.Add(SafeGetString(dataReader, 0).Replace(" ", ""));
+                values.Add(SafeGetString(dataReader, 0));
             }
             dataReader.Close();
             cnn.Close();

@@ -43,11 +43,10 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetInsertSqlString(m));
-
+                SQLServer.Instance.InsertItem<Fertigungsteil>(m);
                 return RedirectToAction("Index");
             }
-            catch (Exception t)
+            catch (Exception)
             {
                 return View();
             }
@@ -55,18 +54,17 @@ namespace ZeiterfassungPierburg.Controllers
 
         // POST: Fertigungsteil/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, Fertigungsteil m)
+        public ActionResult Edit(Fertigungsteil m)
         {
             try
             {
-             new DataMapper<Fertigungsteil>("Fertigungsteil").GetInsertSqlString(m);
-             int ID = SQLServer.Instance.InsertItem<Fertigungsteil>(m);
+                SQLServer.Instance.InsertItem<Fertigungsteil>(m);
 
-                Console.WriteLine("Fertigungsteil mit ID " + ID + " wurde geändert.");
+                Console.WriteLine("Fertigungsteil mit ID " + m.ID  + " wurde geändert.");
                 return RedirectToAction("Index");
 
             }
-            catch (Exception t)
+            catch (Exception)
             {
                 return HttpNotFound("Fertigungsteil konnte nicht bearbeitet werden.");
             }
@@ -77,7 +75,7 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                SQLServer.RunSqlCommand(new DataMapper<Fertigungsteil>("Fertigungsteil").GetDeleteSqlString(id));
+                SQLServer.Instance.RemoveItem<Fertigungsteil>(id);
                 return RedirectToAction("Index");
             }
             catch

@@ -78,6 +78,8 @@ namespace ZeiterfassungPierburg.Data
                         ExecuteSelectStatement(conn, sqlstring));
             }
         }
+
+        // data manipulation methods
         public int InsertItem<T>(T model) where T: BasicModelObject, new()
         {
             IDataMapper m = GetMapper<T>();
@@ -85,6 +87,28 @@ namespace ZeiterfassungPierburg.Data
             {
                 conn.Open();
                 return ExecuteUpdateStatement(conn, m.GetInsertSqlString(model));
+            }
+        }
+        public void EditItem<T>(T model) where T: BasicModelObject, new()
+        {
+            IDataMapper m = GetMapper<T>();
+            using (SqlConnection conn = NewConnection)
+            {
+                conn.Open();
+                ExecuteUpdateStatement(conn, m.GetUpdateSqlString(model));
+            }
+        }
+        public void RemoveItem<T>(T model) where T : BasicModelObject, new()
+        {
+            RemoveItem<T>(model.ID);
+        }
+        public void RemoveItem<T>(int id) where T : BasicModelObject, new()
+        {
+            IDataMapper m = GetMapper<T>();
+            using (SqlConnection conn = NewConnection)
+            {
+                conn.Open();
+                ExecuteUpdateStatement(conn, m.GetDeleteSqlString(id));
             }
         }
         // SqlConnection
@@ -103,7 +127,18 @@ namespace ZeiterfassungPierburg.Data
         {
             if (singleton == null)
             {
-                singleton = new SQLServer(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                // DEBUG switches for specific connection strings
+                // in RELEASE just use default connection string in web.config
+                string connectionString;
+#if DEBUG_PAVEL
+                connectionString = @"Server =.\MSSQLSERVER01; Database = zeiterfassung; Trusted_Connection = True";
+#elif DEBUG_MARTIN
+                connectionString = @"Server =.; Database = zeiterfassung; Trusted_Connection = True";
+#else
+                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+#endif
+
+                singleton = new SQLServer(connectionString);
             }
             return singleton;
         }

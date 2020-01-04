@@ -13,6 +13,8 @@ namespace ZeiterfassungPierburg.Data
     {
         string GetSelectSqlString();
         string GetInsertSqlString(object obj);
+        string GetUpdateSqlString(object obj);
+        string GetDeleteSqlString(int id);
         IEnumerable ReadItems(IDataReader reader);
     }
     public class DataMapper<T> : IDataMapper where T: BasicModelObject, new()
@@ -121,7 +123,7 @@ namespace ZeiterfassungPierburg.Data
             return String.Format(sql, defaultTableName, columnsString, valuesString);
         }
 
-        public string GetUpdateSqlString(object mdl, int id)
+        public string GetUpdateSqlString(object mdl)
         {
             string sql = "UPDATE {0} SET {1} WHERE ID = {2}";
 
@@ -131,7 +133,7 @@ namespace ZeiterfassungPierburg.Data
             T model = (T)mdl;
 
             Dictionary<string, string> columnValuePairs = GetColumnValuePairs(model);
-            // no id value allowed (setting an identity column would fail
+            // no id value allowed (setting an identity column would fail)
             columnValuePairs.Remove("id");
 
             string valuesString = "";
@@ -139,12 +141,12 @@ namespace ZeiterfassungPierburg.Data
             {
                 valuesString = valuesString + entry.Key + "=" + entry.Value + ",";
             }
-            return String.Format(sql, defaultTableName, valuesString.Substring(0, valuesString.Length - 1), id.ToString());
+            return String.Format(sql, defaultTableName, valuesString.Substring(0, valuesString.Length - 1), model.ID.ToString());
         }
         public string GetDeleteSqlString(int id)
         {
             string sql = "DELETE FROM {0} WHERE ID = {1}";
-            return String.Format(sql, defaultTableName, id.ToString());
+            return String.Format(sql, defaultTableName, id);
         }
 
         // IDataMapper interface

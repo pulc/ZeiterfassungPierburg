@@ -45,7 +45,7 @@ namespace ZeiterfassungPierburg.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception t)
+            catch (Exception)
             {
                 return View();
             }
@@ -94,7 +94,7 @@ namespace ZeiterfassungPierburg.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception t)
+            catch (Exception)
             {
                 return View();
             }

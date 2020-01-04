@@ -40,9 +40,8 @@ namespace ZeiterfassungPierburg.Controllers
         public ActionResult Create(Mitarbeiter m)
         {
             try
-            { 
-                SQLServer.RunSqlCommand(new DataMapper<Mitarbeiter>("Mitarbeiter").GetInsertSqlString(m));
-
+            {
+                SQLServer.Instance.InsertItem<Mitarbeiter>(m);
                 return RedirectToAction("Index");
             }
             catch 
@@ -109,15 +108,14 @@ namespace ZeiterfassungPierburg.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(int id, Mitarbeiter m)
+        public ActionResult Edit(Mitarbeiter m)
         {
             try
             {
-                SQLServer.RunSqlCommand(new DataMapper<Mitarbeiter>("Mitarbeiter").GetUpdateSqlString(m, id));
-
+                SQLServer.Instance.EditItem<Mitarbeiter>(m);
                 return RedirectToAction("Index");
             }
-            catch (Exception t)
+            catch (Exception)
             {
                 return View();
             }
@@ -127,7 +125,7 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                SQLServer.RunSqlCommand(new DataMapper<Mitarbeiter>("Mitarbeiter").GetDeleteSqlString(id));
+                SQLServer.Instance.RemoveItem<Mitarbeiter>(id);
                 return RedirectToAction("Index");
             }
             catch

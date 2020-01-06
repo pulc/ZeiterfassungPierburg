@@ -33,17 +33,17 @@
                                         <td>
                                             <div class="form-group">
                                                 @Html.DropDownListFor(m => m.Produktionsanlage, // 1. Store selected value in Model.State;
-                                                                                    // when page is rendered after postback,
-                                                                                    // take selected value from Model.Produktionsanlage.
+                                                                                                // when page is rendered after postback,
+                                                                                                // take selected value from Model.Produktionsanlage.
 
-                                                                      // 2. Take list of values from Model.produktionsanlagen
-                                                                      Model.ProduktionsanlageList,
+                               // 2. Take list of values from Model.produktionsanlagen
+                               Model.ProduktionsanlageList,
 
-                                                                      // 3. Text for the first 'default' option
-                                                                      "- Wähle die Produktionsanlage -",
+                               // 3. Text for the first 'default' option
+                               "- Wähle die Produktionsanlage -",
 
-                                                                      //4. A class name to assign to <select> tag
-                                                                      new { @class = "form-control" })
+                               //4. A class name to assign to <select> tag
+                               new { @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
                                             </div>
                                         </td>
@@ -152,10 +152,7 @@
         </div>
     </section>
     <!-- /.content -->
-
 }
-    </div>
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

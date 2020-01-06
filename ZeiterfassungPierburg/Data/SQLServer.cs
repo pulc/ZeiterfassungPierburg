@@ -27,6 +27,26 @@ namespace ZeiterfassungPierburg.Data
             return dataMappers[typeof(T)];
         }
 
+        // dictionary methods for dropdown lists
+        public Dictionary<int,string> GetDictionary(string tableName, string labelString)
+        {
+            Dictionary<int, string> result = new Dictionary<int, string>();
+
+            using (SqlConnection conn = NewConnection)
+            {
+                conn.Open();
+
+                string sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result.Add(r.GetInt32(0), r.GetString(1));
+                }
+            }
+
+            return result;
+        }
+
         // get model objects
         // params:
         // filter   dictionary <string,string> that contains the column names and respective values

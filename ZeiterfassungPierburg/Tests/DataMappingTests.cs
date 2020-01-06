@@ -87,28 +87,6 @@ namespace ZeiterfassungPierburg.Tests
             Assert.IsTrue(true);
         }
 
-        [TestMethod]
-        public void InsertSchichtIsValid()
-        {
-            var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
-
-            NeueZeiterfassung n = new NeueZeiterfassung()
-            {
-                Datum = new DateTime(2019, 11, 24),
-                Name = "Baggins Bilbo",
-                Schicht = 1,
-                Fertigungsteil = "Volvo",
-                Stückzahl = 10,
-                DirZeit = 6.5m,
-                InDirZeit = 5.5m,
-
-                ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen),
-                Produktionsanlage = "Band 103"
-            };
-            NeueZeiterfassungDBHandler h = new NeueZeiterfassungDBHandler();
-            Assert.IsTrue(h.AddZeiterfassung(n));
-        }
-
 
     }
 }

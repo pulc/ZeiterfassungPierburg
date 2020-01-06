@@ -20,7 +20,15 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         public int Schicht { get; set; }
 
         [Display(Name = "Produktionsanlage")]
-        public IEnumerable<SelectListItem> ProduktionsanlageList { get; set; }
+        public IEnumerable<SelectListItem> ProduktionsanlageList
+        {
+            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner")
+                    .Select(s=>new SelectListItem()
+                    {
+                        Text = s.Value,
+                        Value = s.Key.ToString()
+                    });
+        }
 
         [Display(Name = "Schicht")]
         public IEnumerable<SelectListItem> SchichtList { get; set; } = new List<SelectListItem>()
@@ -31,13 +39,29 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         };
 
         [Display(Name = "Name")]
-        public IEnumerable<SelectListItem> NameList { get; set; }
+        public IEnumerable<SelectListItem> NameList
+        {
+            get => SQLServer.Instance.GetDictionary("Mitarbeiter", @"Nachname + ', '+ Vorname")
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Value,
+                    Value = s.Key.ToString()
+                });
+        }
 
         [Display(Name = "Teil")]
-        public IEnumerable<SelectListItem> FertigungteilList { get; set; }
+        public IEnumerable<SelectListItem> FertigungteilList
+        {
+            get => SQLServer.Instance.GetDictionary("Fertigungsteil", "Bezeichnung")
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Value,
+                    Value = s.Key.ToString()
+                });
+        }
 
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
-        public string Fertigungsteil { get; set; }
+        public int Fertigungsteil { get; set; }
 
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
         public int Stückzahl { get; set; }
@@ -55,7 +79,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         public decimal InDirZeit { get; set; }
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
-        public string Produktionsanlage { get; set; }
+        public int Produktionsanlage { get; set; }
     }
 }
 

@@ -27,7 +27,9 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
             cmd.Parameters.AddWithValue("@Produktionsanlage", smodel.Produktionsanlage);
             cmd.Parameters.AddWithValue("@Fertigungsteil", smodel.Fertigungsteil);
             cmd.Parameters.AddWithValue("@Stückzahl", smodel.Stückzahl);
-            cmd.Parameters.AddWithValue("@Zeit", smodel.Zeit);
+            cmd.Parameters.AddWithValue("@DirZeit", smodel.DirZeit);
+            cmd.Parameters.AddWithValue("@InDirZeit", smodel.InDirZeit);
+
 
             con.Open();
             int i = cmd.ExecuteNonQuery();

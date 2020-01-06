@@ -42,10 +42,17 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
         public int Stückzahl { get; set; }
 
-        [RegularExpression(@"^\d+\,\d{0,2}$", ErrorMessage = "Die musst statt einer Komma einen Punkt eingeben und darfst maximal 2 Nachkommanummer eingeben")]
+        [Display(Name = "dir. Stunden")]
+        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Die musst statt einer Komma einen Punkt eingeben und darfst maximal 2 Nachkommanummer eingeben")]
         [Range(0, 9.99)]
-        [Required(ErrorMessage = "Du musst noch die Zeit eingeben.")]
-        public decimal Zeit { get; set; }
+        [Required(ErrorMessage = "Du musst noch die direkte Zeit eingeben.")]
+        public decimal DirZeit { get; set; }
+
+        [Display(Name = "indir. Stunden")]
+        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Die musst statt einer Komma einen Punkt eingeben und darfst maximal 2 Nachkommanummer eingeben")]
+        [Range(0, 9.99)]
+        [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
+        public decimal InDirZeit { get; set; }
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public string Produktionsanlage { get; set; }

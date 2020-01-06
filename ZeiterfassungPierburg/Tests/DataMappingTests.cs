@@ -99,7 +99,9 @@ namespace ZeiterfassungPierburg.Tests
                 Schicht = 1,
                 Fertigungsteil = "Volvo",
                 Stückzahl = 10,
-                Zeit = 6.5m,
+                DirZeit = 6.5m,
+                InDirZeit = 5.5m,
+
                 ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen),
                 Produktionsanlage = "Band 103"
             };

@@ -82,7 +82,10 @@
                                             @Html.LabelFor(model => model.Stückzahl)
                                         </th>
                                         <th>
-                                            @Html.LabelFor(model => model.Zeit)
+                                            @Html.LabelFor(model => model.DirZeit)
+                                        </th>
+                                        <th>
+                                            @Html.LabelFor(model => model.InDirZeit)
                                         </th>
                                     </tr>
                                 </thead>
@@ -113,8 +116,16 @@
                                         <td>
                                             <div class="form-group">
                                                 <div>
-                                                    @Html.EditorFor(model => model.Zeit, new { htmlAttributes = new { @id = "zeit", @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Zeit, "", new { @class = "text-danger" })
+                                                    @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div>
+                                                    @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </td>
@@ -166,7 +177,9 @@
         var name = document.getElementById('name');
         var fteil = document.getElementById('fteil');
         var st = document.getElementById('st');
-        var zeit = document.getElementById('zeit');
+        var dirzeit = document.getElementById('dirzeit');
+        var indirzeit = document.getElementById('indirzeit');
+
        
         var nameNew = name.cloneNode(true); 
         nameNew.setAttribute("id", "name" + currentIndex);
@@ -177,8 +190,11 @@
         var stNew = st.cloneNode(true); 
         stNew.setAttribute("id", "st" + currentIndex);
 
-        var zeitNew = zeit.cloneNode(true); 
-        zeitNew.setAttribute("id", "zeit" + currentIndex);
+        var dirzeitNew = dirzeit.cloneNode(true); 
+        dirzeitNew.setAttribute("id", "dirzeit" + currentIndex);
+
+        var indirzeitNew = indirzeit.cloneNode(true);
+        indirzeitNew.setAttribute("id", "indirzeit" + currentIndex);
 
         var currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(nameNew);
@@ -190,8 +206,10 @@
         currentCell.appendChild(stNew);
 
         currentCell = currentRow.insertCell(-1);
-        currentCell.appendChild(zeitNew);
+        currentCell.appendChild(dirzeitNew);
 
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(indirzeitNew);
 
     }
 </script>

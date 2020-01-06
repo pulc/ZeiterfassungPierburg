@@ -26,17 +26,36 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         public ActionResult Create()
         {
             var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
-            var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname,+" + "' '+" + "+Vorname"), "Nachname,Vorname");
+            var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "+' '+" + "Vorname"), "Nachname,Vorname");
+            var fertigungsteile = ControllerHelper.SelectColumn("Fertigungsteil", "Bezeichnung", "ZeichenNr");
+
+
             var model = new NeueZeiterfassung();
+
+            model.Datum =  DateTime.Today;
+
+         var date = DateTime.Now;
+            if(date.Hour >= 22 || date.Hour <= 6)
+            {
+                model.Schicht = 3;
+            }
+            else if (date.Hour >= 14 && date.Hour <= 22)
+            {
+                model.Schicht = 2;
+            }
+            else if (date.Hour >= 6 && date.Hour <= 14)
+            {
+                model.Schicht = 1;
+            }
 
             // Create a list of SelectListItems so these can be rendered on the page
             model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
             model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
+            model.FertigungteilList = ControllerHelper.GetSelectListItems(fertigungsteile);
 
             return View(model);
         }
-
-        // POST: NeueZeiterfassung/Create
+       // POST: NeueZeiterfassung/Create
         [HttpPost]
         public ActionResult Create(NeueZeiterfassung model)
         {
@@ -44,25 +63,26 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             {
                 // Get all states again
                 var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
-                var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "' '" + "Vorname"), "Nachname,Vorname");
+                var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "+' '+" + "Vorname"), "Nachname,Vorname");
+                var fertigungsteile = ControllerHelper.SelectColumn("Fertigungsteil", "ZeichenNr", "ZeichenNr");
 
                 // Set these states on the model. We need to do this because
                 // only the selected value from the DropDownList is posted back, not the whole
                 // list of states.
                 model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
                 model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
+                model.FertigungteilList = ControllerHelper.GetSelectListItems(fertigungsteile);
 
-                /*
+                
                 // In case everything is fine - i.e. both "Name" and "State" are entered/selected,
                 // redirect user to the "Done" page, and pass the user object along via Session
-                
+                /*
                 if (ModelState.IsValid)
                 {
                     Session["NeueZeiterfassung"] = model;
                     return RedirectToAction("Done");
                 }
                 */
-
                 if (ModelState.IsValid)
                 {
                     
@@ -70,9 +90,14 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                     if (sdb.AddZeiterfassung(model))
                     {
                         ModelState.Clear();
+                        ViewBag.Message = "Schicht erfasst";
+
+                        return Create();
                     }
 
                 }
+                ViewBag.Message = "Fehler beim Hinzufügen in die Datenbank";
+
                 // Something is not right - so render the registration page again,
                 // keeping the data user has entered by supplying the model.
                 return View("Create", model);
@@ -80,6 +105,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             }
             catch
             {
+                ViewBag.Message = "Die Eingabe ist falsch";
                 return Create();
             }
         }
@@ -136,5 +162,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 return View();
             }
         }
+
+
     }
 }

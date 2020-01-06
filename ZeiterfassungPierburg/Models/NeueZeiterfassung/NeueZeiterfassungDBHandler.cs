@@ -15,7 +15,6 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         {
             con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         }
-
         public bool AddZeiterfassung(NeueZeiterfassung smodel)
         {
             connection();

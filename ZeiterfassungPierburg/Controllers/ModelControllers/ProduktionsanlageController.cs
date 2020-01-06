@@ -90,7 +90,7 @@ namespace ZeiterfassungPierburg.Controllers
                 {
                     m.SetValue(entry.Value, entry.Key);
                 }
-                SQLServer.RunSqlCommand(new DataMapper<Produktionsanlage>("Produktionsanlage").GetUpdateSqlString(m, id));
+                SQLServer.RunSqlCommand(new DataMapper<Produktionsanlage>("Produktionsanlage").GetUpdateSqlString(m));
 
                 return RedirectToAction("Index");
             }

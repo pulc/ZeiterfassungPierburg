@@ -10,9 +10,11 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 {
     public class NeueZeiterfassung
     {
-
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime Datum { get; set; }
 
+        [Required(ErrorMessage = "Du musst noch den Namen auswählen.")]
         public string Name { get; set; }
 
         public int Schicht { get; set; }
@@ -31,25 +33,22 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Display(Name = "Name")]
         public IEnumerable<SelectListItem> NameList { get; set; }
 
-
-
-        //public string Produktionsanlage { get; set; }
-
         [Display(Name = "Teil")]
+        public IEnumerable<SelectListItem> FertigungteilList { get; set; }
+
+        [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
         public string Fertigungsteil { get; set; }
 
+        [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
         public int Stückzahl { get; set; }
 
+        [RegularExpression(@"^\d+\,\d{0,2}$", ErrorMessage = "Die musst statt einer Komma einen Punkt eingeben und darfst maximal 2 Nachkommanummer eingeben")]
+        [Range(0, 9.99)]
+        [Required(ErrorMessage = "Du musst noch die Zeit eingeben.")]
         public decimal Zeit { get; set; }
 
+        [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public string Produktionsanlage { get; set; }
-
-        enum SchichtArt
-        {
-            Früh,     // 0
-            Spät,    // 1
-            Nacht,  // 2
-        }
     }
 }
 

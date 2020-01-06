@@ -59,6 +59,21 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         [HttpPost]
         public ActionResult Create(NeueZeiterfassung model)
         {
+
+            /*
+            FormCollection:
+
+            1   Baue ein Modell SchichtInfo
+            2   Füge SchichtInfo in DB hinzu und hole die ID zurück
+            3   Speicher die ID für die nächsten Schritte
+
+            4   Durchlaufe die Formulardaten, bis der letzte Mitarbeiter gefunden wird
+            5   Erstelle pro Mitarbeiter in MitarbeiterInSchicht Modell
+            6   Setze alle zu einer Liste zusammen
+            7   Füge durch eine For-Schleife jedes einzelne MitarbeiterInSchichtModell
+                 in die DB hinzu
+
+            */
             try
             {
                 // Get all states again

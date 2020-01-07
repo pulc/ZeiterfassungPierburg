@@ -29,7 +29,6 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
                         Value = s.Key.ToString()
                     });
         }
-
         [Display(Name = "Schicht")]
         public IEnumerable<SelectListItem> SchichtList { get; set; } = new List<SelectListItem>()
         {
@@ -66,13 +65,13 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
         public int Stückzahl { get; set; }
 
-        [Display(Name = "dir. Stunden")]
+        [Display(Name = "Dir. Stunden")]
         [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Die musst statt einer Komma einen Punkt eingeben und darfst maximal 2 Nachkommanummer eingeben")]
         [Range(0, 9.99)]
         [Required(ErrorMessage = "Du musst noch die direkte Zeit eingeben.")]
         public decimal DirZeit { get; set; }
 
-        [Display(Name = "indir. Stunden")]
+        [Display(Name = "Indir. Stunden")]
         [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Die musst statt einer Komma einen Punkt eingeben und darfst maximal 2 Nachkommanummer eingeben")]
         [Range(0, 9.99)]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]

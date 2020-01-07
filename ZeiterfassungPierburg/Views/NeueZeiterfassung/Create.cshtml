@@ -35,7 +35,6 @@
                                                 @Html.DropDownListFor(m => m.Produktionsanlage, // 1. Store selected value in Model.State;
                                                                                                 // when page is rendered after postback,
                                                                                                 // take selected value from Model.Produktionsanlage.
-
                                // 2. Take list of values from Model.produktionsanlagen
                                Model.ProduktionsanlageList,
 
@@ -55,7 +54,6 @@
                                                 @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
                                             </div>
                                         </td>
-
                                         <td>
                                             <div class="form-group">
                                                 @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
@@ -129,18 +127,22 @@
                                                 </div>
                                             </div>
                                         </td>
+
+                                    </tr>
+                                    <tr>
+                                        @Html.Raw(ViewBag.NewMitarbeiter)
                                     </tr>
 
                                 </tbody>
                             </table>
-                            <button type="button" class="glyphicon glyphicon-plus" onclick="AddRow();"></button>
+                            <button name="submit" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus" onclick="AddRow();"></button>
 
                         </div>
                         @Html.Label("", (string)ViewBag.Message) 
 
                         <div class="form-group">
                             <div>
-                                <input type="submit" value="Abschicken" class="pull-right btn btn-default" />
+                                <input name="submit" type="submit" value="Abschicken" class="pull-right btn btn-default" />
                             </div>
                         </div>
 
@@ -165,6 +167,10 @@
     var timesClicked = 0;
 
     function AddRow() {
+
+        //window.location.href = '@Url.Action("Test", "NeueZeiterfassung")';
+       
+        
         var myTable = document.getElementById("addTable").getElementsByTagName('tbody')[0];
         timesClicked++;
 
@@ -207,6 +213,7 @@
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(indirzeitNew);
+        
 
     }
 </script>

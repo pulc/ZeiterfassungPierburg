@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using ZeiterfassungPierburg.Data;
+using ZeiterfassungPierburg.Models;
 using ZeiterfassungPierburg.Models.NeueZeiterfassung;
 
 namespace ZeiterfassungPierburg.Controllers.ModelControllers
 {
     public class NeueZeiterfassungController : Controller
     {
+
+        static NeueZeiterfassung temp = new NeueZeiterfassung();
+        int timesClicked = 0;
+
         // GET: NeueZeiterfassung
         public ActionResult Index()
         {
@@ -25,13 +31,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         // GET: NeueZeiterfassung/Create
         public ActionResult Create()
         {
-            var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
-            var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "+' '+" + "Vorname"), "Nachname,Vorname");
-            var fertigungsteile = ControllerHelper.SelectColumn("Fertigungsteil", "Bezeichnung", "ZeichenNr");
-
-
             var model = new NeueZeiterfassung();
-
             model.Datum =  DateTime.Today;
 
          var date = DateTime.Now;
@@ -48,80 +48,98 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 model.Schicht = 1;
             }
 
-            // Create a list of SelectListItems so these can be rendered on the page
-            model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
-            model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
-            model.FertigungteilList = ControllerHelper.GetSelectListItems(fertigungsteile);
-
             return View(model);
         }
        // POST: NeueZeiterfassung/Create
-        [HttpPost]
-        public ActionResult Create(NeueZeiterfassung model)
+       public  ActionResult AddMitarbeiterHTML(HtmlHelper Html)
         {
+            ViewBag.NewMitarbeiter = Html.EditorForModel(temp);
 
-            /*
-            FormCollection:
+            timesClicked++;
+            return View("Create", temp);
+        }
 
-            1   Baue ein Modell SchichtInfo
-            2   Füge SchichtInfo in DB hinzu und hole die ID zurück
-            3   Speicher die ID für die nächsten Schritte
 
-            4   Durchlaufe die Formulardaten, bis der letzte Mitarbeiter gefunden wird
-            5   Erstelle pro Mitarbeiter in MitarbeiterInSchicht Modell
-            6   Setze alle zu einer Liste zusammen
-            7   Füge durch eine For-Schleife jedes einzelne MitarbeiterInSchichtModell
-                 in die DB hinzu
 
-            */
-            try
+
+        [HttpPost]
+        public ActionResult Create(string submit, NeueZeiterfassung model, FormCollection col)
+        {
+            switch (submit)
             {
-                // Get all states again
-                var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
-                var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "+' '+" + "Vorname"), "Nachname,Vorname");
-                var fertigungsteile = ControllerHelper.SelectColumn("Fertigungsteil", "ZeichenNr", "ZeichenNr");
+                case "addMitarbeiter":
+                    temp = model;
+                    return AddMitarbeiterHTML();
 
-                // Set these states on the model. We need to do this because
-                // only the selected value from the DropDownList is posted back, not the whole
-                // list of states.
-                model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
-                model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
-                model.FertigungteilList = ControllerHelper.GetSelectListItems(fertigungsteile);
+                case "Abschicken":
+                    ViewBag.NewMitarbeiter = "submit";
 
-                
-                // In case everything is fine - i.e. both "Name" and "State" are entered/selected,
-                // redirect user to the "Done" page, and pass the user object along via Session
-                /*
-                if (ModelState.IsValid)
-                {
-                    Session["NeueZeiterfassung"] = model;
-                    return RedirectToAction("Done");
-                }
-                */
-                if (ModelState.IsValid)
-                {
-                    
-                    NeueZeiterfassungDBHandler sdb = new NeueZeiterfassungDBHandler();
-                    if (sdb.AddZeiterfassung(model))
+
+                    SchichtInfo s = new SchichtInfo()
                     {
-                        ModelState.Clear();
-                        ViewBag.Message = "Schicht erfasst";
+                        Datum = model.Datum,
+                        Art = model.Schicht
+                    };
+                    int id = SQLServer.Instance.InsertItem<SchichtInfo>(s);
+                    /*
+                    4   Durchlaufe die Formulardaten, bis der letzte Mitarbeiter gefunden wird
+                    5   Erstelle pro Mitarbeiter in MitarbeiterInSchicht Modell
+                    6   Setze alle zu einer Liste zusammen
+                    7   Füge durch eine For-Schleife jedes einzelne MitarbeiterInSchichtModell
+                         in die DB hinzu
+                    */
+                    try
+                    {
+                        /*
+                        // Get all states again
+                        var produktionsanlagen = ControllerHelper.SelectColumn("Produktionsanlage", "Bezeichner", "Bezeichner");
+                        var mitarbeiter = ControllerHelper.SelectColumn("Mitarbeiter", ("Nachname" + "+' '+" + "Vorname"), "Nachname,Vorname");
+                        var fertigungsteile = ControllerHelper.SelectColumn("Fertigungsteil", "ZeichenNr", "ZeichenNr");
 
+                        // Set these states on the model. We need to do this because
+                        // only the selected value from the DropDownList is posted back, not the whole
+                        // list of states.
+                        model.ProduktionsanlageList = ControllerHelper.GetSelectListItems(produktionsanlagen);
+                        model.NameList = ControllerHelper.GetSelectListItems(mitarbeiter);
+                        model.FertigungteilList = ControllerHelper.GetSelectListItems(fertigungsteile);
+
+
+                        // In case everything is fine - i.e. both "Name" and "State" are entered/selected,
+                        // redirect user to the "Done" page, and pass the user object along via Session
+                        /*
+                        if (ModelState.IsValid)
+                        {
+                            Session["NeueZeiterfassung"] = model;
+                            return RedirectToAction("Done");
+                        }
+                        */
+                        if (ModelState.IsValid)
+                        {
+
+                            NeueZeiterfassungDBHandler sdb = new NeueZeiterfassungDBHandler();
+                            if (sdb.AddZeiterfassung(model))
+                            {
+                                ModelState.Clear();
+                                ViewBag.Message = "Schicht erfasst";
+
+                                return Create();
+                            }
+
+                        }
+                        ViewBag.Message = "Fehler beim Hinzufügen in die Datenbank";
+
+                        // Something is not right - so render the registration page again,
+                        // keeping the data user has entered by supplying the model.
+                        return View("Create", model);
+
+                    }
+                    catch
+                    {
+                        ViewBag.Message = "Die Eingabe ist falsch";
                         return Create();
                     }
-
-                }
-                ViewBag.Message = "Fehler beim Hinzufügen in die Datenbank";
-
-                // Something is not right - so render the registration page again,
-                // keeping the data user has entered by supplying the model.
-                return View("Create", model);
-
-            }
-            catch
-            {
-                ViewBag.Message = "Die Eingabe ist falsch";
-                return Create();
+                default:
+                    throw new Exception();
             }
         }
 

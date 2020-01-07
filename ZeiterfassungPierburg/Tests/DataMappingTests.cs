@@ -20,7 +20,8 @@ namespace ZeiterfassungPierburg.Tests
         {
             si = new SchichtInfo()
             {
-                Art = SchichtInfo.Schichtart.Früh,
+                Art = 1,
+                //Art = SchichtInfo.Schichtart.Früh,
                 Datum = new DateTime(2019, 12, 6),
                 ID = 65
             };

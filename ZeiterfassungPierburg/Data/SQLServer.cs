@@ -175,6 +175,7 @@ namespace ZeiterfassungPierburg.Data
             Decimal result = (Decimal)c.ExecuteScalar();
             return Convert.ToInt32(result);
         }
+
         // for quick testing of SQL commands
         public static void RunSqlCommand(String cmmd)
         {

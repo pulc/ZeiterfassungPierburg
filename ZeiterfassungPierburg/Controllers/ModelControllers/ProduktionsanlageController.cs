@@ -41,7 +41,7 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                SQLServer.RunSqlCommand(new DataMapper<Produktionsanlage>("Produktionsanlage").GetInsertSqlString(m));
+                SQLServer.Instance.InsertItem(m);
 
                 return RedirectToAction("Index");
             }

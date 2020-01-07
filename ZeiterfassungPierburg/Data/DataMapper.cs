@@ -155,6 +155,19 @@ namespace ZeiterfassungPierburg.Data
             string sql = "SELECT {0} FROM {1}";
             return String.Format(sql, String.Join(", ", propertyMappingInfos.Values.Select(v=>v.ColumnName)), defaultTableName);
         }
+        
+        public string GetInsertString(string table, string column1, string column2, string value1, string value2)
+        {
+            string sql = @"INSERT INTO [dbo].[{0}]
+           ({1}
+           ,{2})
+     VALUES
+           (< Art, tinyint,>
+           ,< Datum, datetime,>)";
+
+            return sql; 
+        }
+
         public IEnumerable ReadItems(IDataReader reader)
         {
             List<T> results = new List<T>();

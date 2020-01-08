@@ -1,158 +1,162 @@
 ﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
 
-<section class="content-header">
-    <h2>Neue Mitarbeiter*innen hinzufügen</h2>
 
-</section>
 @using (Html.BeginForm("InsertMitarbeiter"))
 {
     @Html.AntiForgeryToken()
     <!-- Main content -->
-    <section class="content container-fluid">
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <div>
-                    <div class="box-body">
-                        <div class="table-responsive">
-                            <table class="table no-margin">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.LabelFor(model => model.Produktionsanlage)
-                                        </th>
-                                        <th>
-                                            @Html.LabelFor(model => model.Datum)
-                                        </th>
-                                        <th>
-                                            @Html.LabelFor(model => model.Schicht)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.Produktionsanlage, // 1. Store selected value in Model.State;
-                                                                                                // when page is rendered after postback,
-                                                                                                // take selected value from Model.Produktionsanlage.
-                               // 2. Take list of values from Model.produktionsanlagen
-                               Model.ProduktionsanlageList,
+<section class="content container-fluid">
+    <div class="box box-info">
 
-                               // 3. Text for the first 'default' option
-                               "- Wähle die Produktionsanlage -",
+        <div class="box-body">
+            <h2>Neue Mitarbeiter*innen hinzufügen</h2>
 
-                               //4. A class name to assign to <select> tag
-                               new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
-                                            </div>
-                                        </td>
-                                        <td>
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                            <div class="form-group">
-
-                                                @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="box-body">
-                        <div class="table-responsive">
-                            <table class="table no-margin" id="addTable">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.LabelFor(model => model.Name)
-                                        </th>
-                                        <th>
-                                            @Html.LabelFor(model => model.Fertigungsteil)
-                                        </th>
-                                        <th>
-                                            @Html.LabelFor(model => model.Stückzahl)
-                                        </th>
-                                        <th>
-                                            @Html.LabelFor(model => model.DirZeit)
-                                        </th>
-                                        <th>
-                                            @Html.LabelFor(model => model.InDirZeit)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name" })
-                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle Fertigungsteil -", new { @id = "fteil", @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <div>
-                                                    @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <div>
-                                                    @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <div>
-                                                    @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        @Html.Raw(ViewBag.NewMitarbeiter)
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                            <button name="submit" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus" onclick="AddRow();"></button>
-
-                        </div>
-                        @Html.Label("", (string)ViewBag.Message) 
-
-                        <div class="form-group">
-                            <div>
-                                <input name="submit" type="submit" value="Abschicken" class="pull-right btn btn-default" />
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-                <!-- /.box -->
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.LabelFor(model => model.Produktionsanlage)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Datum)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Schicht)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
+
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin" id="mitarbeiterTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.LabelFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Fertigungsteil)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Stückzahl)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.DirZeit)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.InDirZeit)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle Fertigungsteil -", new { @id = "fteil", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div>
+                                        @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div>
+                                        @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <div>
+                                        @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table" id="sendTable">
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <i name="submit" style="font-size: 35px; color:green" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRow();"></i>
+                                            <i name="submit" style="font-size: 35px; color:red" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow();"></i>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <div>
+                                                <input name="submit" style="font-size: 18px" type="submit" value="Abschicken" class="pull-right btn btn-default" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                @Html.Raw(ViewBag.NewMitarbeiter)
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    @Html.Label("", (string)ViewBag.Message)
+
+
+
+
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
     <!-- /.content -->
 }
 <div>
@@ -162,17 +166,16 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
     // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
-    var timesClicked = 0;
 
     function AddRow() {
+       // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
 
-        //window.location.href = '@Url.Action("Test", "NeueZeiterfassung")';
-       
-        
-        var myTable = document.getElementById("addTable").getElementsByTagName('tbody')[0];
-        timesClicked++;
+       // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
+
+
+        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
 
         var currentIndex = myTable.rows.length;
         var currentRow = myTable.insertRow(-1);
@@ -183,17 +186,17 @@
         var dirzeit = document.getElementById('dirzeit');
         var indirzeit = document.getElementById('indirzeit');
 
-       
-        var nameNew = name.cloneNode(true); 
+
+        var nameNew = name.cloneNode(true);
         nameNew.setAttribute("id", "name" + currentIndex);
 
-        var fteilNew = fteil.cloneNode(true); 
+        var fteilNew = fteil.cloneNode(true);
         fteilNew.setAttribute("id", "fteil" + currentIndex);
 
-        var stNew = st.cloneNode(true); 
+        var stNew = st.cloneNode(true);
         stNew.setAttribute("id", "st" + currentIndex);
 
-        var dirzeitNew = dirzeit.cloneNode(true); 
+        var dirzeitNew = dirzeit.cloneNode(true);
         dirzeitNew.setAttribute("id", "dirzeit" + currentIndex);
 
         var indirzeitNew = indirzeit.cloneNode(true);
@@ -213,8 +216,26 @@
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(indirzeitNew);
-        
+
+        var rowCount = myTable.rows.length;
+
+        console.log(rowCount);
 
     }
-</script>
+    function RemoveRow() {
+
+
+        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+        var rowCount = myTable.rows.length;
+
+        if (rowCount != 1) {
+            myTable.deleteRow(rowCount - 1);
+        }
+        else alert('Du musst mindestens einen Mitarbeiter oder eine Mitarbeiterin eingeben');
+        var rowCount = myTable.rows.length;
+        console.log(rowCount);
+
+    }
+
+    </script>
 }

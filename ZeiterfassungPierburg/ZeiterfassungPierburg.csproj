@@ -223,6 +223,7 @@
     <Content Include="Content\dist\css\alt\AdminLTE-select2.min.css" />
     <Content Include="Content\dist\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="Content\dist\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Content\dist\css\custom.css" />
     <Content Include="Content\dist\css\skins\skin-black-light.css" />
     <Content Include="Content\dist\css\skins\skin-black-light.min.css" />
     <Content Include="Content\dist\css\skins\skin-black.css" />
@@ -330,6 +331,7 @@
     <Content Include="Views\MitarbeiterInSchicht\Create.cshtml" />
     <Content Include="Views\NeueZeiterfassung\MEBA.cshtml" />
     <Content Include="Views\NeueZeiterfassung\Create.cshtml" />
+    <Content Include="Views\NeueZeiterfassung\CreatePartial.cshtml" />
     <None Include="Web.DebugMartin.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -12,7 +12,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 {
     public class NeueZeiterfassungController : Controller
     {
-
         static NeueZeiterfassung temp = new NeueZeiterfassung();
         int timesClicked = 0;
 
@@ -50,30 +49,34 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
             return View(model);
         }
-       // POST: NeueZeiterfassung/Create
-       public  ActionResult AddMitarbeiterHTML(HtmlHelper Html)
-        {
-            ViewBag.NewMitarbeiter = Html.EditorForModel(temp);
 
-            timesClicked++;
+
+       // POST: NeueZeiterfassung/Create
+       public  ActionResult AddMitarbeiterHTML()
+        {
+            //ViewBag.NewMitarbeiter = PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
+            NeueZeiterfassung n = new NeueZeiterfassung();
+
+
+
+            ViewBag.NewMitarbeiter = n.FertigungteilList;
+
+            //return PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
             return View("Create", temp);
         }
-
-
-
 
         [HttpPost]
         public ActionResult Create(string submit, NeueZeiterfassung model, FormCollection col)
         {
+            
             switch (submit)
             {
                 case "addMitarbeiter":
-                    temp = model;
+                    //temp = model;
                     return AddMitarbeiterHTML();
 
                 case "Abschicken":
-                    ViewBag.NewMitarbeiter = "submit";
-
+                
 
                     SchichtInfo s = new SchichtInfo()
                     {
@@ -138,9 +141,11 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         ViewBag.Message = "Die Eingabe ist falsch";
                         return Create();
                     }
-                default:
-                    throw new Exception();
-            }
+             default:
+                 throw new Exception();
+
+         }
+         
         }
 
         // GET: NeueZeiterfassung/Edit/5
@@ -187,7 +192,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             try
             {
                 // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch

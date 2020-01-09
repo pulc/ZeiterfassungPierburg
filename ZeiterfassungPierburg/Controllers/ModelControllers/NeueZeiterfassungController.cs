@@ -71,6 +71,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         public ActionResult Create(string submit, NeueZeiterfassung model, FormCollection col)
         {
             ViewBag.Message = "";
+            List<int> InsertedID = new List<int>();
+
 
 
             switch (submit)
@@ -96,21 +98,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
-                        // Create the first Mitarbeiter model
-                        MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
-                        {
-                            SchichtInfoID = SchichtInfoID,
-                            FertigungsteilID = model.Fertigungsteil,
-                            MitarbeiterID = model.Name,
-                            DirStunden = model.DirZeit,
-                            InDirStunden = model.InDirZeit,
-                            Stück = model.Stückzahl,
-                            ProduktionsanlageID = ProduktionsanlageID
-                        };
-                        MitarbeiterInSchichtList.Add(m);
-
-                        int MitarbeiterToAdd = (col.Count - 9) / 4; //Count how many additionaly Mitarbeiter model there are
-                        for (int i = 1; i <= MitarbeiterToAdd; i++)
+                        int MitarbeiterToAdd = (col.Count - 5) / 5; //Count how many additionaly Mitarbeiter model there are
+                        for (int i = 0; i <= MitarbeiterToAdd; i++)
                         {
                             MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                             {
@@ -128,7 +117,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         // add all models into the DB
                         foreach (var n in MitarbeiterInSchichtList)
                         {
-                            SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n);
+                            InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
                         }
                         ModelState.Clear();
                         ViewBag.Message = MitarbeiterInSchichtList.Count + " Mitarbeiter erfasst";
@@ -137,8 +126,16 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                     }
                     catch
                     {
-                        ViewBag.Message = "Die Eingabe ist falsch";
+                        // delete added models (if any)
+                        foreach (var id in InsertedID)
+                        {
+                            SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                        }
+
+                        ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden.";
                         return View("Create", model);
+
+
                     }
                 default:
                     throw new Exception();

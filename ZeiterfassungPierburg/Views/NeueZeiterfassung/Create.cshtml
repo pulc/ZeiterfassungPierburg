@@ -46,7 +46,6 @@
                                     </div>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -134,10 +133,6 @@
 
                         </div>
                         @Html.Label("", (string)ViewBag.Message)
-
-
-
-
                     </div>
                 </div>
                 <!-- /.box -->
@@ -169,10 +164,15 @@
         var currentRow = myTable.insertRow(-1);
 
         var name = document.getElementById('name');
+        name.setAttribute("name", "name0");
         var fteil = document.getElementById('fteil');
+        name.setAttribute("name", "fteil0");
         var st = document.getElementById('st');
+        name.setAttribute("name", "st0");
         var dirzeit = document.getElementById('dirzeit');
+        name.setAttribute("name", "dirzeit0");
         var indirzeit = document.getElementById('indirzeit');
+        name.setAttribute("name", "indirzeit0");
 
 
         var nameNew = name.cloneNode(true);

@@ -175,6 +175,23 @@ namespace ZeiterfassungPierburg.Data
             Decimal result = (Decimal)c.ExecuteScalar();
             return Convert.ToInt32(result);
         }
+        public int getID (string table, string condition)
+        {
+            int ID = 0;
+            using (SqlConnection conn = NewConnection)
+            {
+                conn.Open();
+
+                string sql = $"SELECT Id,  FROM {table} where {condition}";
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+
+                while (r.Read())
+                {
+                   ID = r.GetInt32(0);
+                }
+            }
+            return ID;
+        }
 
         // for quick testing of SQL commands
         public static void RunSqlCommand(String cmmd)

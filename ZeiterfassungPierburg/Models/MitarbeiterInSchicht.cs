@@ -39,13 +39,20 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        public float Stunden
+        public float DirStunden
         {
             get => GetValue<float>();
             set => SetValue(value);
         }
+
+        public float InDirStunden
+        {
+            get => GetValue<float>();
+            set => SetValue(value);
+        }
+
         /* Administrativ */
-        public bool IstInSAPEintragen
+        public bool IstInSAPEingetragen
         {
             get => GetValue<bool>();
             set => SetValue(value);

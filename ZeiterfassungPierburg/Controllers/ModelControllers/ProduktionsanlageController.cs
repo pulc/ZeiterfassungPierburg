@@ -80,40 +80,13 @@ namespace ZeiterfassungPierburg.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            try
-            {
-                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
-
-                Produktionsanlage m = new Produktionsanlage();
-
-                foreach (KeyValuePair<string, string> entry in form)
-                {
-                    m.SetValue(entry.Value, entry.Key);
-                }
-                SQLServer.RunSqlCommand(new DataMapper<Produktionsanlage>("Produktionsanlage").GetUpdateSqlString(m));
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: Produktionsanlage/Delete/5
         public ActionResult Delete(int id)
         {
-            try
-            {
-                SQLServer.RunSqlCommand(new DataMapper<Produktionsanlage>("Produktionsanlage").GetDeleteSqlString(id));
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-
-                return View("~/Views/Shared/Error.cshtml");
-
-            }
+            return View();
         }
     }
 }

@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungPierburg.Models
 {
+    [Table("Schichtinfo")]
     public class SchichtInfo : BasicModelObject
     {
         public SchichtInfo()
@@ -19,8 +22,7 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        //        [DataType(DataType.Date)]
-        [DateTime(DateTimeAttribute.DateTimeUsage.Date)]
+        [DataType(DataType.Date)]
         public DateTime Datum
         {
             get => GetValue<DateTime>();

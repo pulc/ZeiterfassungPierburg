@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,17 +17,6 @@ namespace ZeiterfassungPierburg.Data
         private SQLServer(string connectionString)
         {
             connString = connectionString;
-            dataMappers = new Dictionary<Type, IDataMapper>();
-        }
-        private Dictionary<Type, IDataMapper> dataMappers;
-        private IDataMapper GetMapper<T>() where T: BasicModelObject, new()
-        {
-            if (!dataMappers.ContainsKey(typeof(T)))
-            {
-                // create a generic data mapper, if none has been registered yet
-                dataMappers.Add(typeof(T), new DataMapper<T>(typeof(T).Name));
-            }
-            return dataMappers[typeof(T)];
         }
 
         // dictionary methods for dropdown lists
@@ -32,10 +24,8 @@ namespace ZeiterfassungPierburg.Data
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
 
-            using (SqlConnection conn = NewConnection)
+            using (SqlConnection conn = NewOpenConnection)
             {
-                conn.Open();
-
                 string sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
@@ -52,90 +42,72 @@ namespace ZeiterfassungPierburg.Data
         //
         // to correctly use the filter, the method assumes a GetItemsSQLString from the DataMapper that
         // does NOT contain a where clause
-        public IEnumerable<T> GetItems<T>(Dictionary<string,string> filter = null) where T: BasicModelObject, new()
+        public IEnumerable<T> GetItems<T>(string whereClause = null)
         {
-            using (SqlConnection conn = NewConnection)
+            using (var c = NewOpenConnection)
             {
-                conn.Open();
-                IDataMapper mapper = GetMapper<T>();
-                string sqlstring = mapper.GetSelectSqlString();
-
-                if (filter != null)
+                string sql = $"SELECT * FROM {GetTableNameForModel<T>()}";
+                if (!String.IsNullOrEmpty(whereClause))
                 {
-                    string wherestring = " WHERE ";
-
-                    // put together the where-string
-                    // if the filter value contains a '%'
-                    // use wildcard search
-                    wherestring += String.Join(" AND ",
-                        filter.Keys.Select(k =>
-                        {
-                            string comparison = "=";
-                            if (filter[k].Contains('%'))
-                                comparison = "LIKE";
-                            return String.Format("{0} {1} {2}", k, comparison, filter[k]);
-                        }));
-                    sqlstring += wherestring;
+                    sql += $" WHERE {whereClause}";
                 }
-                return (IEnumerable<T>)mapper.ReadItems(
-                        ExecuteSelectStatement(conn, sqlstring));
+
+                return c.Query<T>(sql).ToList();
             }
         }
-        public IEnumerable<T> GetItems<T>(string filter) where T : BasicModelObject, new()
+        public T GetItem<T>(int id) where T: BasicModelObject, new()
         {
-            using (SqlConnection conn = NewConnection)
+            using (var c = NewOpenConnection)
             {
-                conn.Open();
-                IDataMapper mapper = GetMapper<T>();
-                string sqlstring = mapper.GetSelectSqlString();
-
-                // possible to do: the filter string is not checked
-                // -> might be a security risk
-                sqlstring += " WHERE " + filter;
-
-                return (IEnumerable<T>)mapper.ReadItems(
-                        ExecuteSelectStatement(conn, sqlstring));
+                var result = c.Get<T>(id);
+                return result;
             }
+        }
+
+        // helper methods
+        private string GetTableNameForModel<T>()
+        {
+            return typeof(T).Name;
         }
 
         // data manipulation methods
         public int InsertItem<T>(T model) where T: BasicModelObject, new()
         {
-            IDataMapper m = GetMapper<T>();
-            using (SqlConnection conn = NewConnection)
+            using (SqlConnection conn = NewOpenConnection)
             {
-                conn.Open();
-                return ExecuteUpdateStatement(conn, m.GetInsertSqlString(model));
+                return Convert.ToInt32(conn.Insert<T>(model));
             }
         }
         public void EditItem<T>(T model) where T: BasicModelObject, new()
         {
-            IDataMapper m = GetMapper<T>();
-            using (SqlConnection conn = NewConnection)
+            using (SqlConnection conn = NewOpenConnection)
             {
-                conn.Open();
-                ExecuteUpdateStatement(conn, m.GetUpdateSqlString(model));
+                conn.Update<T>(model);
             }
         }
         public void RemoveItem<T>(T model) where T : BasicModelObject, new()
         {
-            RemoveItem<T>(model.ID);
+            using (var c = NewOpenConnection)
+            {
+                c.Delete<T>(model);
+            }
         }
         public void RemoveItem<T>(int id) where T : BasicModelObject, new()
         {
-            IDataMapper m = GetMapper<T>();
-            using (SqlConnection conn = NewConnection)
-            {
-                conn.Open();
-                ExecuteUpdateStatement(conn, m.GetDeleteSqlString(id));
-            }
+            T modelById = GetItem<T>(id);
+            RemoveItem<T>(modelById);
         }
         // SqlConnection
         // use within a using{}-statement for connection pooling
         // (each connection gets closed after the using block)
-        public SqlConnection NewConnection
+        public SqlConnection NewOpenConnection
         {
-            get => new SqlConnection(connString);
+            get
+            {
+                SqlConnection c = new SqlConnection(connString);
+                c.Open();
+                return c;
+            }
         }
 
         // singleton pattern
@@ -173,23 +145,6 @@ namespace ZeiterfassungPierburg.Data
             SqlCommand c = new SqlCommand(sqlstring, connection);
             Decimal result = (Decimal)c.ExecuteScalar();
             return Convert.ToInt32(result);
-        }
-        public int getID (string table, string condition)
-        {
-            int ID = 0;
-            using (SqlConnection conn = NewConnection)
-            {
-                conn.Open();
-
-                string sql = $"SELECT Id,  FROM {table} where {condition}";
-                SqlDataReader r = ExecuteSelectStatement(conn, sql);
-
-                while (r.Read())
-                {
-                   ID = r.GetInt32(0);
-                }
-            }
-            return ID;
         }
 
         // for quick testing of SQL commands

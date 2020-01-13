@@ -135,14 +135,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         ViewBag.Message = MitarbeiterInSchichtList.Count + " Mitarbeiter erfasst";
                         return Create();
                     }
-                    catch
+                    catch (Exception e)
                     {
                         // delete added models (if any)
                         foreach (var id in InsertedID)
                         {
                             SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                         }
-                        ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden.";
+                        ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
+                            "\nDer ausführliche Grund: " + e.Message;
 
                        return View("Create", model);
                     }

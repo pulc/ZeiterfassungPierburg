@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ZeiterfassungPierburg.Data;
@@ -19,8 +20,7 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        //        [DataType(DataType.Date)]
-        [DateTime(DateTimeAttribute.DateTimeUsage.Date)]
+        [DataType(DataType.Date)]
         public DateTime Datum
         {
             get => GetValue<DateTime>();

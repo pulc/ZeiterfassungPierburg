@@ -17,17 +17,6 @@ namespace ZeiterfassungPierburg.Data
         private SQLServer(string connectionString)
         {
             connString = connectionString;
-            dataMappers = new Dictionary<Type, IDataMapper>();
-        }
-        private Dictionary<Type, IDataMapper> dataMappers;
-        private IDataMapper GetMapper<T>() where T: BasicModelObject, new()
-        {
-            if (!dataMappers.ContainsKey(typeof(T)))
-            {
-                // create a generic data mapper, if none has been registered yet
-                dataMappers.Add(typeof(T), new DataMapper<T>(typeof(T).Name));
-            }
-            return dataMappers[typeof(T)];
         }
 
         // dictionary methods for dropdown lists
@@ -37,8 +26,6 @@ namespace ZeiterfassungPierburg.Data
 
             using (SqlConnection conn = NewOpenConnection)
             {
-                conn.Open();
-
                 string sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
@@ -60,7 +47,7 @@ namespace ZeiterfassungPierburg.Data
             using (var c = NewOpenConnection)
             {
                 string sql = $"SELECT * FROM {GetTableNameForModel<T>()}";
-                if (String.IsNullOrEmpty(whereClause))
+                if (!String.IsNullOrEmpty(whereClause))
                 {
                     sql += $" WHERE {whereClause}";
                 }
@@ -86,34 +73,29 @@ namespace ZeiterfassungPierburg.Data
         // data manipulation methods
         public int InsertItem<T>(T model) where T: BasicModelObject, new()
         {
-            IDataMapper m = GetMapper<T>();
             using (SqlConnection conn = NewOpenConnection)
             {
-                conn.Open();
-                return ExecuteUpdateStatement(conn, m.GetInsertSqlString(model));
+                return Convert.ToInt32(conn.Insert<T>(model));
             }
         }
         public void EditItem<T>(T model) where T: BasicModelObject, new()
         {
-            IDataMapper m = GetMapper<T>();
             using (SqlConnection conn = NewOpenConnection)
             {
-                conn.Open();
-                ExecuteUpdateStatement(conn, m.GetUpdateSqlString(model));
+                conn.Update<T>(model);
             }
         }
         public void RemoveItem<T>(T model) where T : BasicModelObject, new()
         {
-            RemoveItem<T>(model.ID);
+            using (var c = NewOpenConnection)
+            {
+                c.Delete<T>(model);
+            }
         }
         public void RemoveItem<T>(int id) where T : BasicModelObject, new()
         {
-            IDataMapper m = GetMapper<T>();
-            using (SqlConnection conn = NewOpenConnection)
-            {
-                conn.Open();
-                ExecuteUpdateStatement(conn, m.GetDeleteSqlString(id));
-            }
+            T modelById = GetItem<T>(id);
+            RemoveItem<T>(modelById);
         }
         // SqlConnection
         // use within a using{}-statement for connection pooling

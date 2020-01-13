@@ -213,6 +213,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dataTablebootstrap.min.css" />
+    <Content Include="Content\dataTables.bootstrap.min.css" />
     <Content Include="Content\dist\css\AdminLTE.css" />
     <Content Include="Content\dist\css\AdminLTE.min.css" />
     <Content Include="Content\dist\css\alt\AdminLTE-bootstrap-social.css" />
@@ -267,11 +269,13 @@
     <Content Include="Content\dist\css\adminlte.min.css.map" />
     <Content Include="App_Data\backup" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -325,13 +329,12 @@
     <Content Include="Views\Produktionsanlage\Create.cshtml" />
     <Content Include="Views\Produktionsanlage\Delete.cshtml" />
     <Content Include="Views\Produktionsanlage\Edit.cshtml" />
-    <Content Include="Views\MitarbeiterInSchicht\Index.cshtml" />
     <Content Include="Views\Schichtinfo\Index.cshtml" />
     <Content Include="Views\Schichtinfo\Create.cshtml" />
-    <Content Include="Views\MitarbeiterInSchicht\Create.cshtml" />
     <Content Include="Views\NeueZeiterfassung\MEBA.cshtml" />
     <Content Include="Views\NeueZeiterfassung\Create.cshtml" />
     <Content Include="Views\NeueZeiterfassung\CreatePartial.cshtml" />
+    <Content Include="Views\MitarbeiterInSchicht\Index.cshtml" />
     <None Include="Web.DebugMartin.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -353,6 +356,7 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Create\" />
   </ItemGroup>
   <PropertyGroup>

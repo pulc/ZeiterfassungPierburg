@@ -1,145 +1,145 @@
 ﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
 
 
-@using (Html.BeginForm("InsertMitarbeiter"))
+ @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
 {
-    @Html.AntiForgeryToken()
-    <!-- Main content -->
-    <section class="content container-fluid">
-        <div class="box box-info">
+@Html.AntiForgeryToken()
+<section class="content container-fluid">
+    <div class="box box-info">
 
-            <div class="box-body">
-                <h2>Neue Mitarbeiter*innen hinzufügen</h2>
+        <div class="box-body">
+            <h2>Neue Mitarbeiter*innen hinzufügen</h2>
 
-                <div class="table-responsive">
-                    <table class="table no-margin">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.LabelFor(model => model.Produktionsanlage)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Datum)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Schicht)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.LabelFor(model => model.Produktionsanlage)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Datum)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Schicht)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
 
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table no-margin" id="mitarbeiterTable">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.LabelFor(model => model.Name)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Fertigungsteil)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Stückzahl)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.DirZeit)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.InDirZeit)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name", @name = "name0" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle Fertigungsteil -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control", @name = "st0" } })
-                                    @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control", @name = "dirzeit0" } })
-                                    @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control", @name = "indirzeit0" } })
-                                    @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-                    <div class="box-body">
-                        <div class="table-responsive">
-                            <table class="table" id="sendTable">
-
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-group">
-                                                <i name="submit" style="font-size: 35px; color:green; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px; " type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRow();"></i>
-                                                <i name="submit" style="font-size: 35px; color:red; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px;" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow();"></i>
-                                            </div>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <div class="form-group">
-                                                <div>
-                                                    <input name="submit" style="font-size: 18px; box-shadow: 0 10px 15px -8px rgba(0, 0, 0,.7);" type="submit" value="Abschicken" class="pull-right btn btn-default" />
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    @Html.Raw(ViewBag.NewMitarbeiter)
-
-
-                                </tbody>
-                            </table>
-
-
-                        </div>
-                        @Html.Label("", (string)ViewBag.Message)
-                    </div>
-                </div>
-                <!-- /.box -->
+                            <td>
+                                <div class="form-group">
+                                    @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
-    <!-- /.content -->
+
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin" id="mitarbeiterTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.LabelFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Fertigungsteil)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.Stückzahl)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.DirZeit)
+                            </th>
+                            <th>
+                                @Html.LabelFor(model => model.InDirZeit)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "Name", @name = "name0" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle Fertigungsteil -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control", @name = "st0" } })
+                                @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control", @name = "dirzeit0" } })
+                                @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control", @name = "indirzeit0" } })
+                                @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table" id="sendTable">
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <i name="submit" style="font-size: 35px; color:green; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px; " type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRow();"></i>
+                                            <i name="submit" style="font-size: 35px; color:red; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px;" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow();"></i>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <div>
+                                                <input id="sendButton" name="submit" style="font-size: 18px; box-shadow: 0 10px 15px -8px rgba(0, 0, 0,.7);" type="submit" value="Abschicken" class="pull-right btn btn-default" onlick="RefreshForm()" />
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+                                @Html.Raw(ViewBag.NewMitarbeiter)
+
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    @Html.Label("", (string)ViewBag.Message)
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+<!-- /.content -->
 }
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -148,14 +148,24 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-#    <script>
+    
+    <script>
+        $(document).ready(function () {
+            $("#sendButton").hover(function () {
+                var validator = $("#frm").validate();
+                validator.form()
+            });
+        }); 
 
-
-    // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
+        // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
+        function RefreshForm()
+        {
+        }
 
     function AddRow() {
        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
        // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
+
 
 
         var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
@@ -163,23 +173,35 @@
         var currentIndex = myTable.rows.length;
         var currentRow = myTable.insertRow(-1);
 
-        var name = document.getElementById('name');
-        name.setAttribute("name", "name0");
+        var name = document.getElementById('Name');
+        //name.setAttribute("name", "name0");
         var fteil = document.getElementById('fteil');
-        name.setAttribute("name", "fteil0");
+        //fteil.setAttribute("name", "fteil0");
         var st = document.getElementById('st');
-        name.setAttribute("name", "st0");
+        //st.setAttribute("name", "st0");
         var dirzeit = document.getElementById('dirzeit');
-        name.setAttribute("name", "dirzeit0");
+        //dirzeit.setAttribute("name", "dirzeit0");
         var indirzeit = document.getElementById('indirzeit');
-        name.setAttribute("name", "indirzeit0");
+        //indirzeit.setAttribute("name", "indirzeit0");
 
 
         var nameNew = name.cloneNode(true);
         nameNew.setAttribute("name", "name" + currentIndex);
+        nameNew.setAttribute("form", "frm" + currentIndex);
+        nameNew.setAttribute("id", "name" + currentIndex);
+
+       /* nameNew.setAttribute("class", "form-control input-validation-error");
+        nameNew.setAttribute("data-val", "true");
+        nameNew.setAttribute("aria-describedby", "name-error");
+        */
+
+
+
 
         var fteilNew = fteil.cloneNode(true);
-        fteilNew.setAttribute("name", "fteil" + currentIndex);
+        fteilNew.setAttribute("name", "name" + currentIndex);
+
+
 
         var stNew = st.cloneNode(true);
         stNew.setAttribute("name", "st" + currentIndex);
@@ -191,10 +213,36 @@
         indirzeitNew.setAttribute("name", "indirzeit" + currentIndex);
 
         var currentCell = currentRow.insertCell(-1);
-        currentCell.appendChild(nameNew);
+        var e = document.createElement('div');
+        e.appendChild(nameNew);
+        e.innerHTML = e.innerHTML +'<span class="field-validation-valid text-danger" data-valmsg-for="' + nameNew.getAttribute("name") + '" data-valmsg-replace="true"></span>';
+        currentCell.appendChild(e);
+
+
+       // document.getElementById("frm").reset();
+
+        //$("#frm").validate().element("#name1");
+
+        /*
+                            <tr>
+                                <td>
+                                    <select class="form-control" data-val="true" data-val-number="The field Name must be a number." data-val-required="Du musst noch den Namen auswählen." id="id1" name="name1">
+                                        <option value="">- Wähle Mitarbeiter*in -</option>
+                                        <option value="6">Baggins, Bilbo</option>
+                                        <option value="17">Schmidt, Günther</option>
+                                        <option value="25">Schmidt, Günther</option>
+                                    </select>
+                                    <div><span class="field-validation-valid text-danger" data-valmsg-for="name1" data-valmsg-replace="true"></span></div>
+                                </td>
+                            </tr>
+        */
+
+
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(fteilNew);
+
+
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(stNew);
@@ -208,10 +256,19 @@
         var rowCount = myTable.rows.length;
         console.log(rowCount);
 
+        /*
+        <select class="form-control" data-val="true" data-val-number="The field Name must be a number." data-val-required="Du musst noch den Namen auswählen." id="name" name="indirzeit0"><option value="">- Wähle Mitarbeiter*in -</option>
+            <option value="6">Baggins, Bilbo</option>
+            <option value="17">Schmidt, Günther</option>
+            <option value="25">Schmidt, Günther</option>
+        </select>
+        */
+        }
 
-    }
+
     function RemoveRow() {
-        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+        var myTable = document.getElementBy
+            ("mitarbeiterTable").getElementsByTagName('tbody')[0];
         var rowCount = myTable.rows.length;
 
         if (rowCount != 1) {
@@ -220,6 +277,8 @@
         else alert('Du musst mindestens einen Mitarbeiter oder eine Mitarbeiterin eingeben');
         var rowCount = myTable.rows.length;
         console.log(rowCount);
-    }
+        }
+
+
     </script>
 }

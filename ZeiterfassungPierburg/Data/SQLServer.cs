@@ -43,7 +43,6 @@ namespace ZeiterfassungPierburg.Data
                     result.Add(r.GetInt32(0), r.GetString(1));
                 }
             }
-
             return result;
         }
 

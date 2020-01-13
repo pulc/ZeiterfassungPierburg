@@ -13,7 +13,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
     public class NeueZeiterfassungController : Controller
     {
         static NeueZeiterfassung temp = new NeueZeiterfassung();
-        int timesClicked = 0;
 
         // GET: NeueZeiterfassung
         public ActionResult Index()
@@ -30,8 +29,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         // GET: NeueZeiterfassung/Create
         public ActionResult Create()
         {
-            ViewBag.Message = "";
-
+            ModelState.Clear();
             var model = new NeueZeiterfassung();
             model.Datum = DateTime.Today;
 
@@ -48,7 +46,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             {
                 model.Schicht = 1;
             }
-
             return View(model);
         }
 
@@ -58,9 +55,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         {
             //ViewBag.NewMitarbeiter = PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
             //NeueZeiterfassung n = new NeueZeiterfassung();
-
-
-
             //ViewBag.NewMitarbeiter = n.FertigungteilList;
 
             //return PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
@@ -85,7 +79,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
                     try
                     {
-
                         SchichtInfo s = new SchichtInfo()
                         {
                             Datum = model.Datum,
@@ -93,36 +86,54 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         };
                         int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
                         int ProduktionsanlageID = model.Produktionsanlage;
-
                         List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
+
+
+                        // Create the first Mitarbeiter model
+                        MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
+                        {
+                            SchichtInfoID = SchichtInfoID,
+                            FertigungsteilID = model.Fertigungsteil,
+                            MitarbeiterID = model.Name,
+                            DirStunden = model.DirZeit,
+                            InDirStunden = model.InDirZeit,
+                            Stück = model.Stückzahl,
+                            ProduktionsanlageID = ProduktionsanlageID,
+                            ErstelltAm = DateTime.Now
+
+
+                        };
+                        MitarbeiterInSchichtList.Add(m);
 
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
-                        int MitarbeiterToAdd = (col.Count - 5) / 5; //Count how many additionaly Mitarbeiter model there are
-                        for (int i = 0; i <= MitarbeiterToAdd; i++)
-                        {
-                            MitarbeiterInSchicht n = new MitarbeiterInSchicht()
-                            {
-                                SchichtInfoID = SchichtInfoID,
-                                FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
-                                MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
-                                DirStunden = float.Parse(Request.Form["dirzeit" + i]),
-                                InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
-                                Stück = Int32.Parse(Request.Form["st" + i]),
-                                ProduktionsanlageID = ProduktionsanlageID
-                            };
-                            MitarbeiterInSchichtList.Add(n);
-                        }
+                        int MitarbeiterToAdd = (col.Count - 10) / 5; //Count how many additionaly Mitarbeiter model there are
 
+                        if (MitarbeiterToAdd != 0)
+                        {
+                            for (int i = 1; i <= MitarbeiterToAdd; i++)
+                            {
+                                MitarbeiterInSchicht n = new MitarbeiterInSchicht()
+                                {
+                                    SchichtInfoID = SchichtInfoID,
+                                    FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
+                                    MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
+                                    DirStunden = float.Parse(Request.Form["dirzeit" + i]),
+                                    InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
+                                    Stück = Int32.Parse(Request.Form["st" + i]),
+                                    ProduktionsanlageID = ProduktionsanlageID,
+                                    ErstelltAm = DateTime.Now
+                                };
+                                MitarbeiterInSchichtList.Add(n);
+                            }
+                        }
                         // add all models into the DB
                         foreach (var n in MitarbeiterInSchichtList)
                         {
                             InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
                         }
-                        ModelState.Clear();
                         ViewBag.Message = MitarbeiterInSchichtList.Count + " Mitarbeiter erfasst";
-
-                        return View("Create");
+                        return Create();
                     }
                     catch
                     {
@@ -131,17 +142,13 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         {
                             SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                         }
-
                         ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden.";
-                        return View("Create", model);
 
-
+                       return View("Create", model);
                     }
                 default:
                     throw new Exception();
-
             }
-
         }
 
         // GET: NeueZeiterfassung/Edit/5

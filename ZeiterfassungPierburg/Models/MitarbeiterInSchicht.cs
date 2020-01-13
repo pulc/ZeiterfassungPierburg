@@ -58,7 +58,12 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        // TODO: Direkt / Indirekt-Stunden trennen? Was ist SZ?
+        public DateTime ErstelltAm
+        {
+            get => GetValue<DateTime>();
+            set => SetValue(value);
+        }
+
 
     }
 }

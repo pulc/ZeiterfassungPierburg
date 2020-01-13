@@ -62,6 +62,8 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
         public int Fertigungsteil { get; set; }
 
+        [Range(0, 9999)]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Stückzahl muss eine ganze Zahl sein.")]
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
         public int Stückzahl { get; set; }
 
@@ -77,6 +79,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage { get; set; }
+
     }
 }
 

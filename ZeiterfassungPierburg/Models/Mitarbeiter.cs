@@ -13,6 +13,7 @@ namespace ZeiterfassungPierburg.Models
         {
             FillValuesDictionaryWithDefaultValues();
         }
+
         [Required(ErrorMessage = "Du musst noch die Kostenstelle eingeben.")]
         public int Kostenstelle
         { 

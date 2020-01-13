@@ -12,8 +12,9 @@ namespace ZeiterfassungPierburg.Controllers
     public class SchichtInfoController : Controller
     {
         // GET: SchichtInfo
-        public ActionResult Index()
+        public ActionResult Index(String message)
         {
+            ViewBag.SchichtInfoMessage = TempData["Message"];
             var results = SQLServer.Instance.GetItems<SchichtInfo>();
             return View(results);
         }
@@ -36,15 +37,83 @@ namespace ZeiterfassungPierburg.Controllers
         {
             return View();
         }
-
-        // POST: SchichtInfo/Create
         [HttpPost]
         public ActionResult Create(SchichtInfo m)
         {
             try
             {
+                SQLServer.Instance.InsertItem<SchichtInfo>(m);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        /*
+        // POST: SchichtInfo/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
+
+                SchichtInfo m = new SchichtInfo();
+
+                foreach (KeyValuePair<string, string> entry in form)
+                {
+                    m.SetValue(entry.Value, entry.Key);
+                }
                 SQLServer.RunSqlCommand(new DataMapper<SchichtInfo>("SchichtInfo").GetInsertSqlString(m));
 
+                return RedirectToAction("Index");
+            }
+            catch (Exception t)
+            {
+                return View();
+            }
+        }
+        */
+
+        /*
+    // POST: SchichtInfo/Edit/5
+
+
+    [HttpPost]
+    public ActionResult Edit(int id, FormCollection collection)
+    {
+        try
+        {
+            Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
+
+            SchichtInfo m = new SchichtInfo();
+
+            foreach (KeyValuePair<string, string> entry in form)
+            {
+                m.SetValue(entry.Value, entry.Key);
+            }
+            SQLServer.RunSqlCommand(new DataMapper<SchichtInfo>("SchichtInfo").GetUpdateSqlString(m, id));
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception t)
+        {
+            return View();
+        }
+    }
+    */
+
+        // POST: SchichtInfo/Edit/5
+
+
+        [HttpPost]
+        public ActionResult Edit(SchichtInfo m)
+        {
+            try
+            {
+                SQLServer.Instance.EditItem<SchichtInfo>(m);
                 return RedirectToAction("Index");
             }
             catch (Exception)
@@ -52,45 +121,21 @@ namespace ZeiterfassungPierburg.Controllers
                 return View();
             }
         }
-
-
-
-        // POST: SchichtInfo/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, SchichtInfo m)
-        {
-            try
-            {
-                new DataMapper<SchichtInfo>("SchichtInfo").GetInsertSqlString(m);
-                int ID = SQLServer.Instance.InsertItem<SchichtInfo>(m);
-
-                Console.WriteLine("SchichtInfo mit ID " + ID + " wurde geändert.");
-                return RedirectToAction("Index");
-
-            }
-            catch (Exception)
-            {
-                return HttpNotFound("SchichtInfo konnte nicht bearbeitet werden.");
-            }
-        }
-
         // GET: SchichtInfo/Delete/5
         public ActionResult Delete(int id)
         {
             try
             {
-                SQLServer.RunSqlCommand(new DataMapper<SchichtInfo>("SchichtInfo").GetDeleteSqlString(id));
+                SQLServer.Instance.RemoveItem<SchichtInfo>(id);
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View("~/Views/Shared/Error.cshtml");
-
+                TempData["Message"] = "Der SchichtInfo konnte nicht gelöscht werden.";
+                //return Index();
+                return RedirectToAction("Index");
             }
+
         }
-
-
-
-
     }
 }

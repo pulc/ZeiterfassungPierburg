@@ -36,8 +36,6 @@ namespace ZeiterfassungPierburg.Controllers
         {
             return View();
         }
-
-        // POST: Fertigungsteil/Create
         [HttpPost]
         public ActionResult Create(Fertigungsteil m)
         {
@@ -46,30 +44,25 @@ namespace ZeiterfassungPierburg.Controllers
                 SQLServer.Instance.InsertItem<Fertigungsteil>(m);
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch
             {
                 return View();
             }
         }
 
-        // POST: Fertigungsteil/Edit/5
         [HttpPost]
         public ActionResult Edit(Fertigungsteil m)
         {
             try
             {
-                SQLServer.Instance.InsertItem<Fertigungsteil>(m);
-
-                Console.WriteLine("Fertigungsteil mit ID " + m.ID  + " wurde geändert.");
+                SQLServer.Instance.EditItem<Fertigungsteil>(m);
                 return RedirectToAction("Index");
-
             }
             catch (Exception)
             {
-                return HttpNotFound("Fertigungsteil konnte nicht bearbeitet werden.");
+                return View();
             }
         }
-
         // GET: Fertigungsteil/Delete/5
         public ActionResult Delete(int id)
         {
@@ -81,7 +74,6 @@ namespace ZeiterfassungPierburg.Controllers
             catch
             {
                 return View("~/Views/Shared/Error.cshtml");
-
             }
         }
     }

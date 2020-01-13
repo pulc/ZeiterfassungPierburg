@@ -12,11 +12,24 @@ namespace ZeiterfassungPierburg.Controllers
     public class MitarbeiterController : Controller
     {
         // GET: Mitarbeiter
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
+            ViewBag.MitarbeiterMessage = TempData["Message"];
+
             var results = SQLServer.Instance.GetItems<Mitarbeiter>();
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                results = SQLServer.Instance.GetItems<Mitarbeiter>("Nachname LIKE '%" + searchString + "'");
+            }
+
             return View(results);
         }
+
+
+
+
 
         // GET: Mitarbeiter/Edit/5
         public ActionResult Edit(int id)
@@ -30,6 +43,8 @@ namespace ZeiterfassungPierburg.Controllers
             else
                 return View(results.First());
         }
+
+
 
         // GET: Mitarbeiter/Create
         public ActionResult Create()
@@ -130,8 +145,11 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch
             {
-                return View("~/Views/Shared/Error.cshtml");
+                TempData["Message"] = "Der Mitarbeiter konnte nicht gelöscht werden.";
+                //return Index();
+                return RedirectToAction("Index" );
             }
+
         }
     }
 }

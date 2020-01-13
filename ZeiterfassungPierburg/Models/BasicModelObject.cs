@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -71,6 +72,8 @@ namespace ZeiterfassungPierburg.Data
             if (String.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("PropertyName is <null>");
             values[propertyName.ToLower()] = value;
         }
+
+        [Key]
         public int ID
         {
             get => GetValue<int>();

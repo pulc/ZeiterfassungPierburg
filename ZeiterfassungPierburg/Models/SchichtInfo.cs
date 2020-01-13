@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper.Contrib.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,6 +8,7 @@ using ZeiterfassungPierburg.Data;
 
 namespace ZeiterfassungPierburg.Models
 {
+    [Table("Schichtinfo")]
     public class SchichtInfo : BasicModelObject
     {
         public SchichtInfo()

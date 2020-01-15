@@ -70,6 +70,7 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
+        [Computed]
         [Display(Name = "Beschäftigungsartt")]
         public IEnumerable<SelectListItem> BeschäftigungsartList { get; set; } = new List<SelectListItem>()
         {

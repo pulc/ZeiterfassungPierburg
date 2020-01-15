@@ -95,6 +95,10 @@
                                 @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control", @name = "indirzeit0" } })
                                 @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
                             </td>
+                            <td>
+                                @Html.EditorFor(model => model.Bemerkung, new { htmlAttributes = new { @id = "bemerkung", @class = "form-control", @name = "bemerkung0" } })
+                                @Html.ValidationMessageFor(model => model.Bemerkung, "", new { @class = "text-danger" })
+                            </td>
                         </tr>
 
                     </tbody>
@@ -183,6 +187,8 @@
         //dirzeit.setAttribute("name", "dirzeit0");
         var indirzeit = document.getElementById('indirzeit');
         //indirzeit.setAttribute("name", "indirzeit0");
+        var bemerkung = document.getElementById('bemerkung');
+
 
 
         var nameNew = name.cloneNode(true);
@@ -195,13 +201,8 @@
         nameNew.setAttribute("aria-describedby", "name-error");
         */
 
-
-
-
         var fteilNew = fteil.cloneNode(true);
-        fteilNew.setAttribute("name", "name" + currentIndex);
-
-
+        fteilNew.setAttribute("name", "fteil" + currentIndex);
 
         var stNew = st.cloneNode(true);
         stNew.setAttribute("name", "st" + currentIndex);
@@ -212,8 +213,13 @@
         var indirzeitNew = indirzeit.cloneNode(true);
         indirzeitNew.setAttribute("name", "indirzeit" + currentIndex);
 
+        var bemerkungNew = bemerkung.cloneNode(true);
+        bemerkungNew.setAttribute("name", "bemerkung" + currentIndex);
+
         var currentCell = currentRow.insertCell(-1);
         var e = document.createElement('div');
+
+
         e.appendChild(nameNew);
         e.innerHTML = e.innerHTML +'<span class="field-validation-valid text-danger" data-valmsg-for="' + nameNew.getAttribute("name") + '" data-valmsg-replace="true"></span>';
         currentCell.appendChild(e);
@@ -237,12 +243,8 @@
                             </tr>
         */
 
-
-
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(fteilNew);
-
-
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(stNew);
@@ -252,6 +254,9 @@
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(indirzeitNew);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(bemerkung);
 
         var rowCount = myTable.rows.length;
         console.log(rowCount);
@@ -265,7 +270,6 @@
         */
         }
 
-
     function RemoveRow() {
         var myTable = document.getElementBy
             ("mitarbeiterTable").getElementsByTagName('tbody')[0];
@@ -278,7 +282,5 @@
         var rowCount = myTable.rows.length;
         console.log(rowCount);
         }
-
-
     </script>
 }

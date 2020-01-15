@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel.MitarbeiterInschichtViewModel>
+
+@{
+    ViewBag.Title = "IndexMEBA";
+}
+
+<h2>IndexMEBA</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Datum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Art)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Anlage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personalnummer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kostenstelle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SAPAPNr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZeichenNr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stück)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DirStunden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InDirStunden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bemerkung)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Datum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Art)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Anlage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personalnummer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kostenstelle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SAPAPNr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZeichenNr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stück)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DirStunden)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InDirStunden)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bemerkung)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

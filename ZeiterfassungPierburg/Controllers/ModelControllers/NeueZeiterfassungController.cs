@@ -88,6 +88,9 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         int ProduktionsanlageID = model.Produktionsanlage;
                         List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
 
+                        var date = DateTime.Now;
+                        // truncate seconds and miliseconds
+                        date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0 , 0, date.Kind);
 
                         // Create the first Mitarbeiter model
                         MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
@@ -99,7 +102,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                             InDirStunden = model.InDirZeit,
                             Stück = model.Stückzahl,
                             ProduktionsanlageID = ProduktionsanlageID,
-                            ErstelltAm = DateTime.Now
+                            ErstelltAm = date,
+                            Bemerkung = model.Bemerkung
 
 
                         };
@@ -107,7 +111,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
-                        int MitarbeiterToAdd = (col.Count - 10) / 5; //Count how many additionaly Mitarbeiter model there are
+                        int MitarbeiterToAdd = (col.Count - 11) / 6; //Count how many additionaly Mitarbeiter model there are
 
                         if (MitarbeiterToAdd != 0)
                         {
@@ -122,7 +126,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                                     InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
                                     Stück = Int32.Parse(Request.Form["st" + i]),
                                     ProduktionsanlageID = ProduktionsanlageID,
-                                    ErstelltAm = DateTime.Now
+                                    ErstelltAm = date,
+                                    Bemerkung = Request.Form["bemerkung"+i]
                                 };
                                 MitarbeiterInSchichtList.Add(n);
                             }
@@ -151,7 +156,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                     throw new Exception();
             }
         }
-
         // GET: NeueZeiterfassung/Edit/5
         public ActionResult Edit(int id)
         {

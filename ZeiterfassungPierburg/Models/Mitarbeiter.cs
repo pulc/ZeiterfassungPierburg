@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
+using Dapper.Contrib.Extensions;
 
 namespace ZeiterfassungPierburg.Models
 {
+    [Table("Mitarbeiter")]
     public class Mitarbeiter: BasicModelObject
     {
-        public Mitarbeiter()
-        {
-            FillValuesDictionaryWithDefaultValues();
-        }
-
+        
         [Required(ErrorMessage = "Du musst noch die Kostenstelle eingeben.")]
         public int Kostenstelle
         { 
             get => GetValue<int>();
             set => SetValue(value);
         }
+
 
         [Required(ErrorMessage = "Du musst noch die Personalnummber eingeben.")]
         public int Personalnummer
@@ -56,12 +56,27 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
+        [Required(ErrorMessage = "Du musst den Status auswählen.")]
+        public bool IsAktiv
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
         [Required(ErrorMessage = "Du musst noch die Beschäftigungsart eingeben.")]
         public string Beschäftigungsart
         {
             get => GetValue<string>();
             set => SetValue(value);
         }
+
+        [Display(Name = "Beschäftigungsartt")]
+        public IEnumerable<SelectListItem> BeschäftigungsartList { get; set; } = new List<SelectListItem>()
+        {
+        new SelectListItem{ Text="Extern", Value="ext"},
+        new SelectListItem{ Text="Intern", Value="int"}
+        };
+
     }
 }
  

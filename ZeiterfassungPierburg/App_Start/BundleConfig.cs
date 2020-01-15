@@ -35,11 +35,6 @@ namespace ZeiterfassungPierburg
     "~/Scripts/jquery.dataTables.min.js",
     "~/Scripts/dataTables.bootstrap.min.js"
     ));
-
-
-
-
-
             /*
              * 
             bundles.Add(new StyleBundle("~/bundles/css").Include(

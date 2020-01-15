@@ -5,9 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
+using Dapper.Contrib.Extensions;
 
 namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 {
+    [Table("Neuezeiterfassung")]
     public class NeueZeiterfassung
     {
         [Required]
@@ -79,6 +81,9 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage { get; set; }
+
+        [MaxLength(99)] 
+        public string Bemerkung { get; set; }
 
     }
 }

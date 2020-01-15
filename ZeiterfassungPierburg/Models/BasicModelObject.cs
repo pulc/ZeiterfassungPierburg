@@ -1,9 +1,11 @@
 ﻿using Dapper.Contrib.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ZeiterfassungPierburg.Data
 {
@@ -13,7 +15,7 @@ namespace ZeiterfassungPierburg.Data
         {
             // on creation of a new object, fill values dictionary with
             // default values
-            FillValuesDictionaryWithDefaultValues();
+           FillValuesDictionaryWithDefaultValues();
         }
         protected void FillValuesDictionaryWithDefaultValues()
         {
@@ -44,6 +46,14 @@ namespace ZeiterfassungPierburg.Data
                     if (t == typeof(DateTime))
                     {
                         value = DateTime.Now;
+                    }
+                    else
+                    if (t == typeof(IEnumerable<SelectListItem>))
+                    {
+                        value = new List<SelectListItem>()
+        {
+        new SelectListItem{ Text="", Value=""}
+        };
                     }
                     else
                     {

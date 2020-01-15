@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using ZeiterfassungPierburg.Data;
 using System.ComponentModel.DataAnnotations;
+using Dapper.Contrib.Extensions;
 
 namespace ZeiterfassungPierburg.Models
 {
+    [Table("Fertigungsteil")]
     public class Fertigungsteil : BasicModelObject
     {
         [Required(ErrorMessage = "Du musst noch die ZeichenNr eingeben.")]

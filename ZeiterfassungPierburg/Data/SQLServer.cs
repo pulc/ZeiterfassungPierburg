@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using ZeiterfassungPierburg.Models;
+using MiniProfiler.Integrations;
 
 namespace ZeiterfassungPierburg.Data
 {
@@ -64,6 +65,70 @@ namespace ZeiterfassungPierburg.Data
             }
         }
 
+        public IEnumerable<T> GetMitarbeiterInSchichtModelMEBA<T>()
+        {
+            using (var c = NewOpenConnection)
+            {
+                string sql = @" 
+SELECT 
+s.Datum,
+s.Art,
+m.Nachname + ', ' + m.Vorname as Name,
+m.Personalnummer,
+m.Kostenstelle,
+p.Bezeichner as Anlage,
+p.Kostenstelle,
+p.SAPAPNr,
+f.ZeichenNr
+
+      ,t.Stück
+      ,t.DirStunden
+      ,t.InDirStunden
+      ,t.IstInSAPEingetragen
+      ,t.ErstelltAm
+  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID 
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
+LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
+LEFT OUTER JOIN Fertigungsteil f  ON t.SchichtInfoID = f.ID 
+where p.IstEineMaschine = 'true'
+";
+                return c.Query<T>(sql).ToList();
+
+            }
+        }
+        public IEnumerable<T> GetMitarbeiterInSchichtModel<T>()
+        {
+            using (var c = NewOpenConnection)
+            {
+                string sql = @" 
+SELECT 
+s.Datum,
+s.Art,
+m.Nachname + ', ' + m.Vorname as Name,
+m.Personalnummer,
+m.Kostenstelle,
+p.Bezeichner as Anlage,
+p.Kostenstelle,
+p.SAPAPNr,
+f.ZeichenNr
+
+      ,t.Stück
+      ,t.DirStunden
+      ,t.InDirStunden
+      ,t.IstInSAPEingetragen
+      ,t.ErstelltAm
+  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID 
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
+LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
+LEFT OUTER JOIN Fertigungsteil f  ON t.SchichtInfoID = f.ID 
+where p.IstEineMaschine = 'false'
+";
+                return c.Query<T>(sql).ToList();
+
+            }
+        }
         // helper methods
         private string GetTableNameForModel<T>()
         {

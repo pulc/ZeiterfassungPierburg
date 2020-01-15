@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models;
-
+using ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel;
 
 namespace ZeiterfassungPierburg.Controllers
 {
@@ -14,7 +14,12 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: MitarbeiterInSchicht
         public ActionResult Index()
         {
-            var results = SQLServer.Instance.GetItems<MitarbeiterInSchicht>();
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();
+            return View(results);
+        }
+        public ActionResult IndexMEBA()
+        {
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModelMEBA<MitarbeiterInschichtViewModel>();
             return View(results);
         }
 
@@ -34,7 +39,7 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: MitarbeiterInSchicht/Create
         public ActionResult Create()
         {
-            return View();
+            return RedirectToAction("Index", "NeuezeiterfassungController");
         }
 
         // POST: MitarbeiterInSchicht/Create

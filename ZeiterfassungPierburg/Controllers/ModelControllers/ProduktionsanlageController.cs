@@ -15,6 +15,7 @@ namespace ZeiterfassungPierburg.Controllers
         public ActionResult Index()
         {
             var results = SQLServer.Instance.GetItems<Produktionsanlage>();
+
             return View(results);
         }
 
@@ -36,6 +37,8 @@ namespace ZeiterfassungPierburg.Controllers
         {
             return View();
         }
+
+
         [HttpPost]
         public ActionResult Create(Produktionsanlage m)
         {

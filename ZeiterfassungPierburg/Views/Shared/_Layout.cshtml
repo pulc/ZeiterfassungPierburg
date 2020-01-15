@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - Pierburg Zeiterfassung</title>
 
 
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/modernizr")
@@ -33,7 +32,7 @@
                 <!-- Header Navbar -->
                 <nav class="navbar navbar-static-top" role="navigation">
                     <!-- Sidebar toggle button-->
-                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" <span>einklappen</span>
+                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" <span>></span>
                         <span class="sr-only">Toggle navigation</span>
                     </a>
                     <!-- Navbar Right Menu -->
@@ -77,21 +76,19 @@
                     <!-- /.search form -->
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
+                        <li>@Html.ActionLink("NEUE ZEITERFASSUNG", "Create", "Neuezeiterfassung")</li>
 
-                        <!--<li>@Html.ActionLink("Home", "Index", "Home")</li>-->
-                        <li><a href="Neuezeiterfassung"><i class="fa fa-link"></i><span>Neue Zeiterfassung</span></a></li>
-                        <li><a href="Neuezeiterfassung/List"><i class="fa fa-link"></i><span>Übersicht der Zeiterfassungen</span></a></li>
-                        <li><a href="Mitarbeiter"><i class="fa fa-link"></i><span>Mitarbeiter</span></a></li>
-                        <li><a href="Fertigungsteil"><i class="fa fa-link"></i><span>Fertigungsteileliste</span></a></li>
-                        <li><a href="Schichinfo"><i class="fa fa-link"></i><span>SchichtInfo</span></a></li>
-                        <li><a href="Produktionsanlage"><i class="fa fa-link"></i><span>ProduktionsanlageListe</span></a></li>
-
+                        <li><a></a></li>
+                        <li>@Html.ActionLink("Zeiterfassungen - Mitarbeiter", "Index", "MitarbeiterInSchicht")</li>
+                        <li>@Html.ActionLink("Zeiterfassungen - Schichten", "Index", "SchichtInfo")</li>
+                        <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
+                        <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
+                        <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
                     </ul>
                     <!-- /.sidebar-menu -->
                 </section>
                 <!-- /.sidebar -->
             </aside>
-
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
 

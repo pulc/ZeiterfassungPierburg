@@ -62,8 +62,6 @@ namespace ZeiterfassungPierburg.Data
             {
                 return PropertyMappingInfo.DefaultToStringFunction;
             }
-
-            
         }
 
         /*

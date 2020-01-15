@@ -53,6 +53,12 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
+        public string Bemerkung
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
+
         /* Administrativ */
         public bool IstInSAPEingetragen
         {

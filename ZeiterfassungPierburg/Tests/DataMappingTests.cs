@@ -13,6 +13,7 @@ namespace ZeiterfassungPierburg.Tests
     [TestClass]
     public class SchichtInfoDataMappingTest
     {
+        /*
         SchichtInfo si;
         DataMapper<SchichtInfo> dmSi;
         [TestInitialize]
@@ -27,6 +28,7 @@ namespace ZeiterfassungPierburg.Tests
             };
             dmSi = new DataMapper<SchichtInfo>("SchichtInfo");
         }
+        */
     }
 
     [TestClass]
@@ -56,6 +58,9 @@ namespace ZeiterfassungPierburg.Tests
         [TestMethod]
         public void InsertCommandIsValid()
         {
+
+            Mitarbeiter n = new Mitarbeiter();
+
             Mitarbeiter m = new Mitarbeiter()
             {
                 Nachname = "Schmidt",

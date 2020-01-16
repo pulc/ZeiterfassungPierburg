@@ -76,11 +76,15 @@
                     <!-- /.search form -->
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
-                        <li>@Html.ActionLink("NEUE ZEITERFASSUNG", "Create", "Neuezeiterfassung")</li>
+                        <li>@Html.ActionLink("NEUE ERFASSUNG", "Create", "Neuezeiterfassung")</li>
+                        <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
 
-                        <li><a></a></li>
-                        <li>@Html.ActionLink("Zeiterfassungen - Mitarbeiter", "Index", "MitarbeiterInSchicht")</li>
-                        <li>@Html.ActionLink("Zeiterfassungen - Schichten", "Index", "SchichtInfo")</li>
+                        _____________________________
+
+                        <li>@Html.ActionLink("Übersichet der Schichten", "Index", "MitarbeiterInSchicht")</li>
+                        <li>@Html.ActionLink("Übersicht - Meba", "IndexMEBA", "MitarbeiterInSchicht")</li>
+                        _____________________________
+                        <li>@Html.ActionLink("Schichten", "Index", "SchichtInfo")</li>
                         <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
                         <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
                         <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>

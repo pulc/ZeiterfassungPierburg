@@ -207,6 +207,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\NeueZeiterfassung\NeueZeiterfassungDBHandler.cs" />
+    <Compile Include="Models\NeueZeiterfassung\NeueZeiterfassungMEBA.cs" />
     <Compile Include="Models\Users\AccountViewModels.cs" />
     <Compile Include="Models\Produktion\Fertigungsteil.cs" />
     <Compile Include="Models\Users\IdentityModels.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Content\dist\css\skins\_all-skins.css" />
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
     <Content Include="Content\dist\img\default-50x50.gif" />
+    <Content Include="Content\dist\img\excel_icon.png" />
     <Content Include="Content\dist\js\adminlte.js" />
     <Content Include="Content\dist\js\adminlte.min.js" />
     <Content Include="Content\dist\js\demo.js" />
@@ -350,6 +352,7 @@
     <Content Include="Views\MitarbeiterInSchicht\Indexx.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\Index.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\IndexMEBA.cshtml" />
+    <Content Include="Views\NeueZeiterfassung\CreateMEBA.cshtml" />
     <None Include="Web.DebugMartin.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

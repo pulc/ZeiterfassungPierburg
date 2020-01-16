@@ -21,13 +21,20 @@ namespace ZeiterfassungPierburg.Data
         }
 
         // dictionary methods for dropdown lists
-        public Dictionary<int,string> GetDictionary(string tableName, string labelString)
+        public Dictionary<int,string> GetDictionary(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
 
             using (SqlConnection conn = NewOpenConnection)
             {
-                string sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
+                string sql;
+
+                if (where != null)
+                { 
+                sql = $"SELECT Id, {labelString} As Label FROM {tableName} WHERE {where}";
+                }
+                else sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
+
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
                 {

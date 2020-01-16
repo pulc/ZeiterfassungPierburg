@@ -13,7 +13,7 @@ namespace ZeiterfassungPierburg.Tests
         [TestMethod]
         public void DictionariesWorkFine()
         {
-            var d = SQLServer.Instance.GetDictionary("Fertigungsteil", "Bezeichnung");
+            var d = SQLServer.Instance.GetDictionary("Fertigungsteil", "Bezeichnung", null);
             foreach (var x in d.Keys)
             {
                 Console.WriteLine($"{x}: {d[x]}");

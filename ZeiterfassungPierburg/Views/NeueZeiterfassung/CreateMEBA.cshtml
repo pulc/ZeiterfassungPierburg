@@ -1,4 +1,4 @@
-﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
+﻿@model ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA.NeuezeiterfassungMEBA
 
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
@@ -29,7 +29,7 @@
                             <tr>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new { @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Produktionsanlage -", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
                                     </div>
                                 </td>
@@ -194,7 +194,7 @@
 
 
 
-  
+
 
         /*
         nameNew.setAttribute("name", "name" + currentIndex);

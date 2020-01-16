@@ -7,6 +7,7 @@ using System.Web.Mvc.Html;
 using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models;
 using ZeiterfassungPierburg.Models.NeueZeiterfassung;
+using ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA;
 
 namespace ZeiterfassungPierburg.Controllers.ModelControllers
 {
@@ -31,6 +32,27 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         {
             ModelState.Clear();
             var model = new NeueZeiterfassung();
+            model.Datum = DateTime.Today;
+
+            var date = DateTime.Now;
+            if (date.Hour >= 22 || date.Hour <= 6)
+            {
+                model.Schicht = 3;
+            }
+            else if (date.Hour >= 14 && date.Hour <= 22)
+            {
+                model.Schicht = 2;
+            }
+            else if (date.Hour >= 6 && date.Hour <= 14)
+            {
+                model.Schicht = 1;
+            }
+            return View(model);
+        }
+        public ActionResult CreateMEBA()
+        {
+            ModelState.Clear();
+            var model = new NeuezeiterfassungMEBA();
             model.Datum = DateTime.Today;
 
             var date = DateTime.Now;
@@ -150,7 +172,104 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
                             "\nDer ausführliche Grund: " + e.Message;
 
-                       return View("Create", model);
+                       return View();
+                    }
+                default:
+                    throw new Exception();
+            }
+        }
+
+
+
+        [HttpPost]
+        public ActionResult CreateMEBA(string submit, NeuezeiterfassungMEBA model, FormCollection col)
+        {
+            ViewBag.Message = "";
+            List<int> InsertedID = new List<int>();
+
+
+
+            switch (submit)
+            {
+                case "addMitarbeiter":
+                    return AddMitarbeiterHTML();
+
+                case "Abschicken":
+
+                    try
+                    {
+                        SchichtInfo s = new SchichtInfo()
+                        {
+                            Datum = model.Datum,
+                            Art = model.Schicht
+                        };
+                        int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
+                        int ProduktionsanlageID = model.Produktionsanlage;
+                        List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
+
+                        var date = DateTime.Now;
+                        // truncate seconds and miliseconds
+                        date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
+
+                        // Create the first Mitarbeiter model
+                        MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
+                        {
+                            SchichtInfoID = SchichtInfoID,
+                            FertigungsteilID = model.Fertigungsteil,
+                            MitarbeiterID = model.Name,
+                            DirStunden = model.DirZeit,
+                            InDirStunden = model.InDirZeit,
+                            Stück = model.Stückzahl,
+                            ProduktionsanlageID = ProduktionsanlageID,
+                            ErstelltAm = date,
+                            Bemerkung = model.Bemerkung
+
+
+                        };
+                        MitarbeiterInSchichtList.Add(m);
+
+                        Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
+
+                        int MitarbeiterToAdd = (col.Count - 11) / 6; //Count how many additionaly Mitarbeiter model there are
+
+                        if (MitarbeiterToAdd != 0)
+                        {
+                            for (int i = 1; i <= MitarbeiterToAdd; i++)
+                            {
+                                MitarbeiterInSchicht n = new MitarbeiterInSchicht()
+                                {
+                                    SchichtInfoID = SchichtInfoID,
+                                    FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
+                                    MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
+                                    DirStunden = float.Parse(Request.Form["dirzeit" + i]),
+                                    InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
+                                    Stück = Int32.Parse(Request.Form["st" + i]),
+                                    ProduktionsanlageID = ProduktionsanlageID,
+                                    ErstelltAm = date,
+                                    Bemerkung = Request.Form["bemerkung" + i]
+                                };
+                                MitarbeiterInSchichtList.Add(n);
+                            }
+                        }
+                        // add all models into the DB
+                        foreach (var n in MitarbeiterInSchichtList)
+                        {
+                            InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
+                        }
+                        ViewBag.Message = MitarbeiterInSchichtList.Count + " Mitarbeiter erfasst";
+                        return CreateMEBA();
+                    }
+                    catch (Exception e)
+                    {
+                        // delete added models (if any)
+                        foreach (var id in InsertedID)
+                        {
+                            SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                        }
+                        ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
+                            "\nDer ausführliche Grund: " + e.Message;
+
+                        return View();
                     }
                 default:
                     throw new Exception();

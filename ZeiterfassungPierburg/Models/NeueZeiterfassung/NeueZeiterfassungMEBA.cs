@@ -7,10 +7,10 @@ using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using Dapper.Contrib.Extensions;
 
-namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
+namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
 {
-    [Table("Neuezeiterfassung")]
-    public class NeueZeiterfassung
+    [Table("NeuezeiterfassungMEBA")]
+    public class NeuezeiterfassungMEBA
     {
         [Required]
         [DataType(DataType.Date)]
@@ -21,11 +21,11 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 
         public int Schicht { get; set; }
 
-        [Display(Name = "Produktionsanlage")]
-        public IEnumerable<SelectListItem> ProduktionsanlageList
+        [Display(Name = "Maschine")]
+        public IEnumerable<SelectListItem> MaschinenListList
         {
-            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", null)
-                    .Select(s=>new SelectListItem()
+            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'true'")
+                    .Select(s => new SelectListItem()
                     {
                         Text = s.Value,
                         Value = s.Key.ToString()
@@ -79,10 +79,11 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
         public float InDirZeit { get; set; }
 
+        [Display(Name = "Maschine")]
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage { get; set; }
 
-        [MaxLength(99)] 
+        [MaxLength(99)]
         public string Bemerkung { get; set; }
 
     }

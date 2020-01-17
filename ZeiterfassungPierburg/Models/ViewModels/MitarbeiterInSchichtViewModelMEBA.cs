@@ -17,6 +17,7 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
         [Display(Name="Schicht")]
         public int Art{ get; set; }
 
+        [Display(Name = "Maschine")]
         public string Anlage { get; set; }
 
         public string Name { get; set; }

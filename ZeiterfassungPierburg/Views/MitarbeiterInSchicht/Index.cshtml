@@ -6,7 +6,7 @@
             <div class="box-header with-border">
                 <h3>Übersicht der Mitarbeiter in Schichten</h3>
 
-                <div class="col-lg-12" style="padding-bottom: 25px;">
+                <div class="col-lg-12" style="padding-bottom: 25px; padding-top: 5px">
                     <div class="col-md-2">
                         <label>Einträge von:</label>
                         <input class="form-control text-box single-line" id="min" name="Datum" type="date">
@@ -15,6 +15,16 @@
                         <label>Einträge bis:</label>
 
                         <input class="form-control text-box single-line" id="max" name="Datum" type="date">
+                    </div>
+                    <div class="mt-2 col-md-2">
+                        <label>Wähle die Schicht aus:</label>
+
+                        <select class="form-control text-box single-line" id="schicht">
+                            <option value="">alle Schichten</option>
+                            <option value="1">Früh</option>
+                            <option value="2">Spät</option>
+                            <option value="3">Nacht</option>
+                        </select>
                     </div>
                 </div>
 
@@ -113,7 +123,7 @@
 
                 <img id="btnExport" class="pull-left btn btn-default" onclick="fnExcelReport();" src="~/Content/dist/img/excel_icon.png" />
 
-                @Html.ActionLink("Neue Zeiterfassung hinzufügen", "Create", "NeueZeiterfassung",  new { @class = "pull-right btn btn-default", @type = "button", })
+                @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
             </div>
         </div>
     </div>
@@ -131,45 +141,34 @@
             result.setDate(result.getDate() + days);
             return result;
         }
-        /*
-        Date.prototype.toShortFormat = function () {
-
-            var month_names = ["Jan", "Feb", "Mar",
-                "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep",
-                "Oct", "Nov", "Dec"];
-
-            var day = this.getDate();
-            var month_index = this.getMonth();
-            var year = this.getFullYear();
-
-            return "" + day + "-" + month_names[month_index] + "-" + year;
-        }
-        */
-
-        // Now any Date object can be declared 
         var today = new Date();
 
-        /* Custom filtering function which will search data in column four between two values */
-
-        
-        
         jQuery.fn.dataTableExt.afnFiltering.push(
             function (oSettings, aData, iDataIndex) {
                 var iColumn = 0;
-                
+                var schichtColumn = 1;
+
+
                 // document.getElementById('min').value = today; //z.B. 'Thu Jan 16 2020 17:31:26 GMT+0100 (W. Europe Standard Time)'
                 //document.getElementById('max').value = today;
-                
+
 
                 var iMin = Date.parse(document.getElementById('min').value);
                 var iMax = Date.parse(document.getElementById('max').value);
 
 
                 var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]).substring(0, 9);
+
+                var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
+
+
+                //console.log(schichtColumn);
+                //console.log(schichtColumn);
+                var schicht = $(document.getElementById('schicht')).children("option:selected").val();
+
                 iVersion = Date.parse(iVersion);
 
-    
+
                 /*
                 if (iMin === "" && iMax === "") {
                     return true;
@@ -180,20 +179,21 @@
                 else if (iMin <= iVersion && "" === iMax) {
                     return true;
                 }
-                
+
                 if (iMin <= iVersion && iVersion <= iMax) {
                     return true;
                 }
                 return false;
                 */
+                
+                if ((iMin > addDays(iVersion, 1) || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
 
-                if (iMin > addDays(iVersion, 1) || iVersion > iMax) {
                     return false;
                 }
                 else return true;
             }
         );
-        
+
 
         $(document).ready(function () {
 
@@ -203,15 +203,10 @@
 
             var table = $('#myTable').DataTable();
 
-            $('#min, #max').change(function () {
+            $('#min, #max, #schicht').change(function () {
                 table.draw();
             });
-
-
-
         });
-
-
         function fnExcelReport() {
             var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
             var textRange; var j = 0;
@@ -242,6 +237,9 @@
                 sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
             return (sa);
         }
+
+
+    </script>
 
 
     </script>

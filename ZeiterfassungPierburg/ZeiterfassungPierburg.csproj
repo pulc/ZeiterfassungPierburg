@@ -197,7 +197,6 @@
     <Compile Include="Controllers\ModelControllers\NeueZeiterfassungController.cs" />
     <Compile Include="Controllers\ModelControllers\ProduktionsanlageController.cs" />
     <Compile Include="Controllers\ModelControllers\SchichtInfoController.cs" />
-    <Compile Include="Data\ControllerHelper.cs" />
     <Compile Include="Data\DataAttributes.cs" />
     <Compile Include="Data\DataMapper.cs" />
     <Compile Include="Data\PropertyMappingInfo.cs" />
@@ -206,7 +205,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\NeueZeiterfassung\NeueZeiterfassungDBHandler.cs" />
     <Compile Include="Models\NeueZeiterfassung\NeueZeiterfassungMEBA.cs" />
     <Compile Include="Models\Users\AccountViewModels.cs" />
     <Compile Include="Models\Produktion\Fertigungsteil.cs" />
@@ -216,6 +214,7 @@
     <Compile Include="Models\MitarbeiterInSchicht.cs" />
     <Compile Include="Models\Produktion\Produktionsanlage.cs" />
     <Compile Include="Models\SchichtInfo.cs" />
+    <Compile Include="Models\ViewModels\Dashboard.cs" />
     <Compile Include="Models\ViewModels\MitarbeiterInSchichtViewModelMEBA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -268,6 +267,7 @@
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
     <Content Include="Content\dist\img\default-50x50.gif" />
     <Content Include="Content\dist\img\excel_icon.png" />
+    <Content Include="Content\dist\img\pierburg_logo.png" />
     <Content Include="Content\dist\js\adminlte.js" />
     <Content Include="Content\dist\js\adminlte.min.js" />
     <Content Include="Content\dist\js\demo.js" />
@@ -346,9 +346,7 @@
     <Content Include="Views\Produktionsanlage\Edit.cshtml" />
     <Content Include="Views\Schichtinfo\Index.cshtml" />
     <Content Include="Views\Schichtinfo\Create.cshtml" />
-    <Content Include="Views\NeueZeiterfassung\MEBA.cshtml" />
     <Content Include="Views\NeueZeiterfassung\Create.cshtml" />
-    <Content Include="Views\NeueZeiterfassung\CreatePartial.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\Indexx.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\Index.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\IndexMEBA.cshtml" />
@@ -376,6 +374,7 @@
   <ItemGroup>
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Create\" />
+    <Folder Include="Views\Dashboard\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

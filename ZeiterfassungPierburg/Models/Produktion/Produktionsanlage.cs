@@ -31,9 +31,9 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<int>();
             set => SetValue(value);
         }
-        public String Bezeichner
+        public string Bezeichner
         {
-            get => GetValue<String>();
+            get => GetValue<string>();
             set => SetValue(value);
         }
 

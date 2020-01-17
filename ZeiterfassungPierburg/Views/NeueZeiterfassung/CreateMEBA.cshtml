@@ -141,6 +141,8 @@
                         </div>
                         @Html.Label("", (string)ViewBag.Message)
                     </div>
+                    @Html.ActionLink("Zur Übersicht - MEBA", "IndexMEBA", "MitarbeiterInSchicht")
+
                 </div>
                 <!-- /.box -->
             </div>
@@ -148,9 +150,6 @@
     </section>
     <!-- /.content -->
 }
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

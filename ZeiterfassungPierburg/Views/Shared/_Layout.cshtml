@@ -12,6 +12,7 @@
 
     <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+
 </head>
 
 <body>
@@ -22,18 +23,19 @@
             <header class="main-header">
 
                 <!-- Logo -->
-                <a href="" class="logo">
+                <a href="~/" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>P</b>BG</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Zeiterfassung</b>Pierburg</span>
+                    <span class="logo-lg"><b><img height="150" width="150" src="~/Content/dist/img/pierburg_logo.png"/></b></span>
                 </a>
 
                 <!-- Header Navbar -->
                 <nav class="navbar navbar-static-top" role="navigation">
                     <!-- Sidebar toggle button-->
-                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" <span>></span>
-                        <span class="sr-only">Toggle navigation</span>
+                    <a class="sidebar-toggle" data-toggle="push-menu"  
+                        <span class="sr-only"></span>
+
                     </a>
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
@@ -48,18 +50,11 @@
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                     <span class="hidden-xs">Max Mustermann</span>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <!-- The user image in the menu -->
-                                    <li class="user-header">
-                                        <img src="~/Content/dist/img/default-50x50.gif" class="img-circle" alt="User Image">
-                                    </li>
-                                    <!-- Menu Body -->
-                                    <!-- Menu Footer-->
-                                </ul>
+
                             </li>
                             <!-- Control Sidebar Toggle Button -->
                             <li>
-                                <a href="#" class="btn btn-default btn-flat">Abmelden</a>
+                                <a href="#" class="dropdown-toggle">Abmelden</a>
                             </li>
                         </ul>
                     </div>
@@ -71,26 +66,24 @@
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
 
-
                     <!-- search form (Optional) -->
                     <!-- /.search form -->
                     <!-- Sidebar Menu -->
                     <ul class="sidebar-menu" data-widget="tree">
                         <li>@Html.ActionLink("NEUE ERFASSUNG", "Create", "Neuezeiterfassung")</li>
                         <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
-
                         _____________________________
 
-                        <li>@Html.ActionLink("Übersichet der Schichten", "Index", "MitarbeiterInSchicht")</li>
-                        <li>@Html.ActionLink("Übersicht - Meba", "IndexMEBA", "MitarbeiterInSchicht")</li>
+                        <li>@Html.ActionLink("Übersicht der Schichten", "Index", "MitarbeiterInSchicht")</li>
+                        <li>@Html.ActionLink("Übersicht - MEBA  ", "IndexMEBA", "MitarbeiterInSchicht")</li>
                         _____________________________
-                        <li>@Html.ActionLink("Schichten", "Index", "SchichtInfo")</li>
+                        <!--<li> <li>@Html.ActionLink("Schichten", "Index", "SchichtInfo")</li>-->
                         <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
                         <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
                         <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
                     </ul>
-                    <!-- /.sidebar-menu -->
-                </section>
+    <!-- /.sidebar-menu -->
+</section>
                 <!-- /.sidebar -->
             </aside>
             <!-- Content Wrapper. Contains page content -->

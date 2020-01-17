@@ -71,7 +71,7 @@ namespace ZeiterfassungPierburg.Models
         }
 
         [Computed]
-        [Display(Name = "Beschäftigungsartt")]
+        [Display(Name = "Beschäftigungsart")]
         public IEnumerable<SelectListItem> BeschäftigungsartList { get; set; } = new List<SelectListItem>()
         {
         new SelectListItem{ Text="Extern", Value="ext"},

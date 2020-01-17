@@ -12,6 +12,7 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
     {
         public DateTime Datum { get; set; }
 
+        [Display(Name="Schicht")]
         public int Art{ get; set; }
 
         public string Anlage { get; set; }

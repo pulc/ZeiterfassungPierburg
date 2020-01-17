@@ -92,13 +92,15 @@ f.ZeichenNr
       ,t.DirStunden
       ,t.InDirStunden
       ,t.IstInSAPEingetragen
+
+	  ,Bemerkung
       ,t.ErstelltAm
   FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID 
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
-LEFT OUTER JOIN Fertigungsteil f  ON t.SchichtInfoID = f.ID 
-where p.IstEineMaschine = 'true'
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID 
+
 ";
                 return c.Query<T>(sql).ToList();
 
@@ -124,13 +126,15 @@ f.ZeichenNr
       ,t.DirStunden
       ,t.InDirStunden
       ,t.IstInSAPEingetragen
+
+	  ,Bemerkung
       ,t.ErstelltAm
   FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID 
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
-LEFT OUTER JOIN Fertigungsteil f  ON t.SchichtInfoID = f.ID 
-where p.IstEineMaschine = 'false'
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID 
+
 ";
                 return c.Query<T>(sql).ToList();
 
@@ -219,23 +223,42 @@ where p.IstEineMaschine = 'false'
             return Convert.ToInt32(result);
         }
 
-        // for quick testing of SQL commands
-        public static void RunSqlCommand(String cmmd)
+
+
+        public IEnumerable<T> StückeMinusOneDay<T>()
         {
-            SqlConnection cnn;
+            using (var c = NewOpenConnection)
+            {
+                string sql = @" select sum(Stück) as StückeMinusOneDay
+  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
+where Datum BETWEEN DATEADD(day, -2, GETDATE()) AND DATEADD(day, -1, GETDATE())
+";
+                return c.Query<T>(sql).ToList();
 
-            cnn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-            cnn.Open();
-            SqlCommand command;
-            SqlDataReader dataReader;
-
-            command = new SqlCommand(cmmd, cnn);
-            dataReader = command.ExecuteReader();
-
-            dataReader.Close();
-            cnn.Close();
+            }
         }
+        // dictionary methods for dropdown lists
+        public int GetNumber(string command)
+        {
+            int result = 0;
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql;
 
+                sql = command;
+                
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+
+                // TO DO: Nullbehandlung
+                while (r.Read())
+                {
+                    result = r.GetInt32(0);
+                }
+                
+            }
+            return result;
+        }
 
     }
 }

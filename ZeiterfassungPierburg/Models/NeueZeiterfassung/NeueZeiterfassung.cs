@@ -24,7 +24,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Display(Name = "Produktionsanlage")]
         public IEnumerable<SelectListItem> ProduktionsanlageList
         {
-            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", null)
+            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'false'")
                     .Select(s=>new SelectListItem()
                     {
                         Text = s.Value,

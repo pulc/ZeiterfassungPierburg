@@ -14,6 +14,8 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Produktionsanlage
         public ActionResult Index()
         {
+            ViewBag.ProduktionsanlageMessage = TempData["Message"];
+
             var results = SQLServer.Instance.GetItems<Produktionsanlage>();
 
             return View(results);
@@ -26,70 +28,63 @@ namespace ZeiterfassungPierburg.Controllers
             if (results.Count() != 1)
             {
                 // todo: implement proper error message to be displayed
-                return HttpNotFound("Der Produktionsanlage wurde nicht gefunden.");
+                return HttpNotFound("Die Produktionsanlage wurde nicht gefunden.");
             }
             else
                 return View(results.First());
         }
 
+
         // GET: Produktionsanlage/Create
         public ActionResult Create()
         {
-            return View();
+            Produktionsanlage m = new Produktionsanlage();
+            return View(m);
         }
-
 
         [HttpPost]
         public ActionResult Create(Produktionsanlage m)
         {
             try
             {
-                SQLServer.Instance.InsertItem(m);
+                SQLServer.Instance.InsertItem<Produktionsanlage>(m);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
 
+                ViewBag.ProduktionsanlageMessage = "Es ist ein Fehler aufgetreten. Kein Produktionsanlage wurde hinzugefügt. Grund: " + e;
+                return View(m);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Produktionsanlage m)
+        {
+            try
+            {
+                SQLServer.Instance.EditItem<Produktionsanlage>(m);
                 return RedirectToAction("Index");
             }
             catch (Exception)
             {
-                return View();
+                return View(m);
             }
         }
-        /*
-        // POST: Produktionsanlage/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                Dictionary<string, string> form = collection.AllKeys.ToDictionary(k => k, v => collection[v]);
-                form.Remove("__RequestVerificationToken");
-                //bool:_ true,false
-                Produktionsanlage m = new Produktionsanlage();
-
-                foreach (KeyValuePair<string, string> entry in form)
-                {
-                    m.SetValue(entry.Value, entry.Key);
-                }
-                SQLServer.RunSqlCommand(new DataMapper<Produktionsanlage>("Produktionsanlage").GetInsertSqlString(m));
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception t)
-            {
-                return View();
-            }
-        }
-        */
-        // POST: Produktionsanlage/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            return View();
-        }
-
         // GET: Produktionsanlage/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                SQLServer.Instance.RemoveItem<Produktionsanlage>(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                TempData["Message"] = "Die Produktionsanlage konnte nicht gelöscht werden.";
+                //return Index();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

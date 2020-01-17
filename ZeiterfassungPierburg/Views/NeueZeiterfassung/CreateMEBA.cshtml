@@ -14,9 +14,7 @@
                     <table class="table no-margin">
                         <thead>
                             <tr>
-                                <th>
-                                    @Html.LabelFor(model => model.Produktionsanlage)
-                                </th>
+
                                 <th>
                                     @Html.LabelFor(model => model.Datum)
                                 </th>
@@ -27,13 +25,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Produktionsanlage -", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
-                                    </div>
-                                </td>
+                                
 
+                                
                                 <td>
                                     <div class="form-group">
                                         @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
@@ -60,6 +54,9 @@
                                     @Html.LabelFor(model => model.Name)
                                 </th>
                                 <th>
+                                    @Html.LabelFor(model => model.Produktionsanlage)
+                                </th>
+                                <th>
                                     @Html.LabelFor(model => model.Fertigungsteil)
                                 </th>
                                 <th>
@@ -81,6 +78,11 @@
                                 <td>
                                     @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "Name", @name = "name0" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Produktionsanlage -", new { @id = "panlage", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
+                                
                                 </td>
                                 <td>
                                     @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle Fertigungsteil -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
@@ -191,7 +193,8 @@
         //indirzeit.setAttribute("name", "indirzeit0");
         var bemerkung = document.getElementById('bemerkung');
 
-
+        //indirzeit.setAttribute("name", "indirzeit0");
+        var panlage = document.getElementById('panlage');
 
 
 
@@ -207,6 +210,9 @@
 
         var nameNew = name.cloneNode(true);
         nameNew.setAttribute("name", "name" + currentIndex);
+
+        var panlageNew = panlage.cloneNode(true);
+        panlageNew.setAttribute("name", "panlage" + currentIndex);
 
         var fteilNew = fteil.cloneNode(true);
         fteilNew.setAttribute("name", "fteil" + currentIndex);
@@ -253,6 +259,9 @@
         */
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(nameNew);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(panlageNew);
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(fteilNew);

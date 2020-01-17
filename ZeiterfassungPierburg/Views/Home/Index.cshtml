@@ -14,7 +14,6 @@
 
 <section class="content">
 
-
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-3 col-xs-6">
@@ -41,8 +40,6 @@
                         @ViewBag.Produktionsanlagen
                     </h3>
                     <p>Produktionsanlagen</p>
-
-
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -85,51 +82,25 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <div class="box-footer text-black">
-                <h4>Produktivität</h4>
+                <h4>Stücke hergestellt letzte Woche:</h4>
 
                 <div class="row">
-                    <div class="col-sm-6">
-                        <!-- Progress bars -->
+                    <div class="col-sm-8">
                         <div class="clearfix">
-                            <span class="pull-left">Band #1</span>
-                            <small class="pull-right">90%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                        </div>
-
-                        <div class="clearfix">
-                            <span class="pull-left">Band #2</span>
-                            <small class="pull-right">70%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
+                            <span class="pull-left"><h3> @ViewBag.StückeWoche </h3></span>
+                            <!-- /.col -->
                         </div>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-sm-6">
-
-                        <div class="clearfix">
-                            <span class="pull-left">Band #3</span>
-                            <small class="pull-right">60%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                        </div>
-
-                        <div class="clearfix">
-                            <span class="pull-left">Band #4</span>
-                            <small class="pull-right">40%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                        </div>
                     </div>
-                    <!-- /.col -->
                 </div>
-            </div>
-            </div>
-
         </div>
+        <!-- ./col -->
+
+        
+        
+
+    </div>
+
+
 </section>
 

@@ -100,7 +100,7 @@ LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID 
-
+where p.IstEineMaschine = 'True'
 ";
                 return c.Query<T>(sql).ToList();
 
@@ -135,7 +135,7 @@ LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID 
-
+where p.IstEineMaschine = 'False'
 ";
                 return c.Query<T>(sql).ToList();
 

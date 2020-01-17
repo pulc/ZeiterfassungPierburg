@@ -14,7 +14,10 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Fertigungsteil
         public ActionResult Index()
         {
+            ViewBag.FertigungsteilMessage = TempData["Message"];
+
             var results = SQLServer.Instance.GetItems<Fertigungsteil>();
+
             return View(results);
         }
 
@@ -31,11 +34,14 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(results.First());
         }
 
-        // GET: Fertigungsteil/Create
+
+        // GET: Produktionsanlage/Create
         public ActionResult Create()
         {
-            return View();
+            Fertigungsteil m = new Fertigungsteil();
+            return View(m);
         }
+
         [HttpPost]
         public ActionResult Create(Fertigungsteil m)
         {
@@ -44,9 +50,11 @@ namespace ZeiterfassungPierburg.Controllers
                 SQLServer.Instance.InsertItem<Fertigungsteil>(m);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+
+                ViewBag.FertigungsteilMessage = "Es ist ein Fehler aufgetreten. Kein Fertigungsteil wurde hinzugefügt. Grund: " + e;
+                return View(m);
             }
         }
 
@@ -60,7 +68,7 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch (Exception)
             {
-                return View();
+                return View(m);
             }
         }
         // GET: Fertigungsteil/Delete/5
@@ -73,7 +81,9 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch
             {
-                return View("~/Views/Shared/Error.cshtml");
+                TempData["Message"] = "Der Fertigungsteil konnte nicht gelöscht werden.";
+                //return Index();
+                return RedirectToAction("Index");
             }
         }
     }

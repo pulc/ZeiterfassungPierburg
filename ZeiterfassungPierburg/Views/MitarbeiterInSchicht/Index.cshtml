@@ -134,6 +134,17 @@
     @Styles.Render("~/bundles/tableStyleBundle")
     @Scripts.Render("~/bundles/tableScriptBundle")
 
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+
+
 
     <script>
         function addDays(date, days) {
@@ -145,6 +156,7 @@
 
         jQuery.fn.dataTableExt.afnFiltering.push(
             function (oSettings, aData, iDataIndex) {
+
                 var iColumn = 0;
                 var schichtColumn = 1;
 
@@ -158,6 +170,7 @@
 
 
                 var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]).substring(0, 9);
+
 
                 var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
 
@@ -185,7 +198,7 @@
                 }
                 return false;
                 */
-                
+
                 if ((iMin > addDays(iVersion, 1) || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
 
                     return false;
@@ -201,7 +214,13 @@
             //document.getElementById('min').value = '15-Jan-2020';
 
 
-            var table = $('#myTable').DataTable();
+            var table = $('#myTable').DataTable(
+                {
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+                } );
 
             $('#min, #max, #schicht').change(function () {
                 table.draw();
@@ -238,8 +257,6 @@
             return (sa);
         }
 
-
-    </script>
 
 
     </script>

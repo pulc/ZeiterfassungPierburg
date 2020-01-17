@@ -223,14 +223,12 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                             ProduktionsanlageID = ProduktionsanlageID,
                             ErstelltAm = date,
                             Bemerkung = model.Bemerkung
-
-
                         };
                         MitarbeiterInSchichtList.Add(m);
 
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
-                        int MitarbeiterToAdd = (col.Count - 11) / 6; //Count how many additionaly Mitarbeiter model there are
+                        int MitarbeiterToAdd = (col.Count - 11) / 7; //Count how many additionaly Mitarbeiter model there are
 
                         if (MitarbeiterToAdd != 0)
                         {
@@ -244,7 +242,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                                     DirStunden = float.Parse(Request.Form["dirzeit" + i]),
                                     InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
                                     Stück = Int32.Parse(Request.Form["st" + i]),
-                                    ProduktionsanlageID = ProduktionsanlageID,
+                                    ProduktionsanlageID = Int32.Parse(Request.Form["panlage" + i]),
                                     ErstelltAm = date,
                                     Bemerkung = Request.Form["bemerkung" + i]
                                 };

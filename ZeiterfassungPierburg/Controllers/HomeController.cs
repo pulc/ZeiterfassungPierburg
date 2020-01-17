@@ -10,8 +10,6 @@ namespace ZeiterfassungPierburg.Controllers
 {
     public class HomeController : Controller
     {
-
-
         public ActionResult Index()
         {
             Dashboard d = new Dashboard();

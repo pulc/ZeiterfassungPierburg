@@ -12,12 +12,8 @@ namespace ZeiterfassungPierburg.Models.ViewModels
     [Table("Dashboard")]
     public class Dashboard: BasicModelObject
     {
-
-        
-
         string SelectMitarbiter = @"select count(ID) as MitarbeiterAnzahl
 from Mitarbeiter";
-
         string SelectProduktionsanlagen = @"select count(ID) as MitarbeiterAnzahl
 from Produktionsanlage";
         string SelectFertigungsteile = @"select count(ID) as MitarbeiterAnzahl

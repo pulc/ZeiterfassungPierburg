@@ -112,6 +112,7 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
             {
                 string sql = @" 
 SELECT 
+s.ID,
 s.Datum,
 s.Art,
 m.Nachname + ', ' + m.Vorname as Name,

@@ -14,6 +14,8 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: MitarbeiterInSchicht
         public ActionResult Index()
         {
+            ViewBag.Message = TempData["Message"];
+
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();
             return View(results);
         }
@@ -75,26 +77,20 @@ namespace ZeiterfassungPierburg.Controllers
             }
         }
 
-        // GET: MitarbeiterInSchicht/Delete/5
         public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: MitarbeiterInSchicht/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                TempData["Message"] = "Der Eintrag konnte nicht gelöscht werden.";
+                //return Index();
+                return RedirectToAction("Index");
             }
         }
+       
     }
 }

@@ -102,16 +102,18 @@
                                     @Html.DisplayFor(modelItem => item.Bemerkung)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    <!-- @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |-->
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
+                @ViewBag.Message
+
                 <img id="btnExport" class="pull-left btn btn-default" onclick="fnExcelReport();" src="~/Content/dist/img/excel_icon.png" />
-                @Html.ActionLink("Neue Zeiterfassung hinzufügen", "Create", null, new { @class = "pull-right btn btn-default", @type = "button", })
+
+                @Html.ActionLink("Neue Zeiterfassung hinzufügen", "Create", "NeueZeiterfassung",  new { @class = "pull-right btn btn-default", @type = "button", })
             </div>
         </div>
     </div>

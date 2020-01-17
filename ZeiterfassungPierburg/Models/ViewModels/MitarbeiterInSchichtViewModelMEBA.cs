@@ -10,6 +10,8 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
 {
     public class MitarbeiterInschichtViewModel
     {
+        public int ID { get; set; }
+        
         public DateTime Datum { get; set; }
 
         [Display(Name="Schicht")]

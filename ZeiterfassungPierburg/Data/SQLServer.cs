@@ -77,7 +77,8 @@ namespace ZeiterfassungPierburg.Data
             using (var c = NewOpenConnection)
             {
                 string sql = @" 
-SELECT 
+SELECT
+t.ID,
 s.Datum,
 s.Art,
 m.Nachname + ', ' + m.Vorname as Name,
@@ -112,7 +113,7 @@ where p.IstEineMaschine = 'True'
             {
                 string sql = @" 
 SELECT 
-s.ID,
+t.ID,
 s.Datum,
 s.Art,
 m.Nachname + ', ' + m.Vorname as Name,

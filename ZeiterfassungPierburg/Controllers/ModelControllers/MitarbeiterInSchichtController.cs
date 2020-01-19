@@ -84,9 +84,9 @@ namespace ZeiterfassungPierburg.Controllers
                 SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (InvalidCastException e)
             {
-                TempData["Message"] = "Der Eintrag konnte nicht gelöscht werden.";
+                TempData["Message"] = "Der Eintrag konnte nicht gelöscht werden. Der Grund:" +e;
                 //return Index();
                 return RedirectToAction("Index");
             }

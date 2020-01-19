@@ -267,6 +267,8 @@
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
     <Content Include="Content\dist\img\default-50x50.gif" />
     <Content Include="Content\dist\img\excel_icon.png" />
+    <Content Include="Content\dist\img\hamburger.png" />
+    <Content Include="Content\dist\img\hamburger_white.png" />
     <Content Include="Content\dist\img\pierburg_logo.png" />
     <Content Include="Content\dist\js\adminlte.js" />
     <Content Include="Content\dist\js\adminlte.min.js" />

@@ -89,8 +89,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
 
-
-
             switch (submit)
             {
                 case "addMitarbeiter":
@@ -172,7 +170,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
                             "\nDer ausführliche Grund: " + e.Message;
 
-                       return View();
+                       return View(model);
                     }
                 default:
                     throw new Exception();
@@ -267,7 +265,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
                             "\nDer ausführliche Grund: " + e.Message;
 
-                        return View();
+                        return View(model);
                     }
                 default:
                     throw new Exception();

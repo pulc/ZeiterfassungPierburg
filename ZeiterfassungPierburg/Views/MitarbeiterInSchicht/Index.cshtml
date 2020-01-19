@@ -156,7 +156,6 @@
 
         jQuery.fn.dataTableExt.afnFiltering.push(
             function (oSettings, aData, iDataIndex) {
-
                 var iColumn = 0;
                 var schichtColumn = 1;
 
@@ -169,43 +168,22 @@
                 var iMax = Date.parse(document.getElementById('max').value);
 
 
-                var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]).substring(0, 9);
+                var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
+                iVersion = Date.parse(iVersion);
+                console.log(iVersion);
 
 
                 var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
-
-
-                //console.log(schichtColumn);
-                //console.log(schichtColumn);
                 var schicht = $(document.getElementById('schicht')).children("option:selected").val();
 
-                iVersion = Date.parse(iVersion);
-
-
-                /*
-                if (iMin === "" && iMax === "") {
-                    return true;
-                }
-                else if (iMin === "" && iVersion <= iMax) {
-                    return true;
-                }
-                else if (iMin <= iVersion && "" === iMax) {
-                    return true;
-                }
-
-                if (iMin <= iVersion && iVersion <= iMax) {
-                    return true;
-                }
-                return false;
-                */
-
-                if ((iMin > addDays(iVersion, 1) || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
+                if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
 
                     return false;
                 }
                 else return true;
             }
         );
+
 
 
         $(document).ready(function () {

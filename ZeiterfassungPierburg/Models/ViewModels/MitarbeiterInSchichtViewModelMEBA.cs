@@ -11,7 +11,8 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
     public class MitarbeiterInschichtViewModel
     {
         public int ID { get; set; }
-        
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Datum { get; set; }
 
         [Display(Name="Schicht")]
@@ -21,8 +22,10 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
 
         public string Name { get; set; }
 
+        [Display(Name = "PNr")]
         public int Personalnummer { get; set; }
 
+        [Display(Name = "KST")]
         public int Kostenstelle { get; set; }
 
         public int SAPAPNr { get; set; }
@@ -33,6 +36,7 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
 
         public float DirStunden { get; set; }
 
+        [Display(Name = "SZ")]
         public float InDirStunden { get; set; }
 
         public string Bemerkung { get; set; }

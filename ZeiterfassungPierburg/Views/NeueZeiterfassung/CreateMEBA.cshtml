@@ -210,24 +210,33 @@
 
         var nameNew = name.cloneNode(true);
         nameNew.setAttribute("name", "name" + currentIndex);
+        nameNew.setAttribute("required", "true");
 
-        var panlageNew = panlage.cloneNode(true);
-        panlageNew.setAttribute("name", "panlage" + currentIndex);
 
         var fteilNew = fteil.cloneNode(true);
         fteilNew.setAttribute("name", "fteil" + currentIndex);
+        fteilNew.setAttribute("required", "true");
+
 
         var stNew = st.cloneNode(true);
         stNew.setAttribute("name", "st" + currentIndex);
+        stNew.setAttribute("required", "true");
+
 
         var dirzeitNew = dirzeit.cloneNode(true);
         dirzeitNew.setAttribute("name", "dirzeit" + currentIndex);
+        dirzeitNew.setAttribute("required", "true");
+        dirzeitNew.setAttribute("type", "number");
+
 
         var indirzeitNew = indirzeit.cloneNode(true);
         indirzeitNew.setAttribute("name", "indirzeit" + currentIndex);
+        indirzeitNew.setAttribute("required", "true");
+        indirzeitNew.setAttribute("type", "number");
 
         var bemerkungNew = bemerkung.cloneNode(true);
         bemerkungNew.setAttribute("name", "bemerkung" + currentIndex);
+
         /*
         var currentCell = currentRow.insertCell(-1);
         var e = document.createElement('div');

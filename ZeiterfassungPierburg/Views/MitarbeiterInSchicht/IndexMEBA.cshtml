@@ -122,7 +122,6 @@
                 <img id="btnExport" class="pull-left btn btn-default" onclick="fnExcelReport();" src="~/Content/dist/img/excel_icon.png" />
 @Html.ActionLink("Neue Zeiterfassung - MEBA", "CreateMEBA", "Neuezeiterfassung", null,  new { @class = "pull-right btn btn-default", @type = "button", });
 
-
             </div>
         </div>
     </div>
@@ -156,35 +155,15 @@
                 var iMax = Date.parse(document.getElementById('max').value);
 
 
-                var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]).substring(0, 9);
+                var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
+                iVersion = Date.parse(iVersion);
+                console.log(iVersion);
+
 
                 var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
-
-
-                //console.log(schichtColumn);
-                //console.log(schichtColumn);
                 var schicht = $(document.getElementById('schicht')).children("option:selected").val();
 
-                iVersion = Date.parse(iVersion);
-
-
-                /*
-                if (iMin === "" && iMax === "") {
-                    return true;
-                }
-                else if (iMin === "" && iVersion <= iMax) {
-                    return true;
-                }
-                else if (iMin <= iVersion && "" === iMax) {
-                    return true;
-                }
-
-                if (iMin <= iVersion && iVersion <= iMax) {
-                    return true;
-                }
-                return false;
-                */
-                if ((iMin > addDays(iVersion, 1) || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
+                if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
 
                     return false;
                 }
@@ -195,8 +174,11 @@
 
         $(document).ready(function () {
 
+
             console.log(document.getElementById('min').value);
-            //document.getElementById('min').value = '15-Jan-2020';
+            console.log(document.getElementById('max').value);
+
+           // document.getElementById('min').value = '2018-07-22';
 
 
             var table = $('#myTable').DataTable();
@@ -204,6 +186,8 @@
             $('#min, #max, #schicht').change(function () {
                 table.draw();
             });
+
+
         });
         function fnExcelReport() {
             var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";

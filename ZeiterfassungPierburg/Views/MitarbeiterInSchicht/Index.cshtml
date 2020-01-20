@@ -113,7 +113,7 @@
                             </td>
                             <td>
                                 <!-- @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |-->
-                                @Html.ActionLink("Löschen", "Delete", new { item.ID })
+                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Bist du sicher?');" })
                             </td>
                         </tr>
                         }

@@ -24,6 +24,5 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<string>();
             set => SetValue(value);
         }
-        
     }
 }

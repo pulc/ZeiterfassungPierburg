@@ -73,55 +73,54 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Datum)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Art)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Anlage)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Datum)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Art)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Anlage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Personalnummer)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Kostenstelle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SAPAPNr)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ZeichenNr)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Stück)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DirStunden)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InDirStunden)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Bemerkung)
-                            </td>
-                            <td>
-                                <!-- @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |-->
-                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Bist du sicher?');" })
-                            </td>
-                        </tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personalnummer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kostenstelle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SAPAPNr)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ZeichenNr)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stück)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DirStunden)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InDirStunden)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Bemerkung)
+                                </td>
+                                <td>
+                                    <!-- @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |-->
+                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Bist du sicher?');" })
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
                 @ViewBag.Message
 
-                <img id="btnExport" class="pull-left btn btn-default" onclick="fnExcelReport();" src="~/Content/dist/img/excel_icon.png" />
 
                 @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
             </div>

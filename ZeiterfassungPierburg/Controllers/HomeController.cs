@@ -14,10 +14,11 @@ namespace ZeiterfassungPierburg.Controllers
         {
             Dashboard d = new Dashboard();
             ViewBag.MitarbeiterAnzahl = d.MitarbeiterAnzahl;
+            /*
             ViewBag.StückeHeute = d.StückeHeute;
             ViewBag.StückeMinusOneDay = d.StückeMinusOneDay;
             ViewBag.StückeMinusTwoDays = d.StückeMinusTwoDays;
-
+            */
             ViewBag.Produktionsanlagen = d.Produktionsanlagen;
             ViewBag.Fertigungsteile = d.Fertigungsteile;
             ViewBag.StückeWoche = d.StückeWoche;

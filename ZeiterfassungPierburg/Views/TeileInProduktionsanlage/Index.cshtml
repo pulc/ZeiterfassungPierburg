@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModels.TeileInProduktionsanlageViewModel>
+
+
+<section class="content container-fluid">
+    <div class="box-header with-border">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3>Übersicht der Mitarbeiter*innen</h3>
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Produktionsanlage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fertigungsteil)
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Produktionsanlage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fertigungsteil)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <h4>@ViewBag.MitarbeiterMessage</h4>
+                @Html.ActionLink("Hinzufügen", "Create", null, new { @class = "pull-left btn btn-default", @type = "button", })
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    @Styles.Render("~/bundles/tableStyleBundle")
+    @Scripts.Render("~/bundles/tableScriptBundle")
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}
+

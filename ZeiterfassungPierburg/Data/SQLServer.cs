@@ -225,21 +225,6 @@ where p.IstEineMaschine = 'False'
             return Convert.ToInt32(result);
         }
 
-
-
-        public IEnumerable<T> StückeMinusOneDay<T>()
-        {
-            using (var c = NewOpenConnection)
-            {
-                string sql = @" select sum(Stück) as StückeMinusOneDay
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
-LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
-where Datum BETWEEN DATEADD(day, -2, GETDATE()) AND DATEADD(day, -1, GETDATE())
-";
-                return c.Query<T>(sql).ToList();
-
-            }
-        }
         // dictionary methods for dropdown lists
         public int GetNumber(string command)
         {
@@ -261,6 +246,23 @@ where Datum BETWEEN DATEADD(day, -2, GETDATE()) AND DATEADD(day, -1, GETDATE())
             }
             return result;
         }
+        public IEnumerable<T> GetTeileInProduktionsanlageView<T>()
+        {
+            using (var c = NewOpenConnection)
+            {
+                string sql = @" 
+select
+t.ID,
+p.Bezeichner as Produktionsanlage,
+f.Bezeichnung as Fertigungsteil
 
+from [zeiterfassung].[dbo].TeileInProduktionsanlage t
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID"
+;
+                return c.Query<T>(sql).ToList();
+
+            }
+        }
     }
 }

@@ -1,0 +1,141 @@
+﻿@model ZeiterfassungPierburg.Models.ViewModels.CreateTeileInProduktionsanlageViewModel
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
+{
+    @Html.AntiForgeryToken()
+    <section class="content container-fluid">
+        <div class="box box-info">
+            <h3>Teile zu einer Produktionsanlage hinzufügen</h3>
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table no-margin" id="mitarbeiterTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(model => model.Produktionsanlage)
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Fertigungsteil)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle eine Produktionsanlage aus-", new { @id = "panlage", @name = "panlage0", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle einen Fertigungsteil aus -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table" id="sendTable">
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <i name="submit" style="font-size: 35px; color:green; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px; " type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRow();"></i>
+                                                <i name="submit" style="font-size: 35px; color:red; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px;" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow();"></i>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div>
+                                                    <input id="sendButton" name="submit" style="font-size: 18px; box-shadow: 0 10px 15px -8px rgba(0, 0, 0,.7);" type="submit" value="Abschicken" class="pull-right btn btn-default" onlick="RefreshForm()" />
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                    @Html.Raw(ViewBag.NewMitarbeiter)
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        @Html.Label("", (string)ViewBag.Message)
+                        @Html.Label("", (string)ViewBag.ErrorMessage)
+
+                    </div>
+                    @Html.ActionLink("Zur Übersicht", "Index", "TeileInProduktionsanlage")
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script>
+        $(document).ready(function () {
+            $("#sendButton").hover(function () {
+                var validator = $("#frm").validate();
+                validator.form()
+            });
+        });
+
+        // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
+        function RefreshForm()
+        {
+        }
+
+    function AddRow() {
+       // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
+       // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
+
+        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+
+        var currentIndex = myTable.rows.length;
+        var currentRow = myTable.insertRow(-1);
+
+        var panlage = document.getElementById('panlage');
+        var fteil = document.getElementById('fteil');
+
+
+        var panlageNew = panlage.cloneNode(true);
+        panlageNew.setAttribute("name", "panlage" + currentIndex);
+        panlageNew.setAttribute("required", "true");
+
+        var fteilNew = fteil.cloneNode(true);
+        fteilNew.setAttribute("name", "fteil" + currentIndex);
+        fteilNew.setAttribute("required", "true");
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(panlageNew);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(fteilNew);
+        }
+
+    function RemoveRow() {
+        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+
+        var rowCount = myTable.rows.length;
+
+        if (rowCount != 1) {
+            myTable.deleteRow(rowCount - 1);
+        }
+        else alert('Du musst mindestens einen Fertigungsteil eingeben');
+        var rowCount = myTable.rows.length;
+        console.log(rowCount);
+        }
+    </script>
+}

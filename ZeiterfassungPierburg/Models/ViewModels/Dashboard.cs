@@ -58,13 +58,14 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
 
         public int Fertigungsteile { get => SQLServer.Instance.GetNumber(SelectFertigungsteile); }
 
+        /*
         public int StückeHeute { get; set; }
 
         public int StückeMinusOneDay { get => SQLServer.Instance.GetNumber(selectStückeMinusOneDay); }
 
         public int StückeMinusTwoDays { get => SQLServer.Instance.GetNumber(selectStückeMinusTwoDays);  }
 
-        /*public int StückeMinusThreeDays { get => SQLServer.Instance.GetNumber(selectStückeMinusThreeDays); }
+        public int StückeMinusThreeDays { get => SQLServer.Instance.GetNumber(selectStückeMinusThreeDays); }
 
         public int StückeMinusFourDays { get => SQLServer.Instance.GetNumber(selectStückeMinusFourDays); }
         */
@@ -72,11 +73,7 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
         public int StückeWoche { get => SQLServer.Instance.GetNumber(selectStückepastWeek); }
         public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetNumber(SelectZeiterfassungen); }
 
-
         //public int Stücke
-
-
-
 
     }
 }

@@ -84,6 +84,25 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         }
 
         [HttpPost]
+        public ActionResult getFertigungsteile(int ProduktionsanlageID)
+        {
+             IEnumerable<SelectListItem> FertigungteilList = 
+                SQLServer.Instance.GetDictionaryTest(@"[zeiterfassung].[dbo].TeileInProduktionsanlage t
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID", "Bezeichnung", "ProduktionsanlageID ="+ProduktionsanlageID)
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Value,
+                    Value = s.Key.ToString()
+                });
+            ViewBag.Message = ProduktionsanlageID;
+            return View();
+           // return Content(String.Join("", FertigungteilList));
+        }
+
+
+
+        [HttpPost]
         public ActionResult Create(string submit, NeueZeiterfassung model, FormCollection col)
         {
             ViewBag.Message = "";
@@ -107,16 +126,25 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
                         int ProduktionsanlageID = model.Produktionsanlage;
                         List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
-
+                        
                         var date = DateTime.Now;
                         // truncate seconds and miliseconds
                         date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0 , 0, date.Kind);
+
+
+                        string getNumber = @"select f.ID from 
+TeileInProduktionsanlage t
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
+where ProduktionsanlageID = " + ProduktionsanlageID;
+
+                        int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
 
                         // Create the first Mitarbeiter model
                         MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
                         {
                             SchichtInfoID = SchichtInfoID,
-                            FertigungsteilID = model.Fertigungsteil,
+                            FertigungsteilID = FertigungsTeilID,
                             MitarbeiterID = model.Name,
                             DirStunden = model.DirZeit,
                             InDirStunden = model.InDirZeit,
@@ -127,11 +155,12 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
 
                         };
+                       
                         MitarbeiterInSchichtList.Add(m);
-
+                         
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
-                        int MitarbeiterToAdd = (col.Count - 11) / 6; //Count how many additionaly Mitarbeiter model there are
+                        int MitarbeiterToAdd = (col.Count - 10) / 5; //Count how many additionaly Mitarbeiter model there are
 
                         if (MitarbeiterToAdd != 0)
                         {
@@ -140,7 +169,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                                 MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                                 {
                                     SchichtInfoID = SchichtInfoID,
-                                    FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
+                                    FertigungsteilID = FertigungsTeilID,
                                     MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
                                     DirStunden = float.Parse(Request.Form["dirzeit" + i]),
                                     InDirStunden = float.Parse(Request.Form["indirzeit" + i]),

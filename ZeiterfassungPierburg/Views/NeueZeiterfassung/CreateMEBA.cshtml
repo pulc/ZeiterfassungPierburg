@@ -14,7 +14,6 @@
                     <table class="table no-margin">
                         <thead>
                             <tr>
-
                                 <th>
                                     @Html.LabelFor(model => model.Datum)
                                 </th>
@@ -166,9 +165,17 @@
         });
 
         // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
-        function RefreshForm()
-        {
-        }
+        $('#panlage').change(function () {
+            $.ajax({
+                url: 'getFertigungsteile',
+                type: 'post',
+                data: {
+                    ProduktionsanlageID: $(document.getElementById('panlage')).children("option:selected").val()
+                }
+            }).done(function (response) {
+                $("test").html(response);
+            });
+        });
 
     function AddRow() {
        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
@@ -193,10 +200,7 @@
         //indirzeit.setAttribute("name", "indirzeit0");
         var bemerkung = document.getElementById('bemerkung');
 
-        //indirzeit.setAttribute("name", "indirzeit0");
         var panlage = document.getElementById('panlage');
-
-
 
         /*
         nameNew.setAttribute("name", "name" + currentIndex);
@@ -209,33 +213,43 @@
         */
 
         var nameNew = name.cloneNode(true);
+        nameNew.setAttribute("id", "name" + currentIndex);
         nameNew.setAttribute("name", "name" + currentIndex);
         nameNew.setAttribute("required", "true");
 
+        var panlageNew = panlage.cloneNode(true);
+        panlageNew.setAttribute("id", "panlage" + currentIndex);
+        panlageNew.setAttribute("name", "panlage" + currentIndex);
+        panlageNew.setAttribute("required", "true");
 
         var fteilNew = fteil.cloneNode(true);
         fteilNew.setAttribute("name", "fteil" + currentIndex);
+        fteilNew.setAttribute("id", "fteil" + currentIndex);
         fteilNew.setAttribute("required", "true");
 
 
         var stNew = st.cloneNode(true);
         stNew.setAttribute("name", "st" + currentIndex);
+        stNew.setAttribute("id", "st" + currentIndex);
         stNew.setAttribute("required", "true");
 
 
         var dirzeitNew = dirzeit.cloneNode(true);
         dirzeitNew.setAttribute("name", "dirzeit" + currentIndex);
+        dirzeitNew.setAttribute("id", "dirzeit" + currentIndex);
         dirzeitNew.setAttribute("required", "true");
         dirzeitNew.setAttribute("type", "number");
 
 
         var indirzeitNew = indirzeit.cloneNode(true);
         indirzeitNew.setAttribute("name", "indirzeit" + currentIndex);
+        indirzeitNew.setAttribute("id", "indirzeit" + currentIndex);
         indirzeitNew.setAttribute("required", "true");
         indirzeitNew.setAttribute("type", "number");
 
         var bemerkungNew = bemerkung.cloneNode(true);
         bemerkungNew.setAttribute("name", "bemerkung" + currentIndex);
+        bemerkungNew.setAttribute("id", "bemerkung" + currentIndex);
 
         /*
         var currentCell = currentRow.insertCell(-1);

@@ -24,5 +24,11 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<string>();
             set => SetValue(value);
         }
+        [Required(ErrorMessage = "Du musst noch die Bezeichnung eingeben.")]
+        public float teZEIT
+        {
+            get => GetValue<float>();
+            set => SetValue(value);
+        }
     }
 }

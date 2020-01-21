@@ -30,6 +30,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Fertigungsteil)
                                 </td>
+
                                 <td>
                                     @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
                                 </td>

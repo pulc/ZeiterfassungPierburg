@@ -30,9 +30,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         // GET: NeueZeiterfassung/Create
         public ActionResult Create()
         {
+            var lstCities = new SelectList(new[] { "City1", "City2", "City3" });
+            ViewBag.Cities = lstCities;
+
+
             ModelState.Clear();
             var model = new NeueZeiterfassung();
             model.Datum = DateTime.Today;
+
+            //ViewBag.FertigungsteileList = model.FertigungteilList;
 
             var date = DateTime.Now;
             if (date.Hour >= 22 || date.Hour <= 6)
@@ -82,24 +88,21 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             //return PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
             return View("Create", temp);
         }
-
-        [HttpPost]
-        public ActionResult getFertigungsteile(int ProduktionsanlageID)
+        public JsonResult FetchCities(int provinceId) // its a GET, not a POST
         {
-             IEnumerable<SelectListItem> FertigungteilList = 
-                SQLServer.Instance.GetDictionaryTest(@"[zeiterfassung].[dbo].TeileInProduktionsanlage t
-LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
-LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID", "Bezeichnung", "ProduktionsanlageID ="+ProduktionsanlageID)
-                .Select(s => new SelectListItem()
-                {
-                    Text = s.Value,
-                    Value = s.Key.ToString()
-                });
-            ViewBag.Message = ProduktionsanlageID;
-            return View();
-           // return Content(String.Join("", FertigungteilList));
-        }
+            List<string> cities = SQLServer.Instance.GetFertigungsteilList(provinceId);
 
+            //<option value="6">Baggins, Bilbo</option>
+            Dictionary<string, string> openWith = new Dictionary<string, string>();
+
+            // Add some elements to the dictionary. There are no 
+            // duplicate keys, but some of the 
+            
+            //var cities = new List<string>() {"<option>sfsa</option>","<option>fs</option>","<option>saf</option>"  };
+
+
+            return Json(cities, JsonRequestBehavior.AllowGet);
+        }
 
 
         [HttpPost]
@@ -152,8 +155,6 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                             ProduktionsanlageID = ProduktionsanlageID,
                             ErstelltAm = date,
                             Bemerkung = model.Bemerkung
-
-
                         };
                        
                         MitarbeiterInSchichtList.Add(m);
@@ -238,11 +239,15 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                         // truncate seconds and miliseconds
                         date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
 
+
+                        string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{model.FertigungsteilString}'";
+                        int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+
                         // Create the first Mitarbeiter model
                         MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
                         {
                             SchichtInfoID = SchichtInfoID,
-                            FertigungsteilID = model.Fertigungsteil,
+                            FertigungsteilID = FertigungsTeilID,
                             MitarbeiterID = model.Name,
                             DirStunden = model.DirZeit,
                             InDirStunden = model.InDirZeit,
@@ -261,10 +266,15 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                         {
                             for (int i = 1; i <= MitarbeiterToAdd; i++)
                             {
+
+
+                                getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
+                                FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+
                                 MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                                 {
                                     SchichtInfoID = SchichtInfoID,
-                                    FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
+                                    FertigungsteilID = FertigungsTeilID,
                                     MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
                                     DirStunden = float.Parse(Request.Form["dirzeit" + i]),
                                     InDirStunden = float.Parse(Request.Form["indirzeit" + i]),

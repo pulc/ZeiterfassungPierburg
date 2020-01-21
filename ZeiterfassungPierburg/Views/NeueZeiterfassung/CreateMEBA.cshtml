@@ -79,13 +79,15 @@
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Produktionsanlage -", new { @id = "panlage", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Maschine aus -", new { @id = "panlage", @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
                                 
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle Fertigungsteil -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil", @class = "form-control" })
+
+                                    <!--@Html.DropDownListFor(m => m.Fertigungsteil, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), "Wähle erst die Maschine aus", new { @Id = "fteil", @class = "form-control" })-->
+                                    @Html.ValidationMessageFor(model => model.FertigungsteilString, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control", @name = "st0" } })
@@ -104,7 +106,6 @@
                                     @Html.ValidationMessageFor(model => model.Bemerkung, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                     <div class="box-body">
@@ -131,10 +132,7 @@
 
                                         </td>
                                     </tr>
-
                                     @Html.Raw(ViewBag.NewMitarbeiter)
-
-
                                 </tbody>
                             </table>
 
@@ -155,27 +153,32 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-
     <script>
         $(document).ready(function () {
             $("#sendButton").hover(function () {
                 var validator = $("#frm").validate();
                 validator.form()
             });
+
         });
 
-        // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
-        $('#panlage').change(function () {
-            $.ajax({
-                url: 'getFertigungsteile',
-                type: 'post',
-                data: {
-                    ProduktionsanlageID: $(document.getElementById('panlage')).children("option:selected").val()
-                }
-            }).done(function (response) {
-                $("test").html(response);
+        var url = '@Url.Action("FetchCities", "Neuezeiterfassung")'; // Don't hard code your url's!
+        var teile = $('#fteil'); // cache it
+
+
+        $("#panlage").change(function () {
+        var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+
+            $.getJSON(url, { provinceId: id }, function (response) {
+            teile.empty();
+
+            $.each(response, function (index, item) {
+
+                teile.append($('<option></option>').text(item));
+
             });
-        });
+    });
+});
 
     function AddRow() {
        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
@@ -202,15 +205,6 @@
 
         var panlage = document.getElementById('panlage');
 
-        /*
-        nameNew.setAttribute("name", "name" + currentIndex);
-        nameNew.setAttribute("form", "frm" + currentIndex);
-        nameNew.setAttribute("id", "name" + currentIndex);
-
-        nameNew.setAttribute("class", "form-control input-validation-error");
-        nameNew.setAttribute("data-val", "true");
-        nameNew.setAttribute("aria-describedby", "name-error");
-        */
 
         var nameNew = name.cloneNode(true);
         nameNew.setAttribute("id", "name" + currentIndex);
@@ -228,6 +222,10 @@
         fteilNew.setAttribute("required", "true");
 
 
+
+
+
+
         var stNew = st.cloneNode(true);
         stNew.setAttribute("name", "st" + currentIndex);
         stNew.setAttribute("id", "st" + currentIndex);
@@ -239,6 +237,10 @@
         dirzeitNew.setAttribute("id", "dirzeit" + currentIndex);
         dirzeitNew.setAttribute("required", "true");
         dirzeitNew.setAttribute("type", "number");
+        dirzeitNew.setAttribute("max", "9.99");
+        dirzeitNew.setAttribute("min", "0");
+
+
 
 
         var indirzeitNew = indirzeit.cloneNode(true);
@@ -246,40 +248,15 @@
         indirzeitNew.setAttribute("id", "indirzeit" + currentIndex);
         indirzeitNew.setAttribute("required", "true");
         indirzeitNew.setAttribute("type", "number");
+        indirzeitNew.setAttribute("max", "9.99");
+        indirzeitNew.setAttribute("min", "0");
+
 
         var bemerkungNew = bemerkung.cloneNode(true);
         bemerkungNew.setAttribute("name", "bemerkung" + currentIndex);
         bemerkungNew.setAttribute("id", "bemerkung" + currentIndex);
 
-        /*
-        var currentCell = currentRow.insertCell(-1);
-        var e = document.createElement('div');
-        */
 
-
-        /*
-        e.appendChild(nameNew);
-        e.innerHTML = e.innerHTML +'<span class="field-validation-valid text-danger" data-valmsg-for="' + nameNew.getAttribute("name") + '" data-valmsg-replace="true"></span>';
-        currentCell.appendChild(e);
-        */
-
-       // document.getElementById("frm").reset();
-
-        //$("#frm").validate().element("#name1");
-
-        /*
-                            <tr>
-                                <td>
-                                    <select class="form-control" data-val="true" data-val-number="The field Name must be a number." data-val-required="Du musst noch den Namen auswählen." id="id1" name="name1">
-                                        <option value="">- Wähle Mitarbeiter*in -</option>
-                                        <option value="6">Baggins, Bilbo</option>
-                                        <option value="17">Schmidt, Günther</option>
-                                        <option value="25">Schmidt, Günther</option>
-                                    </select>
-                                    <div><span class="field-validation-valid text-danger" data-valmsg-for="name1" data-valmsg-replace="true"></span></div>
-                                </td>
-                            </tr>
-        */
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(nameNew);
 
@@ -303,6 +280,21 @@
 
         var rowCount = myTable.rows.length;
         console.log(rowCount);
+
+        $("#panlage" + currentIndex).change(function () {
+            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+
+            $.getJSON(url, { provinceId: id }, function (response) {
+                $('#fteil' + currentIndex).empty();
+
+                $.each(response, function (index, item) {
+
+                    $('#fteil' + currentIndex).append($('<option></option>').text(item));
+
+                });
+            });
+        });
+
 
         }
 

@@ -287,5 +287,28 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID"
 
             }
         }
+        // dictionary methods for dropdown lists
+        public List<string> GetFertigungsteilList(int ProduktionsanlageID)
+        {
+            List<string> result = new List<string>();
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = @"
+select  f.Bezeichnung from 
+TeileInProduktionsanlage t
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
+where ProduktionsanlageID = 
+"+ ProduktionsanlageID;
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result.Add(r.GetString(0));
+                }
+            }
+            return result;
+        }
     }
 }

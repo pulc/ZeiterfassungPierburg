@@ -64,6 +64,10 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
         public int Fertigungsteil { get; set; }
 
+        [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
+        public string FertigungsteilString { get; set; }
+
+
         [Range(0, 9999)]
         [RegularExpression(@"^\d+$", ErrorMessage = "Stückzahl muss eine ganze Zahl sein.")]
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]

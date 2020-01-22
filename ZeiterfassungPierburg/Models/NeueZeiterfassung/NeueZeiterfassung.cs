@@ -42,7 +42,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Display(Name = "Name")]
         public IEnumerable<SelectListItem> NameList
         {
-            get => SQLServer.Instance.GetDictionary("Mitarbeiter", @"Nachname + ', '+ Vorname", null)
+            get => SQLServer.Instance.GetDictionary("Mitarbeiter", @"Nachname + ', '+ Vorname", "istAktiv = 'true'")
                 .Select(s => new SelectListItem()
                 {
                     Text = s.Value,

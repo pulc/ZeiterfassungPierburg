@@ -31,9 +31,9 @@ namespace ZeiterfassungPierburg.Data
 
                 if (where != null)
                 { 
-                sql = $"SELECT Id, {labelString} As Label FROM {tableName} WHERE {where}";
+                sql = $"SELECT Id, {labelString} As Label FROM {tableName} WHERE {where} order by Label";
                 }
-                else sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
+                else sql = $"SELECT Id, {labelString} As Label FROM {tableName}  order by Label";
 
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())

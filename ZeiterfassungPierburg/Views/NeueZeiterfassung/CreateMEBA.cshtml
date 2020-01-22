@@ -210,6 +210,7 @@
         nameNew.setAttribute("id", "name" + currentIndex);
         nameNew.setAttribute("name", "name" + currentIndex);
         nameNew.setAttribute("required", "true");
+        
 
         var panlageNew = panlage.cloneNode(true);
         panlageNew.setAttribute("id", "panlage" + currentIndex);
@@ -220,10 +221,6 @@
         fteilNew.setAttribute("name", "fteil" + currentIndex);
         fteilNew.setAttribute("id", "fteil" + currentIndex);
         fteilNew.setAttribute("required", "true");
-
-
-
-
 
 
         var stNew = st.cloneNode(true);
@@ -239,8 +236,6 @@
         dirzeitNew.setAttribute("type", "number");
         dirzeitNew.setAttribute("max", "9.99");
         dirzeitNew.setAttribute("min", "0");
-
-
 
 
         var indirzeitNew = indirzeit.cloneNode(true);
@@ -294,8 +289,6 @@
                 });
             });
         });
-
-
         }
 
     function RemoveRow() {

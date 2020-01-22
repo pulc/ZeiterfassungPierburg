@@ -56,17 +56,17 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        [Required(ErrorMessage = "Du musst den Status auswählen.")]
-        public bool IsAktiv
-        {
-            get => GetValue<bool>();
-            set => SetValue(value);
-        }
-
         [Required(ErrorMessage = "Du musst noch die Beschäftigungsart eingeben.")]
         public string Beschäftigungsart
         {
             get => GetValue<string>();
+            set => SetValue(value);
+        }
+
+        [Display(Name = "Ist aktiv")]
+        public bool istAktiv
+        {
+            get => GetValue<bool>();
             set => SetValue(value);
         }
 

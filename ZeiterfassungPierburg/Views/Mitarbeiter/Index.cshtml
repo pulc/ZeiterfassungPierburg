@@ -31,6 +31,9 @@
                                 @Html.DisplayNameFor(model => model.Beschäftigungsart)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.istAktiv)
+                            </th>
+                            <th>
 
                             </th>
                         </tr>
@@ -38,33 +41,36 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Kostenstelle)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Personalnummer)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Nachname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Vorname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Abrechnungskreis)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Mitarbeiterkreis)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Beschäftigungsart)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
-                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Kostenstelle)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Personalnummer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nachname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Vorname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Abrechnungskreis)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mitarbeiterkreis)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Beschäftigungsart)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.istAktiv)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
+                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

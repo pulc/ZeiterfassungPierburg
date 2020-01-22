@@ -68,6 +68,7 @@ namespace ZeiterfassungPierburg.Controllers
                         };
                         list.Add(m);
 
+
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
                         int TeileToAdd = (col.Count - 4) / 2; //Count how many additionaly entires there are
@@ -84,6 +85,10 @@ namespace ZeiterfassungPierburg.Controllers
                                 list.Add(n);
                             }
                         }
+                        // TODO: Bedingungen für keine doppelte Eingaben für Band  und Teile
+                       
+
+
                         // add all models into the DB
                         foreach (var n in list)
                         {

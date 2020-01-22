@@ -10,6 +10,7 @@ namespace ZeiterfassungPierburg.Controllers
 {
     public class HomeController : Controller
     {
+        //[Authorize(Users = "MicrosoftAccount\\p.ulc@seznam.cz")]
         public ActionResult Index()
         {
             Dashboard d = new Dashboard();

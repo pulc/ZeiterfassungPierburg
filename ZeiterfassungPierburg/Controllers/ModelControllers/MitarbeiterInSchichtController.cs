@@ -31,11 +31,13 @@ namespace ZeiterfassungPierburg.Controllers
             var results = SQLServer.Instance.GetItems<MitarbeiterInSchicht>("id = " + id.ToString());
             if (results.Count() != 1)
             {
+                TempData["Message"] = "Der Eintrag wurde nicht gefunden";
+
                 // todo: implement proper error message to be displayed
-                return HttpNotFound("Der MitarbeiterInSchicht wurde nicht gefunden.");
+                return RedirectToAction("Index");
             }
             else
-                return View(results.First());
+            return View(results.First());
         }
 
         // GET: MitarbeiterInSchicht/Create
@@ -61,19 +63,17 @@ namespace ZeiterfassungPierburg.Controllers
             }
         }
 
-        // POST: MitarbeiterInSchicht/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(MitarbeiterInSchicht m)
         {
             try
             {
-                // TODO: Add update logic here
-
+                SQLServer.Instance.EditItem<MitarbeiterInSchicht>(m);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                return View(m);
             }
         }
 

@@ -44,6 +44,56 @@ namespace ZeiterfassungPierburg.Data
             return result;
         }
 
+
+        public Dictionary<string, float> GetProduktivität()
+        {
+
+            List<int> BandIDs = SQLServer.Instance.GetIntList("ID", "Produktionsanlage", "IstEineMaschine = 'false'");
+
+
+            Dictionary<string, float> result = new Dictionary<string, float>();
+
+
+            foreach (int id in BandIDs)
+            {
+                using (SqlConnection conn = NewOpenConnection)
+                {
+                    string sql;
+
+                    sql = @"select   p.Bezeichner,((sum(Stück) / (sum(DirStunden) + sum(InDirStunden)))*100)/(select f.teZEIT
+
+  FROM[zeiterfassung].[dbo].TeileInProduktionsanlage i
+
+
+left outer JOIN Fertigungsteil f  ON f.ID = i.FertigungsteilID
+
+where ProduktionsanlageID = " + id + @")
+
+  FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
+LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
+
+--LEFT OUTER JOIN TeileInProduktionsanlage i ON p.ID = i.ProduktionsanlageID
+
+where t.ProduktionsanlageID = " + id + @"
+
+group by p.Bezeichner
+
+
+select ID from Produktionsanlage where IstEineMaschine = 'false'";
+
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                    while (r.Read())
+                    {
+                        result.Add(r.GetString(0), (float)r.GetDecimal(1));
+                    }
+                }
+            }
+
+            return result;
+        }
+
         // dictionary methods for dropdown lists
         public Dictionary<int, string> GetDictionaryTest(string tableName, string labelString, string where)
         {
@@ -348,5 +398,39 @@ where ProduktionsanlageID =
             }
             return result;
         }
+
+        public List<int> GetIntList(string column, string table, string where)
+        {
+            List<int> result = new List<int>();
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = $"select {column} from {table} where {where} order by ID";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result.Add(r.GetInt32(0));
+                }
+            }
+            return result;
+        }
+        public List<string> GetStringList(string column, string table, string where)
+        {
+            List<string> result = new List<string>();
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = $"select {column} from {table} where {where} order by ID";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result.Add(r.GetString(0));
+                }
+            }
+            return result;
+        }
+
     }
 }

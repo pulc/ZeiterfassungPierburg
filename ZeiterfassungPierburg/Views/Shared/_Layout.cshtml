@@ -43,16 +43,16 @@
                             <li class="dropdown user user-menu">
                                 <!-- Menu Toggle Button -->
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <!-- The user image in the navbar-->
-                                    <img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">
+                                    <!--<img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">-->
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs">Max Mustermann</span>
+                                    <span class="hidden-xs">@ViewBag.Name</span>
                                 </a>
                             </li>
-                            <!-- Control Sidebar Toggle Button -->
-                            <li>
-                                <a href="#" class="dropdown-toggle">Abmelden</a>
-                            </li>
+                            <!--
+    <li>
+        <a href="#" class="dropdown-toggle">Abmelden</a>
+    </li>
+-->
                         </ul>
                     </div>
                 </nav>
@@ -79,6 +79,7 @@
                         <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
                         <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
                         <li>@Html.ActionLink("Teile bei Anlagen", "Index", "TeileInProduktionsanlage")</li>
+                        <li>@Html.ActionLink("Verwaltung", "Index", "Zugriffsrechte")</li>
                     </ul>
     <!-- /.sidebar-menu -->
 </section>

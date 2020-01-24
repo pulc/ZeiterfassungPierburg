@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
@@ -10,10 +11,15 @@ namespace ZeiterfassungPierburg.Controllers
 {
     public class HomeController : Controller
     {
-        //[Authorize(Users = "MicrosoftAccount\\p.ulc@seznam.cz")]
+        [Authorize(Users = "MSI\\pulc")]
         public ActionResult Index()
         {
             Dashboard d = new Dashboard();
+
+            ViewBag.Name = System.Web.HttpContext.Current.User.Identity.Name;
+
+            ViewBag.Produktivität = d.Produktivität;
+
             ViewBag.MitarbeiterAnzahl = d.MitarbeiterAnzahl;
 
             ViewBag.StückeToday = d.StückeToday;
@@ -23,12 +29,12 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.StückeMinusFourDays = d.StückeMinusFourDays;
             ViewBag.StückeMinusFiveDays = d.StückeMinusFiveDays;
             ViewBag.StückeMinusSixDays = d.StückeMinusSixDays;
-
             ViewBag.Produktionsanlagen = d.Produktionsanlagen;
             ViewBag.Fertigungsteile = d.Fertigungsteile;
             ViewBag.StückeWoche = d.StückeWoche;
             ViewBag.Zeiterfassungen = d.ZeiterfassungenAnzahl;
             
+
 
             
             ViewBag.StückeWoche = d.StückeWoche;

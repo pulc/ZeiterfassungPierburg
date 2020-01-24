@@ -4,7 +4,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Herzlich willkommen!
+        Herzlich willkommen, @ViewBag.Name!
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -123,79 +123,88 @@
 
         <div class="col-lg-3 col-xs-6">
             <div class="box-footer text-black">
-                <h4>Produktivität</h4>
+                <h4>Produktivität gesamt</h4>
 
                 <div class="row">
                     <div class="col-sm-12">
                         <!-- Progress bars -->
                         <div class="clearfix">
-                            <span class="pull-left">Band 101</span>
-                            <small class="pull-right">90%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                        </div>
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 102</span>
-                            <small class="pull-right">70%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-                        </div>
+                            <div id="productivity"></div>
+                            <!--
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 103</span>
-                            <small class="pull-right">60%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                        </div>
+                                    <span class="pull-left">Band 101</span>
+                                    <small class="pull-right">90%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
+                                </div>
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 104</span>
-                            <small class="pull-right">40%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                        </div>
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 102</span>
+                                    <small class="pull-right">70%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
+                                </div>
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 203</span>
-                            <small class="pull-right">45%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 45%;"></div>
-                        </div>
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 103</span>
+                                    <small class="pull-right">60%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
+                                </div>
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 104/105</span>
-                            <small class="pull-right">49%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 49%;"></div>
-                        </div>
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 104</span>
+                                    <small class="pull-right">40%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
+                                </div>
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 108</span>
-                            <small class="pull-right">89%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 89%;"></div>
-                        </div>
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 203</span>
+                                    <small class="pull-right">45%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 45%;"></div>
+                                </div>
 
-                        <div class="clearfix">
-                            <span class="pull-left">Band 201</span>
-                            <small class="pull-right">103%</small>
-                        </div>
-                        <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: 103%;"></div>
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 104/105</span>
+                                    <small class="pull-right">49%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 49%;"></div>
+                                </div>
+
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 108</span>
+                                    <small class="pull-right">89%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 89%;"></div>
+                                </div>
+
+                                <div class="clearfix">
+                                    <span class="pull-left">Band 201</span>
+                                    <small class="pull-right">103%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-green" style="width: 103%;"></div>
+                                </div>
+                                                       ->
+                            </div>
+
+                            <!-- /.col -->
                         </div>
                     </div>
-                    <!-- /.col -->
                 </div>
             </div>
         </div>
+
         <div class="col-lg-6 col-xs-6">
             <div class="box-footer text-black">
                 <h4>Chart - Test</h4>
@@ -224,8 +233,8 @@
 
 
             var weekday = new Array(7);
-            weekday[0] = "Sontag";
-            weekday[1] = "Montag";
+            weekday[0] = "Sonntag";
+            weekday[1] = "Monntag";
             weekday[2] = "Dienstag";
             weekday[3] = "Mittwoch";
             weekday[4] = "Donnerstag";
@@ -253,9 +262,27 @@
             var date1 = new Date(dateString);
             var daysPrior = 28;
             date1.setDate(date1.getDate() - daysPrior));
-        print(date1.toISOString()); 
+        print(date1.toISOString());
         */
 
+            var html = '';
+                                    var dictionary = @Html.Raw(Json.Encode(ViewBag.Produktivität));
+                            for(var key in dictionary ){
+                                var value = dictionary[key];
+
+
+                                html = html+ ` <div class="clearfix">
+                            <span class="pull-left">`+ key +`</span>
+                            <small class="pull-right">`+ value +`%</small>
+                        </div>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: `+ value +`%;"></div>
+                        </div>`;
+
+
+            }
+            var p = document.getElementById("productivity");
+            p.innerHTML = html;
 
     });
 

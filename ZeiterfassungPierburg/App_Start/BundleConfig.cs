@@ -14,6 +14,19 @@ namespace ZeiterfassungPierburg
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
+
+
+                     bundles.Add(new ScriptBundle("~/bundles/dataTablesPlugins").Include(
+             "~/Scripts/datablesPlugins/jquery-3.3.1.js",
+             "~/Scripts/datablesPlugins/jquery.dataTables.min.js",
+             "~/Scripts/datablesPlugins/dataTables.buttons.min.js",
+             "~/Scripts/datablesPlugins/dataTables.buttons.flash.min.js",
+             "~/Scripts/datablesPlugins/jszip.min.js",
+             "~/Scripts/datablesPlugins/pdfmake.min.js",
+             "~/Scripts/datablesPlugins/vfs_fonts.js",
+             "~/Scripts/datablesPlugins/buttons.html5.min.js",
+             "~/Scripts/datablesPlugins/buttons.print.min.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -35,6 +48,7 @@ namespace ZeiterfassungPierburg
     "~/Scripts/jquery.dataTables.min.js",
     "~/Scripts/dataTables.bootstrap.min.js"
     ));
+
             /*
              * 
             bundles.Add(new StyleBundle("~/bundles/css").Include(

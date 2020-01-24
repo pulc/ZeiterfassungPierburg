@@ -72,6 +72,12 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
+        public float Auswertung
+        {
+            get => GetValue<float>();
+            set => SetValue(value);
+        }
+
 
     }
 }

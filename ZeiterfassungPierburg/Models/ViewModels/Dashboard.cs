@@ -21,6 +21,12 @@ from Fertigungsteil";
         string SelectZeiterfassungen = @"select count(ID) as MitArbeiterinschicht
 from MitArbeiterinschicht";
 
+
+        string selectStückeToday = @"select sum(Stück) 
+  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
+where Datum BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, -0, GETDATE())";
+
         string selectStückeMinusOneDay = @"select sum(Stück) 
   FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
@@ -41,6 +47,16 @@ where Datum BETWEEN DATEADD(day, -4, GETDATE()) AND DATEADD(day, -3, GETDATE())"
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -5, GETDATE()) AND DATEADD(day, -4, GETDATE())";
 
+        string selectStückeMinusFiveDays = @"select sum(Stück) 
+  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
+where Datum BETWEEN DATEADD(day, -6, GETDATE()) AND DATEADD(day, -5, GETDATE())";
+
+        string selectStückeMinusSixDays = @"select sum(Stück) 
+  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
+where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -6, GETDATE())";
+
         string selectStückepastWeek = @"select sum(Stück) 
   FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
@@ -58,8 +74,7 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
 
         public int Fertigungsteile { get => SQLServer.Instance.GetNumber(SelectFertigungsteile); }
 
-        /*
-        public int StückeHeute { get; set; }
+        public int StückeToday { get => SQLServer.Instance.GetNumber(selectStückeToday); }
 
         public int StückeMinusOneDay { get => SQLServer.Instance.GetNumber(selectStückeMinusOneDay); }
 
@@ -68,12 +83,13 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
         public int StückeMinusThreeDays { get => SQLServer.Instance.GetNumber(selectStückeMinusThreeDays); }
 
         public int StückeMinusFourDays { get => SQLServer.Instance.GetNumber(selectStückeMinusFourDays); }
-        */
+        public int StückeMinusFiveDays { get => SQLServer.Instance.GetNumber(selectStückeMinusFiveDays); }
+        public int StückeMinusSixDays { get => SQLServer.Instance.GetNumber(selectStückeMinusSixDays); }
 
         public int StückeWoche { get => SQLServer.Instance.GetNumber(selectStückepastWeek); }
+
         public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetNumber(SelectZeiterfassungen); }
 
-        //public int Stücke
 
     }
 }

@@ -57,7 +57,6 @@ namespace ZeiterfassungPierburg.Controllers
 
                     try
                     {
-
                         List<TeileInProduktionsanlage> list = new List<TeileInProduktionsanlage>();
 
                         // Create the first Mitarbeiter model
@@ -67,6 +66,8 @@ namespace ZeiterfassungPierburg.Controllers
                             ProduktionsanlageID = Int32.Parse(Request.Form["Produktionsanlage"])
                         };
                         list.Add(m);
+
+
 
 
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
@@ -94,8 +95,45 @@ namespace ZeiterfassungPierburg.Controllers
                         {
                             InsertedID.Add(SQLServer.Instance.InsertItem<TeileInProduktionsanlage>(n));
                         }
-                        ViewBag.Message = list.Count + " Fertigungsteile erfolgreich hinzugefügt";
-                        return Create();
+
+                        // checks how many Maschine there are
+                        int checkcount = SQLServer.Instance.GetNumber(@"select COUNT(Bezeichner) from 
+TeileInProduktionsanlage left outer join Produktionsanlage on Produktionsanlage.ID = TeileInProduktionsanlage.ProduktionsanlageID
+where Produktionsanlage.IstEineMaschine = 'false'");
+                        // checks how many distinct Maschine there are
+                        int checkcountDistinct = SQLServer.Instance.GetNumber(@"select count(distinct Bezeichner) from 
+TeileInProduktionsanlage left outer join Produktionsanlage on Produktionsanlage.ID = TeileInProduktionsanlage.ProduktionsanlageID
+where Produktionsanlage.IstEineMaschine = 'false'");
+
+                        // if the user added more Fertigungsteile to a Band, they need to repeat the action
+                        if (checkcount == checkcountDistinct)
+                        {
+                            if(list.Count ==1)
+                            { 
+                            ViewBag.Message = list.Count + " Fertigungsteil erfolgreich hinzugefügt";
+                            }
+                            else
+                            {
+                            ViewBag.Message = list.Count + " Fertigungsteile erfolgreich hinzugefügt";
+                            }
+
+                            return Create();
+
+                        }
+                        else { 
+                        foreach (var id in InsertedID)
+                        {
+                            SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
+                        }
+
+
+                        ViewBag.Message = "Die Eingabe war falsch. Du hast einen Teil zu einem Band hinzugefügt, dem bereits ein Teil zugewiesen wurde." +
+                                "Keine Teile wurden hinzugefügt.";
+
+                        return View(model);
+                        }
+
+
                     }
                     catch (Exception e)
                     {

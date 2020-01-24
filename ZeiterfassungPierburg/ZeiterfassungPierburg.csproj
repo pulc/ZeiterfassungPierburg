@@ -299,6 +299,15 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\datablesPlugins\buttons.flash.min.js" />
+    <Content Include="Scripts\datablesPlugins\buttons.html5.min.js" />
+    <Content Include="Scripts\datablesPlugins\buttons.print.min.js" />
+    <Content Include="Scripts\datablesPlugins\dataTables.buttons.min.js" />
+    <Content Include="Scripts\datablesPlugins\jquery-3.3.1.js" />
+    <Content Include="Scripts\datablesPlugins\jquery.dataTables.min.js" />
+    <Content Include="Scripts\datablesPlugins\jszip.min.js" />
+    <Content Include="Scripts\datablesPlugins\pdfmake.min.js" />
+    <Content Include="Scripts\datablesPlugins\vfs_fonts.js" />
     <Content Include="Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

@@ -15,19 +15,22 @@ namespace ZeiterfassungPierburg.Controllers
         {
             Dashboard d = new Dashboard();
             ViewBag.MitarbeiterAnzahl = d.MitarbeiterAnzahl;
-            /*
-            ViewBag.StückeHeute = d.StückeHeute;
+
+            ViewBag.StückeToday = d.StückeToday;
             ViewBag.StückeMinusOneDay = d.StückeMinusOneDay;
             ViewBag.StückeMinusTwoDays = d.StückeMinusTwoDays;
-            */
+            ViewBag.StückeMinusThreeDays = d.StückeMinusThreeDays;
+            ViewBag.StückeMinusFourDays = d.StückeMinusFourDays;
+            ViewBag.StückeMinusFiveDays = d.StückeMinusFiveDays;
+            ViewBag.StückeMinusSixDays = d.StückeMinusSixDays;
+
             ViewBag.Produktionsanlagen = d.Produktionsanlagen;
             ViewBag.Fertigungsteile = d.Fertigungsteile;
             ViewBag.StückeWoche = d.StückeWoche;
             ViewBag.Zeiterfassungen = d.ZeiterfassungenAnzahl;
-            /*
-            ViewBag.StückeMinusThreeDays = d.StückeMinusThreeDays;
-            ViewBag.StückeMinusFourDays = d.StückeMinusFourDays;
-            */
+            
+
+            
             ViewBag.StückeWoche = d.StückeWoche;
             
             return View();

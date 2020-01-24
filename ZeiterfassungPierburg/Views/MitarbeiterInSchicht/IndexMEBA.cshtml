@@ -11,7 +11,7 @@
                         <label>Einträge von:</label>
                         <input class="form-control text-box single-line" id="min" name="Datum" type="date">
                     </div>
-                    <div class="mt-2 col-md-2">
+                    <div class="mt-2 col-md-2"> 
                         <label>Einträge bis:</label>
 
                         <input class="form-control text-box single-line" id="max" name="Datum" type="date">
@@ -67,6 +67,9 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Bemerkung)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Auswertung)
+                            </th>
 
                             <th></th>
                         </tr>
@@ -110,6 +113,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Bemerkung)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Auswertung)%
                             </td>
                             <td>
                                 @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |

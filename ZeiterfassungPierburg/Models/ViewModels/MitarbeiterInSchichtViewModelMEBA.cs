@@ -40,6 +40,10 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
         public float InDirStunden { get; set; }
 
         public string Bemerkung { get; set; }
+
+        [Display(Name = "Akkord")]
+        public float Auswertung { get; set; }
+
     }
 }
 

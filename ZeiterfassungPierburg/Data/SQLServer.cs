@@ -21,7 +21,7 @@ namespace ZeiterfassungPierburg.Data
         }
 
         // dictionary methods for dropdown lists
-        public Dictionary<int,string> GetDictionary(string tableName, string labelString, string where)
+        public Dictionary<int, string> GetDictionary(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
 
@@ -30,8 +30,8 @@ namespace ZeiterfassungPierburg.Data
                 string sql;
 
                 if (where != null)
-                { 
-                sql = $"SELECT Id, {labelString} As Label FROM {tableName} WHERE {where} order by Label";
+                {
+                    sql = $"SELECT Id, {labelString} As Label FROM {tableName} WHERE {where} order by Label";
                 }
                 else sql = $"SELECT Id, {labelString} As Label FROM {tableName}  order by Label";
 
@@ -86,7 +86,7 @@ namespace ZeiterfassungPierburg.Data
                 return c.Query<T>(sql).ToList();
             }
         }
-        public T GetItem<T>(int id) where T: BasicModelObject, new()
+        public T GetItem<T>(int id) where T : BasicModelObject, new()
         {
             using (var c = NewOpenConnection)
             {
@@ -116,7 +116,7 @@ f.ZeichenNr
       ,t.DirStunden
       ,t.InDirStunden
       ,t.IstInSAPEingetragen
-
+,t.Auswertung
 	  ,Bemerkung
       ,t.ErstelltAm
   FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
@@ -151,6 +151,7 @@ f.ZeichenNr
       ,t.DirStunden
       ,t.InDirStunden
       ,t.IstInSAPEingetragen
+,t.Auswertung
 
 	  ,Bemerkung
       ,t.ErstelltAm
@@ -172,14 +173,14 @@ where p.IstEineMaschine = 'False'
         }
 
         // data manipulation methods
-        public int InsertItem<T>(T model) where T: BasicModelObject, new()
+        public int InsertItem<T>(T model) where T : BasicModelObject, new()
         {
             using (SqlConnection conn = NewOpenConnection)
             {
                 return Convert.ToInt32(conn.Insert<T>(model));
             }
         }
-        public void EditItem<T>(T model) where T: BasicModelObject, new()
+        public void EditItem<T>(T model) where T : BasicModelObject, new()
         {
             using (SqlConnection conn = NewOpenConnection)
             {
@@ -248,27 +249,64 @@ where p.IstEineMaschine = 'False'
             return Convert.ToInt32(result);
         }
 
-        // dictionary methods for dropdown lists
         public int GetNumber(string command)
         {
             int result = 0;
-            using (SqlConnection conn = NewOpenConnection)
+            try
             {
-                string sql;
-
-                sql = command;
-                
-                SqlDataReader r = ExecuteSelectStatement(conn, sql);
-
-                // TO DO: Nullbehandlung
-                while (r.Read())
+                using (SqlConnection conn = NewOpenConnection)
                 {
-                    result = r.GetInt32(0);
+                    string sql;
+
+                    sql = command;
+
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+
+                    // TO DO: Nullbehandlung
+
+                    while (r.Read())
+                    {
+                        result = r.GetInt32(0);
+                    }
+                    return result;
                 }
-                
             }
-            return result;
+            catch
+            {
+
+                return result;
+            }
         }
+
+        public decimal GetDecimal(string command)
+        {
+            decimal result = 0;
+            try
+            {
+                using (SqlConnection conn = NewOpenConnection)
+                {
+                    string sql;
+
+                    sql = command;
+
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+
+                    // TO DO: Nullbehandlung
+
+                    while (r.Read())
+                    {
+                        result = r.GetDecimal(0);
+                    }
+                    return result;
+                }
+            }
+            catch
+            {
+
+                return result;
+            }
+        }
+
         public IEnumerable<T> GetTeileInProduktionsanlageView<T>()
         {
             using (var c = NewOpenConnection)
@@ -300,7 +338,7 @@ TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where ProduktionsanlageID = 
-"+ ProduktionsanlageID;
+" + ProduktionsanlageID;
 
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())

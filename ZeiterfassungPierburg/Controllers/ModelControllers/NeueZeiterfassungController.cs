@@ -142,6 +142,17 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where ProduktionsanlageID = " + ProduktionsanlageID;
 
                         int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+                        
+                        string getTeZeit = @"select teZEIT from 
+Fertigungsteil
+where ID = " + FertigungsTeilID;
+
+                        float teZeit = (float) SQLServer.Instance.GetDecimal(getTeZeit);
+                        float auswertung = 0;
+                        if((model.InDirZeit + model.DirZeit) != 0)
+                            { 
+                             auswertung = ((model.Stückzahl / (model.DirZeit + model.InDirZeit)) * 100) / teZeit;
+                        }
 
                         // Create the first Mitarbeiter model
                         MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
@@ -154,8 +165,9 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                             Stück = model.Stückzahl,
                             ProduktionsanlageID = ProduktionsanlageID,
                             ErstelltAm = date,
-                            Bemerkung = model.Bemerkung
-                        };
+                            Bemerkung = model.Bemerkung,
+                            Auswertung = auswertung
+                        };  
                        
                         MitarbeiterInSchichtList.Add(m);
                          
@@ -167,6 +179,13 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                         {
                             for (int i = 1; i <= MitarbeiterToAdd; i++)
                             {
+                                auswertung = 0;
+                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) != 0)
+                                {
+                                    auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
+
+                                }
+                                // TODO: berechnen Fertigungsteil ID 
                                 MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                                 {
                                     SchichtInfoID = SchichtInfoID,
@@ -177,7 +196,8 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                                     Stück = Int32.Parse(Request.Form["st" + i]),
                                     ProduktionsanlageID = ProduktionsanlageID,
                                     ErstelltAm = date,
-                                    Bemerkung = Request.Form["bemerkung"+i]
+                                    Bemerkung = Request.Form["bemerkung"+i],
+                                    Auswertung = auswertung
                                 };
                                 MitarbeiterInSchichtList.Add(n);
                             }
@@ -243,6 +263,16 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                         string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{model.FertigungsteilString}'";
                         int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
 
+                        string getTeZeit = @"select teZEIT from 
+Fertigungsteil
+where ID = " + FertigungsTeilID;
+
+                        float teZeit = (float)SQLServer.Instance.GetDecimal(getTeZeit);
+                        float auswertung = 0;
+                        if ((model.InDirZeit + model.DirZeit) != 0)
+                        {
+                            auswertung = ((model.Stückzahl / (model.DirZeit + model.InDirZeit)) * 100) / teZeit;
+                        }
                         // Create the first Mitarbeiter model
                         MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
                         {
@@ -254,7 +284,8 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                             Stück = model.Stückzahl,
                             ProduktionsanlageID = ProduktionsanlageID,
                             ErstelltAm = date,
-                            Bemerkung = model.Bemerkung
+                            Bemerkung = model.Bemerkung,
+                            Auswertung = auswertung
                         };
                         MitarbeiterInSchichtList.Add(m);
 
@@ -266,7 +297,12 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                         {
                             for (int i = 1; i <= MitarbeiterToAdd; i++)
                             {
+                                auswertung = 0;
+                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) != 0)
+                                {
+                                    auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
 
+                                }
 
                                 getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
                                 FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
@@ -281,7 +317,8 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
                                     Stück = Int32.Parse(Request.Form["st" + i]),
                                     ProduktionsanlageID = Int32.Parse(Request.Form["panlage" + i]),
                                     ErstelltAm = date,
-                                    Bemerkung = Request.Form["bemerkung" + i]
+                                    Bemerkung = Request.Form["bemerkung" + i],
+                                    Auswertung = auswertung
                                 };
                                 MitarbeiterInSchichtList.Add(n);
                             }
@@ -369,7 +406,17 @@ where ProduktionsanlageID = " + ProduktionsanlageID;
 
             return i;
         }
-
-
+        /*
+        private float calculateAuswertung (float stückzahl, float gettezeit, float dirst, float indirst)
+        {
+            
+            float teZeit = (float)SQLServer.Instance.GetDecimal(gettezeit);
+            float auswertung = 0;
+            if ((model.InDirZeit + model.DirZeit) != 0)
+            {
+                auswertung = ((model.Stückzahl / (model.DirZeit + model.InDirZeit)) * 100) / teZeit;
+            }
+        }
+        */
     }
 }

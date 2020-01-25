@@ -148,6 +148,14 @@ Fertigungsteil
 where ID = " + FertigungsTeilID;
 
                         float teZeit = (float) SQLServer.Instance.GetDecimal(getTeZeit);
+                        if(teZeit == 0)
+                        {
+                            ViewBag.Message = "Kein Mitarbeiter wurde hinzugefügt. Es gibt kein Teil der Produktionsanlage zugeteilt oder die teZeit des Teiles ist 0.";
+                            return View(model);
+
+                        }
+
+
                         float auswertung = 0;
                         if((model.InDirZeit + model.DirZeit) != 0)
                             { 

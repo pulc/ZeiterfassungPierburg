@@ -94,7 +94,10 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
         {
             get => SQLServer.Instance.GetProduktivität();
         }
-        
 
+        public Dictionary<string, float> ProduktivitätLast12Months
+        {
+            get => SQLServer.Instance.GetProduktivitätLast12Months();
+        }
     }
 }

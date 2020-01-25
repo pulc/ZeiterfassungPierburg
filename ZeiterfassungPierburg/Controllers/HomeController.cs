@@ -19,6 +19,7 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Name = System.Web.HttpContext.Current.User.Identity.Name;
 
             ViewBag.Produktivität = d.Produktivität;
+            ViewBag.ProduktivitätLast12Months = d.ProduktivitätLast12Months;
 
             ViewBag.MitarbeiterAnzahl = d.MitarbeiterAnzahl;
 
@@ -33,10 +34,6 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Fertigungsteile = d.Fertigungsteile;
             ViewBag.StückeWoche = d.StückeWoche;
             ViewBag.Zeiterfassungen = d.ZeiterfassungenAnzahl;
-            
-
-
-            
             ViewBag.StückeWoche = d.StückeWoche;
             
             return View();

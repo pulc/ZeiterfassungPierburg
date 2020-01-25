@@ -1,4 +1,5 @@
 ﻿@model ZeiterfassungPierburg.Models.ViewModels.Dashboard
+<link href="~/Content/Chart.css" rel="stylesheet" />
 
 
 <!-- Content Header (Page header) -->
@@ -11,7 +12,6 @@
         <li class="active">Dashboard</li>
     </ol>
 </section>
-
 <section class="content">
 
     <!-- Small boxes (Stat box) -->
@@ -205,14 +205,30 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-xs-6">
+        <div class="col-lg-6 col-xs-2">
             <div class="box-footer text-black">
-                <h4>Chart - Test</h4>
+                <h4>Produktivität der letzten 12 Monate</h4>
 
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div id="piechart"></div>
-                    </div>
+
+                    <canvas id="bar-chart" width="800" height="450"></canvas>
+
+
+
+                    <!--
+
+                                                            <div class="chart-container" style="position: relative; height:50%; width:100%">
+                                        <canvas id="myChart" width="50" height="50"></canvas>
+                                    </div>
+
+                                        <div class="col-sm-12">
+                        <div id="piechart">
+
+                        </div>
+                    </div>-->
+
+
+
                 </div>
             </div>
         </div>
@@ -222,6 +238,119 @@
 @section scripts{
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="~/Scripts/Chart.js"></script>
+
+
+
+
+    <script>
+
+        var monthsDictionary = @Html.Raw(Json.Encode(ViewBag.ProduktivitätLast12Months));
+
+        var months = [];
+        var values = [];
+
+        for (var key in monthsDictionary) {
+            months.push(key)
+            values.push(monthsDictionary[key]);
+        }
+
+
+        new Chart(document.getElementById("bar-chart"), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: "Produktivität (Prozent)",
+                        backgroundColor:[
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(134, 58, 25, 0.2)',
+                            'rgba(173, 198, 95, 0.2)',
+                            'rgba(13, 102, 55, 0.2)',
+                            'rgba(255, 142, 155, 0.2)',
+                            'rgba(99, 202, 255, 0.2)',
+                            'rgba(123, 192, 45, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        data: values
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Was war die Produktion an allen Bändern in jeweiligen Monaten'
+                }
+            }
+        });
+    </script>
+    <script>
+
+        var min = 0;
+        var max = 255;
+        var random =
+            Math.floor(Math.random() * (+max - +min)) + +min;
+
+
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'November', 'Dezember'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3, 5, 4, 34, 4, 4, 4, 4],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(134, 58, 25, 0.2)',
+                        'rgba(173, 98, 95, 0.2)',
+                        'rgba(13, 102, 55, 0.2)',
+                        'rgba(48, 142, 155, 0.2)',
+                        'rgba(159, 202, 25, 0.2)',
+                        'rgba(123, 192, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(134, 58, 25, 0.2)',
+                        'rgba(173, 98, 95, 0.2)',
+                        'rgba(13, 102, 55, 0.2)',
+                        'rgba(48, 142, 155, 0.2)',
+                        'rgba(159, 202, 25, 0.2)',
+                        'rgba(123, 192, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
 
 
 
@@ -266,7 +395,7 @@
         */
 
             var html = '';
-                                    var dictionary = @Html.Raw(Json.Encode(ViewBag.Produktivität));
+                            var dictionary = @Html.Raw(Json.Encode(ViewBag.Produktivität));
                             for(var key in dictionary ){
                                 var value = dictionary[key];
 

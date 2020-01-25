@@ -43,6 +43,52 @@ namespace ZeiterfassungPierburg.Data
             }
             return result;
         }
+        public Dictionary<string, float> GetProduktivitätLast12Months()
+        {
+            Dictionary<string, float> result = new Dictionary<string, float>();
+
+            for (int i = 11; i >= 0; i--)
+            {
+                using (SqlConnection conn = NewOpenConnection)
+                {
+                    string sql;
+
+                    sql = @"select  ''+MONTH(DATEADD(MONTH, -"+i+ @", GETDATE())),YEAR(DATEADD(MONTH, -" + i + @", GETDATE())),
+
+sum(f.teZEIT*(DirStunden+InDirStunden)) *100/sum(Stück)
+
+  FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
+LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
+LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID
+
+where p.IstEineMaschine = 'false' and (MONTH(s.Datum) = MONTH(DATEADD(MONTH, -" + i + @", GETDATE())))
+";
+
+                    // select ID from Produktionsanlage where IstEineMaschine = 'false'
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                    while (r.Read())
+                    {
+                        int month = r.GetInt32(0);
+                        int year = r.GetInt32(1);
+                        string date = month + "/" + year;
+
+
+                        try { 
+                        result.Add(date, (float)r.GetDecimal(2));
+                        }
+                        catch
+                        {
+                            result.Add(date, 0);
+
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
 
 
         public Dictionary<string, float> GetProduktivität()
@@ -81,8 +127,8 @@ where t.ProduktionsanlageID = " + id + @"
 group by p.Bezeichner
 
 
-select ID from Produktionsanlage where IstEineMaschine = 'false'";
-
+";
+                    // select ID from Produktionsanlage where IstEineMaschine = 'false'
                     SqlDataReader r = ExecuteSelectStatement(conn, sql);
                     while (r.Read())
                     {

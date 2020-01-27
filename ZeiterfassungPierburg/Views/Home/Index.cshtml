@@ -254,8 +254,6 @@
             months.push(key)
             values.push(monthsDictionary[key]);
         }
-
-
         new Chart(document.getElementById("bar-chart"), {
             type: 'bar',
             data: {
@@ -264,18 +262,18 @@
                     {
                         label: "Produktivität (Prozent)",
                         backgroundColor:[
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(134, 58, 25, 0.2)',
-                            'rgba(173, 198, 95, 0.2)',
+                            'rgba(128, 0, 0, 0.2)',
+                            'rgba(170, 110, 40, 0.2)',
+                            'rgba(230, 25, 75, 0.2)',
+                            'rgba(255, 225, 25, 0.2)',
+                            'rgba(60, 180, 75, 0.2)',
+                            'rgba(0, 128, 128, 0.2)',
+                            'rgba(70, 240, 240, 0.2)',
                             'rgba(13, 102, 55, 0.2)',
-                            'rgba(255, 142, 155, 0.2)',
-                            'rgba(99, 202, 255, 0.2)',
-                            'rgba(123, 192, 45, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
+                            'rgba(0, 0, 128, 0.2)',
+                            'rgba(0, 130, 200, 0.2)',
+                            'rgba(240, 50, 230, 0.2)',
+                            'rgba(0, 0, 0, 0.2)'
                         ],
                         data: values
                     }
@@ -285,7 +283,7 @@
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: 'Was war die Produktion an allen Bändern in jeweiligen Monaten'
+                    text: 'Die Produktivität an allen Bändern in jeweiligen Monaten'
                 }
             }
         });

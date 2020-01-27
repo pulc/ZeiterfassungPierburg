@@ -55,7 +55,7 @@ namespace ZeiterfassungPierburg.Data
 
                     sql = @"select  ''+MONTH(DATEADD(MONTH, -"+i+ @", GETDATE())),YEAR(DATEADD(MONTH, -" + i + @", GETDATE())),
 
-sum(f.teZEIT*(DirStunden+InDirStunden)) *100/sum(Stück)
+sum(Stück) *100/(sum(f.teZEIT*(DirStunden+InDirStunden)))
 
   FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -476,6 +476,22 @@ where ProduktionsanlageID =
                 }
             }
             return result;
+        }
+        public string GetString(string column, string table, string where)
+        {
+            string result = "";
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = $"select {column} from {table} where {where} order by ID";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result = result + ","+(r.GetString(0));
+                }
+            }
+            return result.Substring(0,result.Length-1); //substring to remove the last comma
         }
 
     }

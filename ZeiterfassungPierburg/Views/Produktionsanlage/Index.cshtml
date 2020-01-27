@@ -56,7 +56,7 @@
                         }
                     </tbody>
                 </table>
-                <h4>@ViewBag.MitarbeiterMessage</h4>
+                <h4>@ViewBag.ProduktionsanlageMessage</h4>
                 @Html.ActionLink("Hinzufügen", "Create", null, new { @class = "pull-left btn btn-default", @type = "button", })
             </div>
         </div>
@@ -67,9 +67,12 @@
     @Scripts.Render("~/bundles/tableScriptBundle")
 
     <script>
+
         $(document).ready(function () {
             $('#example').DataTable();
         });
+
+
     </script>
 }
 

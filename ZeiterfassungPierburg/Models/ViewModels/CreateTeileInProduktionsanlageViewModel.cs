@@ -11,9 +11,11 @@ namespace ZeiterfassungPierburg.Models.ViewModels
 {
     public class CreateTeileInProduktionsanlageViewModel
     {
+        [Display(Name = "Produktionsanlage")]
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage;
 
+        [Display(Name = "Fertigungsteil")]
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
         public int Fertigungsteil;
 

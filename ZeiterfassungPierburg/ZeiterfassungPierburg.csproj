@@ -200,6 +200,7 @@
     <Compile Include="Controllers\ModelControllers\SchichtInfoController.cs" />
     <Compile Include="Controllers\ModelControllers\TeileInProduktionsanlageController.cs" />
     <Compile Include="Controllers\ModelControllers\ZugriffsrechteController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Data\DataAttributes.cs" />
     <Compile Include="Data\DataMapper.cs" />
     <Compile Include="Data\PropertyMappingInfo.cs" />
@@ -410,6 +411,7 @@
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Create\" />
     <Folder Include="Views\Dashboard\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

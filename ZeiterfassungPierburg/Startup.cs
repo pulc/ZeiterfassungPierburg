@@ -1,5 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using System.Collections.Generic;
+using ZeiterfassungPierburg.Data;
 
 [assembly: OwinStartupAttribute(typeof(ZeiterfassungPierburg.Startup))]
 namespace ZeiterfassungPierburg
@@ -10,5 +12,9 @@ namespace ZeiterfassungPierburg
         {
             ConfigureAuth(app);
         }
+
+        public const string Administrators = "MSI\\pulc";
+        public const string Managers= "Pierburg\\CA72438, Pierburg\\CA72439y";
+        
     }
 }

@@ -11,7 +11,9 @@ namespace ZeiterfassungPierburg.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize(Users = "MSI\\pulc")]
+
+
+        [Authorize(Users = Startup.Administrators)]
         public ActionResult Index()
         {
             Dashboard d = new Dashboard();

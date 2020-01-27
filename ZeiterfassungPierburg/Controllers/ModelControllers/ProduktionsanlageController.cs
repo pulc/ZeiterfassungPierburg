@@ -81,7 +81,7 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch
             {
-                TempData["Message"] = "Die Produktionsanlage konnte nicht gelöscht werden.";
+                TempData["Message"] = "Die Produktionsanlage konnte nicht gelöscht werden, weil die bereits für Einträge benutzt wurde.";
                 //return Index();
                 return RedirectToAction("Index");
             }

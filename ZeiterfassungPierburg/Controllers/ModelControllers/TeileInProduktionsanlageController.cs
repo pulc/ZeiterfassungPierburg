@@ -128,7 +128,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
 
 
                         ViewBag.Message = "Die Eingabe war falsch. Du hast einen Teil zu einem Band hinzugefügt, dem bereits ein Teil zugewiesen wurde." +
-                                "Keine Teile wurden hinzugefügt.";
+                                " Keine Teile wurden hinzugefügt.";
 
                         return View(model);
                         }

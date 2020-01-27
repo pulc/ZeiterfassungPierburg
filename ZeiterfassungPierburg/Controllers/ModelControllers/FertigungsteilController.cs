@@ -81,7 +81,7 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch
             {
-                TempData["Message"] = "Der Fertigungsteil konnte nicht gelöscht werden.";
+                TempData["Message"] = "Der Fertigungsteil konnte nicht gelöscht werden, weil es bereits für Einträge benutzt wurde";
                 //return Index();
                 return RedirectToAction("Index");
             }

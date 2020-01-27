@@ -81,7 +81,7 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch
             {
-                TempData["Message"] = "Der Mitarbeiter konnte nicht gelöscht werden.";
+                TempData["Message"] = "Der Mitarbeiter konnte nicht gelöscht werden, weil er/sie bereits Einträge hat";
                 //return Index();
                 return RedirectToAction("Index" );
             }

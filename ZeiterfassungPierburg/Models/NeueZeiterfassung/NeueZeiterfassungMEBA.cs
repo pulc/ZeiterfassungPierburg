@@ -24,7 +24,7 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
         [Display(Name = "Maschine")]
         public IEnumerable<SelectListItem> MaschinenListList
         {
-            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'true'")
+            get => SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'true' AND istAktiv = 'true'")
                     .Select(s => new SelectListItem()
                     {
                         Text = s.Value,

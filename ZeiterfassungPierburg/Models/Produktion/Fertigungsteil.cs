@@ -31,5 +31,11 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<float>();
             set => SetValue(value);
         }
+        [Display(Name = "ist Aktiv")]
+        public bool IstAktiv
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
     }
 }

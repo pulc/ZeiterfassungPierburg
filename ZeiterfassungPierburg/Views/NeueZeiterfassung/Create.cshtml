@@ -9,6 +9,7 @@
 
             <div class="box-body">
                 <h2>Neue Zeiterfassung</h2>
+                <h5 style="padding-bottom: 25px; padding-top: 5px;">Hinweis: Dezimalzahlen müssen einen Punkt anstatt einer Komma benutzen.</h5>
 
                 <div class="table-responsive">
                     <table class="table no-margin">
@@ -29,7 +30,7 @@
                             <tr>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new {@id= "panlage", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new { @id = "panlage", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
                                     </div>
                                 </td>

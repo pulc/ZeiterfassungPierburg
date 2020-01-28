@@ -19,7 +19,6 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
         public int Fertigungsteil;
 
-
         [Display(Name = "Produktionsanlagen und Maschinen")]
         public IEnumerable<SelectListItem> ProduktionsanlageList
         {

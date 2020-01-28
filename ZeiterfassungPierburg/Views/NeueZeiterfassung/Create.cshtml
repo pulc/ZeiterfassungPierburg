@@ -208,15 +208,18 @@
         */
 
         var nameNew = name.cloneNode(true);
+        nameNew.setAttribute("id", "name" + currentIndex);
         nameNew.setAttribute("name", "name" + currentIndex);
         nameNew.setAttribute("required", "true");
 
         var stNew = st.cloneNode(true);
+        stNew.setAttribute("id", "st" + currentIndex);
         stNew.setAttribute("name", "st" + currentIndex);
         stNew.setAttribute("required", "true");
 
 
         var dirzeitNew = dirzeit.cloneNode(true);
+        dirzeitNew.setAttribute("id", "dirzeit" + currentIndex);
         dirzeitNew.setAttribute("name", "dirzeit" + currentIndex);
         dirzeitNew.setAttribute("required", "true");
         dirzeitNew.setAttribute("type", "number");

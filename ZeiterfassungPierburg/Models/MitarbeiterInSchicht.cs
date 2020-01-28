@@ -78,6 +78,10 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-
+        public string EingetragenVon
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
     }
 }

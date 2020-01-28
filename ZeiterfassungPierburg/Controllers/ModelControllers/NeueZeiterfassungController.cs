@@ -133,7 +133,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         var date = DateTime.Now;
                         // truncate seconds and miliseconds
                         date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0 , 0, date.Kind);
-
+                        string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
 
                         string getNumber = @"select f.ID from 
 TeileInProduktionsanlage t
@@ -174,7 +174,8 @@ where ID = " + FertigungsTeilID;
                             ProduktionsanlageID = ProduktionsanlageID,
                             ErstelltAm = date,
                             Bemerkung = model.Bemerkung,
-                            Auswertung = auswertung
+                            Auswertung = auswertung,
+                            EingetragenVon = ErstelltVon
                         };  
                        
                         MitarbeiterInSchichtList.Add(m);
@@ -205,7 +206,8 @@ where ID = " + FertigungsTeilID;
                                     ProduktionsanlageID = ProduktionsanlageID,
                                     ErstelltAm = date,
                                     Bemerkung = Request.Form["bemerkung"+i],
-                                    Auswertung = auswertung
+                                    Auswertung = auswertung,
+                                    EingetragenVon = ErstelltVon
                                 };
                                 MitarbeiterInSchichtList.Add(n);
                             }
@@ -242,6 +244,7 @@ where ID = " + FertigungsTeilID;
         {
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
+            string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
 
 
 
@@ -265,7 +268,7 @@ where ID = " + FertigungsTeilID;
 
                         var date = DateTime.Now;
                         // truncate seconds and miliseconds
-                        date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
+                        date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, 0, date.Kind);
 
 
                         string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{model.FertigungsteilString}'";
@@ -293,7 +296,8 @@ where ID = " + FertigungsTeilID;
                             ProduktionsanlageID = ProduktionsanlageID,
                             ErstelltAm = date,
                             Bemerkung = model.Bemerkung,
-                            Auswertung = auswertung
+                            Auswertung = auswertung,
+                            EingetragenVon = ErstelltVon
                         };
                         MitarbeiterInSchichtList.Add(m);
 
@@ -326,7 +330,8 @@ where ID = " + FertigungsTeilID;
                                     ProduktionsanlageID = Int32.Parse(Request.Form["panlage" + i]),
                                     ErstelltAm = date,
                                     Bemerkung = Request.Form["bemerkung" + i],
-                                    Auswertung = auswertung
+                                    Auswertung = auswertung,
+                                    EingetragenVon = ErstelltVon
                                 };
                                 MitarbeiterInSchichtList.Add(n);
                             }

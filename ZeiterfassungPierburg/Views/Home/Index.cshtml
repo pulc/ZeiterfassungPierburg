@@ -123,115 +123,42 @@
 
         <div class="col-lg-3 col-xs-6">
             <div class="box-footer text-black">
-                <h4>Produktivität gesamt</h4>
+                <h4 style="padding-bottom: 20px;">Produktivität gesamt</h4>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Progress bars -->
+                        <div class="clearfix">
+                            <div id="productivity"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer text-black">
+
+                <h4 style="padding-bottom: 20px;">Produktivität gesamt - Maschinen</h4>
 
                 <div class="row">
                     <div class="col-sm-12">
                         <!-- Progress bars -->
                         <div class="clearfix">
-
-                            <div id="productivity"></div>
-                            <!--
-
-                                    <span class="pull-left">Band 101</span>
-                                    <small class="pull-right">90%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 102</span>
-                                    <small class="pull-right">70%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 103</span>
-                                    <small class="pull-right">60%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 104</span>
-                                    <small class="pull-right">40%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 203</span>
-                                    <small class="pull-right">45%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 45%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 104/105</span>
-                                    <small class="pull-right">49%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 49%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 108</span>
-                                    <small class="pull-right">89%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 89%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Band 201</span>
-                                    <small class="pull-right">103%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 103%;"></div>
-                                </div>
-                                                       ->
-                            </div>
-
-                            <!-- /.col -->
+                            <div id="productivityMaschinen"></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-xs-2">
-            <div class="box-footer text-black">
-                <h4>Produktivität der letzten 12 Monate</h4>
-
-                <div class="row">
-
-                    <canvas id="bar-chart" width="800" height="450"></canvas>
-
-
-
-                    <!--
-
-                                                            <div class="chart-container" style="position: relative; height:50%; width:100%">
-                                        <canvas id="myChart" width="50" height="50"></canvas>
-                                    </div>
-
-                                        <div class="col-sm-12">
-                        <div id="piechart">
-
-                        </div>
-                    </div>-->
-
-
-
                 </div>
             </div>
-        </div>
+
+            <div class="col-lg-6 col-xs-2">
+                <div class="box-footer text-black">
+                    <h4>Produktivität der letzten 12 Monate</h4>
+
+                    <div class="row">
+                        <canvas id="bar-chart" width="800" height="450"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
 </section>
 
 
@@ -287,81 +214,12 @@
                 }
             }
         });
-    </script>
-    <script>
-
-        var min = 0;
-        var max = 255;
-        var random =
-            Math.floor(Math.random() * (+max - +min)) + +min;
-
-
-
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'November', 'Dezember'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3, 5, 4, 34, 4, 4, 4, 4],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(134, 58, 25, 0.2)',
-                        'rgba(173, 98, 95, 0.2)',
-                        'rgba(13, 102, 55, 0.2)',
-                        'rgba(48, 142, 155, 0.2)',
-                        'rgba(159, 202, 25, 0.2)',
-                        'rgba(123, 192, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(134, 58, 25, 0.2)',
-                        'rgba(173, 98, 95, 0.2)',
-                        'rgba(13, 102, 55, 0.2)',
-                        'rgba(48, 142, 155, 0.2)',
-                        'rgba(159, 202, 25, 0.2)',
-                        'rgba(123, 192, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
-
-
-
-
-
-    <script>
-
-
 
         $(document).ready(function () {
 
-
             var weekday = new Array(7);
             weekday[0] = "Sonntag";
-            weekday[1] = "Monntag";
+            weekday[1] = "Montag";
             weekday[2] = "Dienstag";
             weekday[3] = "Mittwoch";
             weekday[4] = "Donnerstag";
@@ -370,7 +228,6 @@
 
         var i;
         for (i = 0; i < 7; i++) {
-
 
             n = new Date();
             n.setDate(n.getDate() - i);
@@ -405,38 +262,33 @@
                         <div class="progress xs">
                             <div class="progress-bar progress-bar-green" style="width: `+ value +`%;"></div>
                         </div>`;
-
-
             }
             var p = document.getElementById("productivity");
             p.innerHTML = html;
 
+
+
+            // Maschinen Produktivität Berechnung
+
+            var htmlMaschinen = '';
+                            var dictionaryMaschinen = @Html.Raw(Json.Encode(ViewBag.ProduktivitätMaschinen));
+            for (var key in dictionaryMaschinen ){
+                var value = dictionaryMaschinen[key];
+
+
+                                htmlMaschinen = htmlMaschinen+ ` <div class="clearfix">
+                            <span class="pull-left">`+ key +`</span>
+                            <small class="pull-right">`+ value +`%</small>
+                        </div>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: `+ value +`%;"></div>
+                        </div>`;
+            }
+            var r = document.getElementById("productivityMaschinen");
+            r.innerHTML = htmlMaschinen;
+
+
     });
 
-
-
-
-    // Load google charts
-    google.charts.load('current', { 'packages': ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
-
-    // Draw the chart and set the chart values
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Test1', 5],
-            ['Test2', 2],
-            ['Test3', 4],
-            ['Tst4', 2],
-            ['Test5', 8]
-        ]);
-
-        // Optional; add a title and set the width and height of the chart
-        var options = { 'title': 'Durschnittproduktivität', 'width': 550, 'height': 400 };
-
-        // Display the chart inside the <div> element with id="piechart"
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-    }
     </script>
 }

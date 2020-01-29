@@ -66,9 +66,12 @@ namespace ZeiterfassungPierburg.Controllers
                 SQLServer.Instance.EditItem<Fertigungsteil>(m);
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                ViewBag.FertigungsteilMessage = "Das geht nicht. Grund:" + e;
+
                 return View(m);
+
             }
         }
         [Authorize(Users = Startup.Administrators)]

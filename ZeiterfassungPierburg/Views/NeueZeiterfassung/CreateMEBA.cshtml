@@ -78,7 +78,7 @@
                                 <td>
                                     @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Maschine aus -", new { @id = "panlage", @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
-                                
+
                                 </td>
                                 <td>
                                     @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil", @class = "form-control" })
@@ -159,14 +159,14 @@
 
         });
 
-        var url = '@Url.Action("FetchCities", "Neuezeiterfassung")'; // Don't hard code your url's!
+        var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
         var teile = $('#fteil'); // cache it
 
 
         $("#panlage").change(function () {
         var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
 
-            $.getJSON(url, { provinceId: id }, function (response) {
+            $.getJSON(url, { produktionsanlageID: id }, function (response) {
             teile.empty();
 
             $.each(response, function (index, item) {
@@ -277,13 +277,12 @@
         $("#panlage" + currentIndex).change(function () {
             var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
 
-            $.getJSON(url, { provinceId: id }, function (response) {
+            $.getJSON(url, { produktionsanlageID: id }, function (response) {
                 $('#fteil' + currentIndex).empty();
 
                 $.each(response, function (index, item) {
 
                     $('#fteil' + currentIndex).append($('<option></option>').text(item));
-
                 });
             });
         });

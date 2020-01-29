@@ -77,47 +77,21 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             return View(model);
         }
 
-
-        // POST: NeueZeiterfassung/Create
-        public ActionResult AddMitarbeiterHTML()
+        public JsonResult FetchFertigungsteile(int produktionsanlageID) // its a GET, not a POST
         {
-            //ViewBag.NewMitarbeiter = PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
-            //NeueZeiterfassung n = new NeueZeiterfassung();
-            //ViewBag.NewMitarbeiter = n.FertigungteilList;
+            List<string> fteile = SQLServer.Instance.GetFertigungsteilList(produktionsanlageID);
 
-            //return PartialView("~/Views/NeueZeiterfassung/CreatePartial.cshtml", new NeueZeiterfassung());
-            return View("Create", temp);
-        }
-        public JsonResult FetchCities(int provinceId) // its a GET, not a POST
-        {
-            List<string> cities = SQLServer.Instance.GetFertigungsteilList(provinceId);
-
-            //<option value="6">Baggins, Bilbo</option>
-            Dictionary<string, string> openWith = new Dictionary<string, string>();
-
-            // Add some elements to the dictionary. There are no 
-            // duplicate keys, but some of the 
-            
-            //var cities = new List<string>() {"<option>sfsa</option>","<option>fs</option>","<option>saf</option>"  };
-
-
-            return Json(cities, JsonRequestBehavior.AllowGet);
+            return Json(fteile, JsonRequestBehavior.AllowGet);
         }
 
 
         [HttpPost]
-        public ActionResult Create(string submit, NeueZeiterfassung model, FormCollection col)
+        public ActionResult Create(NeueZeiterfassung model, FormCollection col)
         {
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
 
-            switch (submit)
-            {
-                case "addMitarbeiter":
-                    temp = model;
-                    return AddMitarbeiterHTML();
 
-                case "Abschicken":
 
                     try
                     {
@@ -245,28 +219,18 @@ where ID = " + FertigungsTeilID;
 
                        return View(model);
                     }
-                default:
-                    throw new Exception();
-            }
+
         }
 
 
 
         [HttpPost]
-        public ActionResult CreateMEBA(string submit, NeuezeiterfassungMEBA model, FormCollection col)
+        public ActionResult CreateMEBA(NeuezeiterfassungMEBA model, FormCollection col)
         {
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
             string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
 
-
-
-            switch (submit)
-            {
-                case "addMitarbeiter":
-                    return AddMitarbeiterHTML();
-
-                case "Abschicken":
 
                     try
                     {
@@ -389,9 +353,7 @@ where ID = " + FertigungsTeilID;
 
                         return View(model);
                     }
-                default:
-                    throw new Exception();
-            }
+
         }
         // GET: NeueZeiterfassung/Edit/5
         public ActionResult Edit(int id)

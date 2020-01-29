@@ -13,8 +13,8 @@ namespace ZeiterfassungPierburg
             ConfigureAuth(app);
         }
 
-        public const string Administrators = "MSI\\pulc";
-        public const string Managers= "Pierburg\\CA72438, Pierburg\\CA72439y";
+        public const string Administrators = "MSI\\spulc";
+        public const string Managers= "Pierburg\\CA72438, Pierburg\\CA724396";
         
     }
 }

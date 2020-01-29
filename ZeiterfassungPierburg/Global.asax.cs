@@ -20,5 +20,17 @@ namespace ZeiterfassungPierburg
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
         }
+        // Don't show the unauthorized access message
+        /*
+        protected void Application_EndRequest()
+        {
+            var context = new HttpContextWrapper(Context);
+            if (context.Response.StatusCode == 401)
+            {
+                context.Response.Redirect("~/Shared/Error401");
+            }
+        }
+        */
+        
     }
 }

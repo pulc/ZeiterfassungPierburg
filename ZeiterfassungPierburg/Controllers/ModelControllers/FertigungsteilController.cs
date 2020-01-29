@@ -21,7 +21,7 @@ namespace ZeiterfassungPierburg.Controllers
             return View(results);
         }
 
-        // GET: Fertigungsteil/Edit/5
+        [Authorize(Users = Startup.Administrators)]
         public ActionResult Edit(int id)
         {
             var results = SQLServer.Instance.GetItems<Fertigungsteil>("id = " + id.ToString());
@@ -57,7 +57,7 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(m);
             }
         }
-
+        [Authorize(Users = Startup.Administrators)]
         [HttpPost]
         public ActionResult Edit(Fertigungsteil m)
         {
@@ -71,7 +71,7 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(m);
             }
         }
-        // GET: Fertigungsteil/Delete/5
+        [Authorize(Users = Startup.Administrators)]
         public ActionResult Delete(int id)
         {
             try

@@ -13,5 +13,9 @@ namespace ZeiterfassungPierburg.Controllers
         {
             return View();
         }
+        public ActionResult Error401()
+        {
+            return View();
+        }
     }
 }

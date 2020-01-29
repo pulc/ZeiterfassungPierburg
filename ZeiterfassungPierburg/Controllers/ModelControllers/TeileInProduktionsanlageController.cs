@@ -22,6 +22,7 @@ namespace ZeiterfassungPierburg.Controllers
             return View(results);
         }
 
+        [Authorize(Users = Startup.Administrators)]
         // GET: TeileInProduktionsanlage/Edit/5
         public ActionResult Edit(int id)
         {
@@ -150,7 +151,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                     throw new Exception();
             }
         }
-
+        [Authorize(Users = Startup.Administrators)]
         [HttpPost]
         public ActionResult Edit(TeileInProduktionsanlage m)
         {
@@ -164,7 +165,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                 return View(m);
             }
         }
-        // GET: TeileInProduktionsanlage/Delete/5
+        [Authorize(Users = Startup.Administrators)]
         public ActionResult Delete(int id)
         {
             try

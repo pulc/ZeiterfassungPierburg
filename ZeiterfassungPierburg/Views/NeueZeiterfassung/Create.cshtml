@@ -151,15 +151,7 @@
                 validator.form()
             });
         });
-
-        function doAlert() {
-
-        }
-        // dynamic droplist https://stackoverflow.com/questions/30084568/populate-dropdownlist-using-ajax-mvc-4
-
-
         
-
         function RemoveRow() {
             var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
 
@@ -172,10 +164,6 @@
             var rowCount = myTable.rows.length;
             console.log(rowCount);
         }
-
-
-        
-
 
     function AddRow() {
        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
@@ -196,16 +184,6 @@
         var indirzeit = document.getElementById('indirzeit');
         //indirzeit.setAttribute("name", "indirzeit0");
         var bemerkung = document.getElementById('bemerkung');
-        
-        /*
-        nameNew.setAttribute("name", "name" + currentIndex);
-        nameNew.setAttribute("form", "frm" + currentIndex);
-        nameNew.setAttribute("id", "name" + currentIndex);
-
-        nameNew.setAttribute("class", "form-control input-validation-error");
-        nameNew.setAttribute("data-val", "true");
-        nameNew.setAttribute("aria-describedby", "name-error");
-        */
 
         var nameNew = name.cloneNode(true);
         nameNew.setAttribute("id", "name" + currentIndex);
@@ -223,13 +201,16 @@
         dirzeitNew.setAttribute("name", "dirzeit" + currentIndex);
         dirzeitNew.setAttribute("required", "true");
         dirzeitNew.setAttribute("type", "number");
+        dirzeitNew.setAttribute("max", "9.99");
+        dirzeitNew.setAttribute("min", "0");
 
 
         var indirzeitNew = indirzeit.cloneNode(true);
         indirzeitNew.setAttribute("name", "indirzeit" + currentIndex);
         indirzeitNew.setAttribute("required", "true");
         indirzeitNew.setAttribute("type", "number");
-
+        indirzeitNew.setAttribute("max", "9.99");
+        indirzeitNew.setAttribute("min", "0");
 
         var bemerkungNew = bemerkung.cloneNode(true);
         bemerkungNew.setAttribute("name", "bemerkung" + currentIndex);
@@ -252,7 +233,6 @@
 
         var rowCount = myTable.rows.length;
         console.log(rowCount);
-
         }
 
     function RemoveRow() {

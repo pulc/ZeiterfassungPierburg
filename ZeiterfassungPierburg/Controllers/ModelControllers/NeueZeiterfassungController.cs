@@ -155,6 +155,11 @@ where ID = " + FertigungsTeilID;
 
                         }
 
+                        if ((model.InDirZeit + model.DirZeit) == 0)
+                        {
+                            ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
+                            return View(model);
+                        }
 
                         float auswertung = 0;
                         if((model.InDirZeit + model.DirZeit) != 0)
@@ -189,10 +194,18 @@ where ID = " + FertigungsTeilID;
                             for (int i = 1; i <= MitarbeiterToAdd; i++)
                             {
                                 auswertung = 0;
+                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
+                                {
+                                    foreach (var id in InsertedID)
+                                    {
+                                        SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                                    }
+                                    ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
+                                    return View(model);
+                                }
                                 if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) != 0)
                                 {
                                     auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
-
                                 }
                                 // TODO: berechnen Fertigungsteil ID 
                                 MitarbeiterInSchicht n = new MitarbeiterInSchicht()
@@ -280,11 +293,19 @@ where ID = " + FertigungsTeilID;
 
                         float teZeit = (float)SQLServer.Instance.GetDecimal(getTeZeit);
                         float auswertung = 0;
-                        if ((model.InDirZeit + model.DirZeit) != 0)
+                        if ((model.InDirZeit + model.DirZeit) == 0)
+                        {
+                            ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
+                            return View(model);
+                        }
+
+
+                            if ((model.InDirZeit + model.DirZeit) != 0)
                         {
                             auswertung = ((model.Stückzahl / (model.DirZeit + model.InDirZeit)) * 100) / teZeit;
                         }
-                        // Create the first Mitarbeiter model
+
+                // Create the first Mitarbeiter model
                         MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
                         {
                             SchichtInfoID = SchichtInfoID,
@@ -310,6 +331,17 @@ where ID = " + FertigungsTeilID;
                             for (int i = 1; i <= MitarbeiterToAdd; i++)
                             {
                                 auswertung = 0;
+                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
+                                {
+                                    foreach (var id in InsertedID)
+                                    {
+                                        SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                                    }
+                                    ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
+                                    return View(model);
+                                }
+
+
                                 if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) != 0)
                                 {
                                     auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
@@ -318,6 +350,7 @@ where ID = " + FertigungsTeilID;
 
                                 getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
                                 FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+
 
                                 MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                                 {
@@ -390,6 +423,7 @@ where ID = " + FertigungsTeilID;
             // Display Done.html page that shows Name and selected state.
             return View(model);
         }
+
 
         // GET: NeueZeiterfassung/Delete/5
         public ActionResult Delete(int id)

@@ -91,8 +91,6 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
 
-
-
                     try
                     {
                         SchichtInfo s = new SchichtInfo()
@@ -219,11 +217,7 @@ where ID = " + FertigungsTeilID;
 
                        return View(model);
                     }
-
         }
-
-
-
         [HttpPost]
         public ActionResult CreateMEBA(NeuezeiterfassungMEBA model, FormCollection col)
         {
@@ -418,7 +412,6 @@ where ID = " + FertigungsTeilID;
         /*
         private float calculateAuswertung (float stückzahl, float gettezeit, float dirst, float indirst)
         {
-            
             float teZeit = (float)SQLServer.Instance.GetDecimal(gettezeit);
             float auswertung = 0;
             if ((model.InDirZeit + model.DirZeit) != 0)

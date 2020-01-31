@@ -222,6 +222,7 @@
     <Compile Include="Models\ViewModels\CreateTeileInProduktionsanlageViewModel.cs" />
     <Compile Include="Models\ViewModels\Dashboard.cs" />
     <Compile Include="Models\ViewModels\MitarbeiterInSchichtViewModelMEBA.cs" />
+    <Compile Include="Models\ViewModels\ProduktivitätViewModel.cs" />
     <Compile Include="Models\ViewModels\TeileInProduktionsanlageViewModel.cs" />
     <Compile Include="Models\Zugriffsrechte.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Tests\DataMappingTests.cs" />
     <Compile Include="Tests\SqlTests.cs" />
+    <Compile Include="Controllers\ModelControllers\ProduktivitätController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -388,6 +390,8 @@
     <Content Include="Views\Zugriffsrechte\Edit.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\test.cshtml" />
     <Content Include="Views\Shared\Error401.cshtml" />
+    <Content Include="Views\Produktivität\Index.cshtml" />
+    <Content Include="Views\Produktivität\Create.cshtml" />
     <None Include="Web.DebugMartin.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

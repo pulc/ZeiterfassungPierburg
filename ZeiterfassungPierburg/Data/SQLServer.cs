@@ -125,7 +125,7 @@ order by Bezeichner
 
                     try
                     {
-                        result.Add(r.GetString(0)+"_"+r.GetString(1), (float)r.GetDecimal(2));
+                        result.Add(r.GetString(0) + "_" + r.GetString(1), (float)r.GetDecimal(2));
                     }
                     catch
                     {
@@ -133,7 +133,6 @@ order by Bezeichner
                     }
                 }
             }
-
             return result;
         }
 
@@ -266,6 +265,45 @@ where p.IstEineMaschine = 'True'
 
             }
         }
+
+        public IEnumerable<T> GetProduktivitätViewModel<T>(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID)
+        {
+            using (var c = NewOpenConnection)
+            {
+
+                string dayCondition = "'true'='true'";
+                if (day != 0) dayCondition = "DAY(s.Datum) = " + day;
+                string monthCondition = "'true'='true'";
+                if (month != 0) monthCondition = "MONTH(s.Datum) = " + month;
+                string yearCondition = "'true'='true'";
+                if (year != 0) yearCondition = "YEAR(s.Datum) = " + year;
+                string anlageCondition = "'true'='true'";
+                if (ProduktionsanlageID != 0) anlageCondition = "ProduktionsanlageID = " + ProduktionsanlageID;
+                string teilCondition = "'true'='true'";
+                if (FertigungsteilID != 0) teilCondition = "FertigungsteilID = " + FertigungsteilID;
+
+                string sql = @" 
+select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
+
+sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität
+
+  FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
+LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
+LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID";
+
+
+                sql = sql + " where " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + anlageCondition + " and " + teilCondition + @"
+ group by p.Bezeichner, f.Bezeichnung
+order by Produktionsanlage,Fertigungsteil";
+
+                return c.Query<T>(sql).ToList();
+
+            }
+        }
+
+
         public IEnumerable<T> GetMitarbeiterInSchichtModel<T>()
         {
             using (var c = NewOpenConnection)
@@ -533,6 +571,28 @@ where ProduktionsanlageID =
             }
             return result.Substring(0, result.Length - 1); //substring to remove the last comma
         }
+        public Dictionary<int, string> GetDictionaryProduktivität(string tableName, string labelString, string where)
+        {
+            Dictionary<int, string> result = new Dictionary<int, string>();
 
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql;
+                result.Add(0, "alle");
+
+                if (where != null)
+                {
+                    sql = $"SELECT Id, {labelString} As Label FROM {tableName} WHERE {where} order by Label";
+                }
+                else sql = $"SELECT Id, {labelString} As Label FROM {tableName}  order by Label";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result.Add(r.GetInt32(0), r.GetString(1));
+                }
+            }
+            return result;
+        }
     }
 }

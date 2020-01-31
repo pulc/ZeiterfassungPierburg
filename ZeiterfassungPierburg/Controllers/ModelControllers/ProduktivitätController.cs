@@ -16,6 +16,49 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         // GET: Produktivität
         public ActionResult Index(ProduktivitätViewModel m)
         {
+
+            string message = " ";
+
+            
+
+            if(m.Day != 0)
+            {
+                message = message + " Tag:" + m.Day;
+            ViewBag.Day = m.Day;
+            }
+            if(m.Month != 0)
+            {
+                message = message + " Monat:" + m.Month;
+
+                ViewBag.Month = m.Month;
+            }
+            if(m.Year != 0)
+            {
+                message = message + " Jahr:" + m.Year;
+
+                ViewBag.Year = m.Year;
+            }
+            
+            if (m.ProduktionsanlageID != 0)
+            {
+                message = message + " ProduktionsanlageID:" + m.FertigungsteilID;
+
+                ViewBag.Year = m.Year;
+            }
+            if (m.FertigungsteilID != 0)
+            {
+                message = message + " FertigungsteilID:" + m.ProduktionsanlageID;
+
+                ViewBag.Year = m.Year;
+            }
+            
+            ViewBag.Message = message;
+
+            /*
+            ViewBag.day = m.Day;
+            ViewBag.day = m.Day;
+            */
+
             var results = SQLServer.Instance.GetProduktivitätViewModel<ProduktivitätViewModel>(m.Day, m.Month, m.Year, m.ProduktionsanlageID, m.FertigungsteilID);
             return View(results);
         }

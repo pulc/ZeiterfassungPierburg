@@ -68,9 +68,6 @@ namespace ZeiterfassungPierburg.Controllers
                         };
                         list.Add(m);
 
-
-
-
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
                         int TeileToAdd = (col.Count - 4) / 2; //Count how many additionaly entires there are
@@ -88,7 +85,6 @@ namespace ZeiterfassungPierburg.Controllers
                             }
                         }
                         // TODO: Bedingungen für keine doppelte Eingaben für Band  und Teile
-                       
 
 
                         // add all models into the DB
@@ -170,8 +166,22 @@ where Produktionsanlage.IstEineMaschine = 'false'");
         {
             try
             {
-                SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
-                return RedirectToAction("Index");
+                int fteileCount = SQLServer.Instance.GetNumber(@"SELECT Produktionsanlage.ID 
+  FROM[zeiterfassung].[dbo].[TeileInProduktionsanlage] left outer join Produktionsanlage on TeileInProduktionsanlage.ProduktionsanlageID = Produktionsanlage.ID
+  where Produktionsanlage.IstEineMaschine = 'false' and ProduktionsanlageID = " + id);
+
+                if (fteileCount != 0)
+                {
+                    SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    TempData["Message"] = "Das Band konnte nicht gelöscht werden, da es muss mindestens einen Teil haben muss.";
+
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {

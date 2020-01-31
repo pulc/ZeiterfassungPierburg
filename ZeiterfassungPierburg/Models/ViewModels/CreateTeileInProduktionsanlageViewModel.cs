@@ -33,7 +33,7 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         [Display(Name = "Fertigungsteile")]
         public IEnumerable<SelectListItem> FertigungteilList
         {
-            get => SQLServer.Instance.GetDictionary("Fertigungsteil", "Bezeichnung", "where istAktiv = 'true'")
+            get => SQLServer.Instance.GetDictionary("Fertigungsteil", "Bezeichnung", "istAktiv = 'true'")
                 .Select(s => new SelectListItem()
                 {
                     Text = s.Value,

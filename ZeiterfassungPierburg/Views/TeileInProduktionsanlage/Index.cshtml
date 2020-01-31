@@ -6,7 +6,7 @@
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3>Übersicht der Zugehörigkeit der Teile zu den Produktionsanlagen</h3>
-                <h5 style="padding-bottom: 25px; padding-top: 5px; color:red">Hinweis: Bänder dürfen nur über einen Fertigungsteil verfügen. Wenn du den Teil ändern möchtest, musst du erstmal den vorigen Teil löschen.</h5>
+                <h5 style="padding-bottom: 25px; padding-top: 5px; color:red">Hinweis: Bänder dürfen nur über einen Fertigungsteil verfügen.</h5>
                 <table id="example" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
@@ -39,7 +39,7 @@
                         }
                     </tbody>
                 </table>
-                <h4>@ViewBag.MitarbeiterMessage</h4>
+                <h4>@ViewBag.TeileInProduktionsanlageMessage</h4>
                 @Html.ActionLink("Hinzufügen", "Create", null, new { @class = "pull-left btn btn-default", @type = "button", })
             </div>
         </div>

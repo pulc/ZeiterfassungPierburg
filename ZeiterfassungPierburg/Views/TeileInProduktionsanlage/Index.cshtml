@@ -33,6 +33,8 @@
                                 </td>
 
                                 <td>
+                                    @Html.ActionLink("Bearbeitern", "Edit", new { id = item.ID }) |
+
                                     @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
                                 </td>
                             </tr>

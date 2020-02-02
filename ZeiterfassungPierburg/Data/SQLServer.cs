@@ -180,24 +180,34 @@ group by p.Bezeichner
         }
 
         // dictionary methods for dropdown lists
-        public Dictionary<int, string> GetDictionaryTest(string tableName, string labelString, string where)
+        public List<List<string>> GetDictionaryTeileInProduktionsanlageEdit(int ID)
         {
-            Dictionary<int, string> result = new Dictionary<int, string>();
+            List<List<string>>  result = new List<List<string>>();
 
             using (SqlConnection conn = NewOpenConnection)
             {
-                string sql;
+                string sql = @"
+select
 
-                if (where != null)
-                {
-                    sql = $"SELECT t.Id, {labelString} As Label FROM {tableName} WHERE {where}";
-                }
-                else sql = $"SELECT Id, {labelString} As Label FROM {tableName}";
+p.Bezeichner as Produktionsanlage,
+t.ProduktionsanlageID,
+f.Bezeichnung as Fertigungsteil
 
+from [zeiterfassung].[dbo].TeileInProduktionsanlage t
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
+ where t.ID = " + ID;
+
+                
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
                 {
-                    result.Add(r.GetInt32(0), r.GetString(1));
+                    List<string> temp = new List<string>();
+                    temp.Add(r.GetString(0));
+                    temp.Add(r.GetInt32(1).ToString());
+                    temp.Add(r.GetString(2));
+
+                    result.Add(temp);
                 }
             }
             return result;
@@ -217,10 +227,13 @@ group by p.Bezeichner
                 {
                     sql += $" WHERE {whereClause}";
                 }
-
                 return c.Query<T>(sql).ToList();
             }
         }
+
+
+
+
         public T GetItem<T>(int id) where T : BasicModelObject, new()
         {
             using (var c = NewOpenConnection)
@@ -423,6 +436,27 @@ where p.IstEineMaschine = 'False'
             return Convert.ToInt32(result);
         }
 
+
+
+        public int ExecuteCommand(string command)
+        {
+            using (SqlConnection conn = NewOpenConnection)
+
+            {
+                try { 
+                SqlCommand c = new SqlCommand(command, conn);
+                return 1;
+                    
+                }
+                catch
+                { 
+                
+                return 0;
+                }
+            }
+        }
+
+
         public int GetNumber(string command)
         {
             int result = 0;
@@ -493,7 +527,8 @@ f.Bezeichnung as Fertigungsteil
 
 from [zeiterfassung].[dbo].TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
-LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID"
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
+ where p.Bezeichner is not null and f.Bezeichnung is not null"
 ;
                 return c.Query<T>(sql).ToList();
 
@@ -594,5 +629,6 @@ where ProduktionsanlageID =
             }
             return result;
         }
+
     }
 }

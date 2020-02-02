@@ -11,6 +11,8 @@ namespace ZeiterfassungPierburg.Models.ViewModels
 {
     public class CreateTeileInProduktionsanlageViewModel
     {
+        public int ID;
+
         [Display(Name = "Produktionsanlage")]
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage;
@@ -40,5 +42,8 @@ namespace ZeiterfassungPierburg.Models.ViewModels
                     Value = s.Key.ToString()
                 });
         }
+
+        [Display(Name = "Produktionsanlage")]
+        public string ProduktionsanlageBezeichner;
     }
 }

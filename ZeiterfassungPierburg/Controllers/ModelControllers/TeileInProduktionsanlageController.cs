@@ -7,9 +7,11 @@ using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models.ViewModels;
 using ZeiterfassungPierburg.Models.Produktion;
+using System.Data.SqlClient;
 
 namespace ZeiterfassungPierburg.Controllers
 {
+    // need refactoring - add EditViewModel 
     public class TeileInProduktionsanlageController : Controller
     {
         // GET: TeileInProduktionsanlage
@@ -23,17 +25,18 @@ namespace ZeiterfassungPierburg.Controllers
         }
 
         [Authorize(Users = Startup.Administrators)]
-        // GET: TeileInProduktionsanlage/Edit/5
         public ActionResult Edit(int id)
         {
-            var results = SQLServer.Instance.GetItems<TeileInProduktionsanlage>("id = " + id.ToString());
-            if (results.Count() != 1)
-            {
-                // todo: implement proper error message to be displayed
-                return HttpNotFound("Der TeileInProduktionsanlage wurde nicht gefunden.");
-            }
-            else
-                return View(results.First());
+            List<List<string>> results = SQLServer.Instance.GetDictionaryTeileInProduktionsanlageEdit(id);
+
+            CreateTeileInProduktionsanlageViewModel m = new CreateTeileInProduktionsanlageViewModel();
+
+            List<string> temp = results[0];
+            m.ProduktionsanlageBezeichner = temp[0];
+            m.Produktionsanlage = Int32.Parse(temp[1]);
+            m.ID = id;
+              
+            return View(m);
         }
 
 
@@ -147,38 +150,53 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                     throw new Exception();
             }
         }
+
+
         [Authorize(Users = Startup.Administrators)]
         [HttpPost]
-        public ActionResult Edit(TeileInProduktionsanlage m)
+        public ActionResult Edit(CreateTeileInProduktionsanlageViewModel m, FormCollection col)
         {
             try
             {
-                SQLServer.Instance.EditItem<TeileInProduktionsanlage>(m);
+
+                string fteil = Request.Form["Fertigungsteil"];
+                string id = Request.Form["ID"];
+
+
+                string sqlstring = @"
+   UPDATE [dbo].[TeileInProduktionsanlage]
+   SET    [FertigungsteilID] = "+fteil+" WHERE ID = "+id;
+
+                int success = SQLServer.Instance.ExecuteCommand(sqlstring);
+                TempData["Message"] = "Die Anlage wirde geändet.";
+
                 return RedirectToAction("Index");
             }
             catch (Exception)
             {
+                TempData["Message"] = "Die Anlage kann nicht bearbeitet werden.";
+
                 return View(m);
             }
         }
+        
         [Authorize(Users = Startup.Administrators)]
         public ActionResult Delete(int id)
         {
             try
             {
-                int fteileCount = SQLServer.Instance.GetNumber(@"SELECT Produktionsanlage.ID 
+                int fteileCount = SQLServer.Instance.GetNumber(@"SELECT *
   FROM[zeiterfassung].[dbo].[TeileInProduktionsanlage] left outer join Produktionsanlage on TeileInProduktionsanlage.ProduktionsanlageID = Produktionsanlage.ID
-  where Produktionsanlage.IstEineMaschine = 'false' and ProduktionsanlageID = " + id);
+  where TeileInProduktionsanlage.ID = " + id);
 
-                if (fteileCount != 0)
+                if (fteileCount != 1)
                 {
                     SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
                     return RedirectToAction("Index");
                 }
-
                 else
                 {
-                    TempData["Message"] = "Das Band konnte nicht gelöscht werden, da es muss mindestens einen Teil haben muss.";
+                    TempData["Message"] = "Eine Produktionsanlage muss mindestens einen Teil haben muss.";
 
                     return RedirectToAction("Index");
                 }

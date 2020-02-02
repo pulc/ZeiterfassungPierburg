@@ -35,8 +35,6 @@ namespace ZeiterfassungPierburg.Controllers
             else
                 return View(results.First());
         }
-
-
         // GET: Produktionsanlage/Create
 
         public ActionResult Create()

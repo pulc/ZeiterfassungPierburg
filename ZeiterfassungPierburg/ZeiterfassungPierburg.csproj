@@ -392,6 +392,7 @@
     <Content Include="Views\Shared\Error401.cshtml" />
     <Content Include="Views\Produktivität\Index.cshtml" />
     <Content Include="Views\Produktivität\Create.cshtml" />
+    <Content Include="Views\TeileInProduktionsanlage\Edit.cshtml" />
     <None Include="Web.DebugMartin.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

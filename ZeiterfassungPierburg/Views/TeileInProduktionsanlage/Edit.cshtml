@@ -1,0 +1,52 @@
+﻿@model ZeiterfassungPierburg.Models.ViewModels.CreateTeileInProduktionsanlageViewModel
+
+
+<section class="content container-fluid">
+    <h3>Teil bei Produktionsanlage bearbeiten</h3>
+
+    <div class="box box-info">
+        <div class="box-body">
+            <div class="form-horizontal">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.ID)
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Produktionsanlage, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.ProduktionsanlageBezeichner, new { htmlAttributes = new { @class = "form-control" } })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fertigungsteil, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle einen Fertigungsteil aus -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <input type="submit" value="Speichern" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+
+                <div>
+                    @Html.ActionLink("Zurück zur Übersicht", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

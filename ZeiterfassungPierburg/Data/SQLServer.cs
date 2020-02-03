@@ -279,10 +279,13 @@ where p.IstEineMaschine = 'True'
             }
         }
 
-        public IEnumerable<T> GetProduktivitätViewModel<T>(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID)
+        public IEnumerable<T> GetProduktivitätViewModel<T>(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID, int MitarbeiterID, int Art)
         {
             using (var c = NewOpenConnection)
             {
+                string groupyByString = @"group by p.Bezeichner, f.Bezeichnung ";
+
+
 
                 string dayCondition = "'true'='true'";
                 if (day != 0) dayCondition = "DAY(s.Datum) = " + day;
@@ -294,6 +297,20 @@ where p.IstEineMaschine = 'True'
                 if (ProduktionsanlageID != 0) anlageCondition = "ProduktionsanlageID = " + ProduktionsanlageID;
                 string teilCondition = "'true'='true'";
                 if (FertigungsteilID != 0) teilCondition = "FertigungsteilID = " + FertigungsteilID;
+
+                string mitarbeiterCondition = "'true'='true'";
+                if (MitarbeiterID != 0)
+                {
+                    mitarbeiterCondition = "MitarbeiterID = " + MitarbeiterID;
+                    groupyByString = groupyByString + " ,MitarbeiterID";
+                }
+                string schichtCondition = "'true'='true'";
+                if (Art != 0)
+                {
+                        schichtCondition = "Art = " + Art;
+                    groupyByString = groupyByString + " ,Art";
+                }
+
 
                 string sql = @" 
 select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
@@ -307,12 +324,13 @@ LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
 LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID";
 
 
-                sql = sql + " where " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + anlageCondition + " and " + teilCondition + @"
- group by p.Bezeichner, f.Bezeichnung
-order by Produktionsanlage,Fertigungsteil";
+                sql = sql + " where " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + anlageCondition + " and " + teilCondition + " and " + mitarbeiterCondition + " and " + schichtCondition;
 
-                return c.Query<T>(sql).ToList();
+                string orderBy = " order by Produktionsanlage,Fertigungsteil";
 
+                string cmd = sql + groupyByString + orderBy;
+
+                return c.Query<T>(cmd).ToList();
             }
         }
 
@@ -467,7 +485,6 @@ where p.IstEineMaschine = 'False'
                     sql = command;
 
                     SqlDataReader r = ExecuteSelectStatement(conn, sql);
-
                     // TO DO: Nullbehandlung
 
                     while (r.Read())

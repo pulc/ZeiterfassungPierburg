@@ -36,6 +36,20 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Art, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(m => m.Art, Model.ArtList, null, new { @id = "panlage", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ArtList, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MitarbeiterID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(m => m.MitarbeiterID, Model.MitarbeiterList, null, new { @id = "panlage", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MitarbeiterList, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
 
                     <div class="form-group">
@@ -61,7 +75,7 @@
                     <div class="form-group">
 
                         <div class="col-md-8 col-xs-offset-2">
-                            <label>Hinweis: Für Ausrechnung der gesamten Produktivität alles lassen</label>
+                            <label>Hinweis: Für Ausrechnung der gesamten Produktivität alle Felder unverändert lassen</label>
 
                         </div>
                     </div>

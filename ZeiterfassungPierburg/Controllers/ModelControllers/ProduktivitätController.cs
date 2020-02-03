@@ -51,7 +51,19 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
                 ViewBag.Year = m.Year;
             }
-            
+            if (m.MitarbeiterID != 0)
+            {
+                message = message + " MitarbeiterID:" + m.MitarbeiterID;
+
+                ViewBag.Year = m.Year;
+            }
+            if (m.Art != 0)
+            {
+                message = message + " SchichtID:" + m.Art;
+
+                ViewBag.Year = m.Year;
+            }
+
             ViewBag.Message = message;
 
             /*
@@ -59,7 +71,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             ViewBag.day = m.Day;
             */
 
-            var results = SQLServer.Instance.GetProduktivitätViewModel<ProduktivitätViewModel>(m.Day, m.Month, m.Year, m.ProduktionsanlageID, m.FertigungsteilID);
+            var results = SQLServer.Instance.GetProduktivitätViewModel<ProduktivitätViewModel>(m.Day, m.Month, m.Year, m.ProduktionsanlageID, m.FertigungsteilID, m.MitarbeiterID, m.Art);
             return View(results);
         }
         

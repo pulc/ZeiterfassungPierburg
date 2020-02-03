@@ -19,6 +19,8 @@ namespace ZeiterfassungPierburg.Models.ViewModels
 
         public int FertigungsteilID { get; set; }
 
+        public string Mitarbeiter;
+
 
         [Display(Name = "Mitarbeiter")]
         public int MitarbeiterID { get; set; }
@@ -32,6 +34,7 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         public int Day { get; set; }
         [Display(Name = "Monat")]
         public int Month{ get; set; }
+
         [Display(Name = "Jahr")]
         public int Year { get; set; }
 
@@ -48,7 +51,7 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         [Display(Name = "Mitarbeiter")]
         public IEnumerable<SelectListItem> MitarbeiterList
         {
-            get => SQLServer.Instance.GetDictionaryProduktivität("Mitarbeiter", "Nachname", null)
+            get => SQLServer.Instance.GetDictionaryProduktivität("Mitarbeiter", "Nachname + ' ' + Vorname", null)
                 .Select(s => new SelectListItem()
                 {
                     Text = s.Value,

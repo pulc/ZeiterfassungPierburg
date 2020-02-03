@@ -284,8 +284,10 @@ where p.IstEineMaschine = 'True'
             using (var c = NewOpenConnection)
             {
                 string groupyByString = @"group by p.Bezeichner, f.Bezeichnung ";
+                string select = @" 
+select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
 
-
+sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität";
 
                 string dayCondition = "'true'='true'";
                 if (day != 0) dayCondition = "DAY(s.Datum) = " + day;
@@ -302,20 +304,18 @@ where p.IstEineMaschine = 'True'
                 if (MitarbeiterID != 0)
                 {
                     mitarbeiterCondition = "MitarbeiterID = " + MitarbeiterID;
-                    groupyByString = groupyByString + " ,MitarbeiterID";
+                    groupyByString = groupyByString + " ,MitarbeiterID,m.Nachname,m.Vorname";
+                    select = select + " , m.Nachname + ' ' + m.Vorname as Mitarbeiter";
                 }
                 string schichtCondition = "'true'='true'";
                 if (Art != 0)
                 {
-                        schichtCondition = "Art = " + Art;
+                    schichtCondition = "Art = " + Art;
                     groupyByString = groupyByString + " ,Art";
                 }
 
 
-                string sql = @" 
-select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
-
-sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität
+                string sql = @"
 
   FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -328,7 +328,7 @@ LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID";
 
                 string orderBy = " order by Produktionsanlage,Fertigungsteil";
 
-                string cmd = sql + groupyByString + orderBy;
+                string cmd = select + sql + groupyByString + orderBy;
 
                 return c.Query<T>(cmd).ToList();
             }

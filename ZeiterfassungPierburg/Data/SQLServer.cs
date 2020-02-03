@@ -436,21 +436,19 @@ where p.IstEineMaschine = 'False'
             return Convert.ToInt32(result);
         }
 
-
-
+        // TODO: Needs to be corrected
         public int ExecuteCommand(string command)
         {
             using (SqlConnection conn = NewOpenConnection)
-
             {
                 try { 
                 SqlCommand c = new SqlCommand(command, conn);
+                object result = c.ExecuteScalar();
+
                 return 1;
-                    
                 }
-                catch
+                catch (Exception e)
                 { 
-                
                 return 0;
                 }
             }

@@ -168,7 +168,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
    SET    [FertigungsteilID] = "+fteil+" WHERE ID = "+id;
 
                 int success = SQLServer.Instance.ExecuteCommand(sqlstring);
-                TempData["Message"] = "Die Anlage wirde geändet.";
+                TempData["Message"] = "Die Anlage wurde geändet.";
 
                 return RedirectToAction("Index");
             }

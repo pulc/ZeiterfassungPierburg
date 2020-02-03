@@ -128,9 +128,9 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         public IEnumerable<SelectListItem> ArtList { get; set; } = new List<SelectListItem>()
         {
         new SelectListItem{ Text="alle Schichten", Value="0"},
-        new SelectListItem{ Text="1", Value="Früh"},
-        new SelectListItem{ Text="2", Value="Spät"},
-        new SelectListItem{ Text="3", Value="Nacht"},
+        new SelectListItem{ Text="Früh", Value="1"},
+        new SelectListItem{ Text="Spät", Value="2"},
+        new SelectListItem{ Text="Nacht", Value="3"},
         };
     }
 }

@@ -21,7 +21,6 @@ namespace ZeiterfassungPierburg.Models.ViewModels
 
         public string Mitarbeiter;
 
-
         [Display(Name = "Mitarbeiter")]
         public int MitarbeiterID { get; set; }
 

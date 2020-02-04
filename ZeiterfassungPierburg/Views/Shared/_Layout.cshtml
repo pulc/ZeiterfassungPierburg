@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Pierburg Zeiterfassung</title>
 
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/modernizr")
 
     <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
-
 </head>
-
 <body>
     <div class="wrapper">
 
@@ -129,10 +126,11 @@
             <div class="pull-right hidden-xs">
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2019 <a href="#">Pierburg</a>.</strong> All rights reserved.
+            <strong> &copy; @DateTime.Now.Year <a href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
         </footer>
     </div>
 </body>
 
 
 </html>
+    

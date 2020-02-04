@@ -562,7 +562,7 @@ TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where ProduktionsanlageID = 
-" + ProduktionsanlageID;
+" + ProduktionsanlageID + " and f.Bezeichnung is not null ";
 
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())

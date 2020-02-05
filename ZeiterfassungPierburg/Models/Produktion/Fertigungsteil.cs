@@ -37,5 +37,13 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<bool>();
             set => SetValue(value);
         }
+
+        [Required(ErrorMessage = "Du musst noch die Anzahl der Mitarbeiter eingeben.")]
+        [Display(Name = "Anzhal MA")]
+        public int AnzahlMA
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
     }
 }

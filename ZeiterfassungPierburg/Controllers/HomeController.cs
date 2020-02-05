@@ -20,7 +20,7 @@ namespace ZeiterfassungPierburg.Controllers
 
             ViewBag.Name = System.Web.HttpContext.Current.User.Identity.Name;
 
-            ViewBag.Produktivität = d.Produktivität;
+            //ViewBag.Produktivität = d.Produktivität;
             ViewBag.ProduktivitätLast12Months = d.ProduktivitätLast12Months;
             ViewBag.ProduktivitätMaschinen = d.ProduktivitätMaschinen;
 

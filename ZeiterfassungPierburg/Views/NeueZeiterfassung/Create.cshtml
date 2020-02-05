@@ -69,7 +69,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.TeileEmpty ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.TeileEmpty ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil0", @class = "form-control" })
 
                                     @Html.ValidationMessageFor(model => model.FertigungsteilString, "", new { @class = "text-danger" })
                                 </td>
@@ -194,7 +194,7 @@
 
     <script>
         // SET NAME ATTRIBUTE
-        var fteil = document.getElementById('fteil');
+        var fteil = document.getElementById('fteil0');
         fteil.setAttribute("name", "fteil0");
 
         var st = document.getElementById('st');
@@ -220,23 +220,26 @@
             });
         });
 
-        var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
-        var teile = $('#fteil'); // cache it
-
+var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
 
         $("#panlage").change(function () {
-        var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+
+            var $eles = $(":input[name^='fteil']");
 
             $.getJSON(url, { produktionsanlageID: id }, function (response) {
-            teile.empty();
 
-            $.each(response, function (index, item) {
+                for (i = 0; i < $eles.length; i++) {
 
-                teile.append($('<option></option>').text(item));
+                    $('#fteil' + i).empty();
 
-            });
-    });
-});
+                    $.each(response, function (index, item) {
+
+                        $('#fteil' + i).append($('<option></option>').text(item));
+                    });
+                }
+                });
+        });
 
         function RemoveRow(table) {
             var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
@@ -331,20 +334,6 @@
         }
 
 
-
-        $("#panlage").change(function () {
-            var id = $(this).val(); 
-
-            $.getJSON(url, { produktionsanlageID: id }, function (response) {
-                $('#fteil' + currentIndex).empty();
-
-                $.each(response, function (index, item) {
-
-                    $('#fteil' + currentIndex).append($('<option></option>').text(item));
-                });
-            });
-        });
-        
 
         function RemoveRow(table) {
         var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];

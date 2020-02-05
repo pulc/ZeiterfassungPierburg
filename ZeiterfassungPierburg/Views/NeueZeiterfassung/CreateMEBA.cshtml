@@ -81,9 +81,7 @@
 
                                 </td>
                                 <td>
-                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil", @class = "form-control" })
-
-                                    <!--@Html.DropDownListFor(m => m.Fertigungsteil, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), "Wähle erst die Maschine aus", new { @Id = "fteil", @class = "form-control" })-->
+                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.TeileEmpty ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil", @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.FertigungsteilString, "", new { @class = "text-danger" })
                                 </td>
                                 <td>

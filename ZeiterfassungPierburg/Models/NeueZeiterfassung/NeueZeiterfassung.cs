@@ -85,6 +85,10 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [MaxLength(99)] 
         public string Bemerkung { get; set; }
 
+        [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
+        public string FertigungsteilString { get; set; }
+
+
     }
 }
 

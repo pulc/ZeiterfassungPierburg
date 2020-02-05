@@ -46,6 +46,36 @@ namespace ZeiterfassungPierburg.Controllers
             return RedirectToAction("Index", "NeuezeiterfassungController");
         }
 
+        // GET: MitarbeiterInSchicht/Create
+        public ActionResult Eintragen(bool istEingetragen, int id)
+        {
+
+            bool? val = SQLServer.Instance.GetBoolean("Select [IstInSAPEingetragen] from [MitarbeiterInSchicht] where ID=" + id);
+            // TODO: find out istEingetrage for each click
+            string cmd = "";
+            if(val == true)
+            { 
+            cmd =
+               "update MitarbeiterInSchicht set istInSAPeingetragen = 'false' where ID = " + id;
+            }
+            else if (val == false)
+            {
+                cmd =
+               "update MitarbeiterInSchicht set istInSAPeingetragen = 'true' where ID = " + id;
+            }
+            else
+            {
+                TempData["Message"] = "Ein Fehler ist aufgetreten";
+                return RedirectToAction("Index");
+
+            }
+            int success = SQLServer.Instance.ExecuteCommand(cmd);
+
+            return Json(success, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         // POST: MitarbeiterInSchicht/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)

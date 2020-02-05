@@ -77,7 +77,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr value="@item.ID">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Datum)
                                 </td>
@@ -118,9 +118,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Auswertung)%
                                 </td>
+
                                 <td>
                                     @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
                                     @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+                                    <!--@Html.ActionLink("Eintragen", "Eintragen", new { istEingetragen = true, id = item.ID })
+                                    @Html.ActionLink("Austragen", "Eintragen", new { istEingetragen = false }, new { id = item.ID })-->
+                                    <p id="@item.ID" hidden>@item.IstInSAPEingetragen</p> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
+                                    | <a href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID">Eintragen</a>
                                 </td>
                             </tr>
                         }
@@ -136,21 +141,13 @@
 </section>
 <iframe id="txtArea1" style="display: none"></iframe>
 
+
+
 @section scripts{
     @Styles.Render("~/bundles/tableStyleBundle")
     @Scripts.Render("~/bundles/tableScriptBundle")
     @Scripts.Render("~/bundles/dataTablesPlugins")
-    <!--
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>-
-    <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>-
-    -->
+
 
     <script>
         function addDays(date, days) {
@@ -165,19 +162,12 @@
                 var iColumn = 0;
                 var schichtColumn = 1;
 
-
-                // document.getElementById('min').value = today; //z.B. 'Thu Jan 16 2020 17:31:26 GMT+0100 (W. Europe Standard Time)'
-                //document.getElementById('max').value = today;
-
-
                 var iMin = Date.parse(document.getElementById('min').value);
                 var iMax = Date.parse(document.getElementById('max').value);
 
-
                 var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
                 iVersion = Date.parse(iVersion);
-                console.log(iVersion);
-
+                //console.log(iVersion);
 
                 var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
                 var schicht = $(document.getElementById('schicht')).children("option:selected").val();
@@ -190,9 +180,33 @@
             }
         );
 
+        var table = document.getElementById('myTable');
+
+        var rowLength = table.rows.length;
+        for (var i = 0; i < rowLength; i += 1) {
+
+
+            var row = table.rows[i];
+
+
+            var IDitem = row.getAttribute('value');
+            var boolValue = $('#' + IDitem).text(); //get bool value
+            console.log(boolValue);
+
+            if (boolValue = 'False') {
+                //console.log(boolValue);
+                $(IDitem).css("background-color", "#90ee90");
+            }
+            else if (boolValue = 'True') {
+                $(IDitem).css("background-color", "#ffcccb");
+
+            }
+        }
+
+
         $(document).ready(function () {
 
-            console.log(document.getElementById('min').value);
+            //console.log(document.getElementById('min').value);
             //document.getElementById('min').value = '15-Jan-2020';
 
 
@@ -208,6 +222,43 @@
             $('#min, #max, #schicht').change(function () {
                 table.draw();
             });
+            
+
+            /*
+            $('table > tbody  > tr').each(function (index, tr) {
+
+                var bla = tr.attr("value");
+                console.log(bla);
+
+            });
+
+    */
+            
+
+
+        var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
+
+            $('[id^=eintragen_]').click(function () {
+
+                var id =  $(this).attr('value'); // get ID
+                var boolValue = $('#' + id).text(); //get bool value
+
+                // row.toggleClass("active");
+                if (boolValue = 'True') {
+                    var row = $(this).closest("tr");
+                    $(row).css("background-color", "#90ee90");
+                }
+
+                console.log(boolValue);
+
+                $.getJSON(url, { istEingetragen: boolValue, id: id }, function (response) {
+
+                    if (response == 0) {
+                        alert('Das lief schief. Aktualisiere die Seite und versuhce es erneut.')
+                    }
+            });
+        });
+
         });
 
     </script>

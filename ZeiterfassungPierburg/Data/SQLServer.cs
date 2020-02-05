@@ -530,6 +530,35 @@ where p.IstEineMaschine = 'False'
             }
         }
 
+        public bool? GetBoolean(string command)
+        {
+            bool? result = null;
+            try
+            {
+                using (SqlConnection conn = NewOpenConnection)
+                {
+                    string sql;
+
+                    sql = command;
+
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+
+                    // TO DO: Nullbehandlung
+
+                    while (r.Read())
+                    {
+                        result = r.GetBoolean(0);
+                    }
+                    return result;
+                }
+            }
+            catch
+            {
+
+                return result;
+            }
+        }
+
         public IEnumerable<T> GetTeileInProduktionsanlageView<T>()
         {
             using (var c = NewOpenConnection)

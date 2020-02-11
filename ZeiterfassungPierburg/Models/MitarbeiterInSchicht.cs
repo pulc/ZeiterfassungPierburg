@@ -23,6 +23,7 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
+        
         public int Stück
         {
             get => GetValue<int>();
@@ -34,6 +35,7 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<int>();
             set => SetValue(value);
         }
+        
 
         public int ProduktionsanlageID
         {
@@ -83,5 +85,12 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<string>();
             set => SetValue(value);
         }
+        /*
+        public int AnlageInSchicht
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
+        */
     }
 }

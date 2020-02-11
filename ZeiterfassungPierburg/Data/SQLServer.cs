@@ -87,7 +87,6 @@ where p.IstEineMaschine = 'false' and (MONTH(s.Datum) = MONTH(DATEADD(MONTH, -" 
                     }
                 }
             }
-
             return result;
         }
         public Dictionary<string, float> GetProduktivitätMaschinenGesamt()
@@ -119,10 +118,8 @@ order by Bezeichner
                 // select ID from Produktionsanlage where IstEineMaschine = 'false'
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
 
-
                 while (r.Read())
                 {
-
                     try
                     {
                         result.Add(r.GetString(0) + "_" + r.GetString(1), (float)r.GetDecimal(2));
@@ -230,9 +227,6 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
                 return c.Query<T>(sql).ToList();
             }
         }
-
-
-
 
         public T GetItem<T>(int id) where T : BasicModelObject, new()
         {
@@ -368,7 +362,6 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where p.IstEineMaschine = 'False'
 ";
                 return c.Query<T>(sql).ToList();
-
             }
         }
         // helper methods

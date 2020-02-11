@@ -94,8 +94,10 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
             try
             {
+
                 s.Datum = model.Datum;
                 s.Art = model.Schicht;
+
 
                 int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
                 int ProduktionsanlageID = model.Produktionsanlage;
@@ -160,7 +162,7 @@ where ID = " + FertigungsTeilID;
                                 MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
                                 DirStunden = float.Parse(Request.Form["dirzeit" + i]),
                                 InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
-                                Stück = Int32.Parse(Request.Form["st" + i]),
+                                Stück = Int32.Parse(Request.Form["st" + j]),
                                 ProduktionsanlageID = ProduktionsanlageID,
                                 ErstelltAm = date,
                                 Bemerkung = Request.Form["bemerkung" + i],

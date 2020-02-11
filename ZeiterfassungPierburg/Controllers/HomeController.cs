@@ -6,13 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models.ViewModels;
-
 namespace ZeiterfassungPierburg.Controllers
 {
     public class HomeController : Controller
     {
-
-
         [Authorize(Users = Startup.Administrators)]
         public ActionResult Index()
         {
@@ -54,6 +51,53 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+
+        // FOR LOGIN PURPOSES
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(UserProfile objUser)
+        {
+            if (ModelState.IsValid)
+            {
+                using (Authentication db = new Authentication())
+                {
+                    var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.UserName) && a.Password.Equals(objUser.Password)).FirstOrDefault();
+                    if (obj != null)
+                    {
+                        Session["UserID"] = obj.UserId.ToString();
+                        Session["UserName"] = obj.UserName.ToString();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            ViewBag.Login = "Benutzername oder Passwort sind falsch.";
+            return View(objUser);
+        }
+
+
+
+
+
+
+
+
+        public ActionResult UserDashBoard()
+        {
+            if (Session["UserID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
     }
 }

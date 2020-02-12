@@ -1,20 +1,21 @@
 ﻿@model ZeiterfassungPierburg.Models.ViewModels.Dashboard
+
+@if (Startup.AccessLayer == null || Startup.AccessLayer == 0)
+{
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+
+
 <link href="~/Content/Chart.css" rel="stylesheet" />
-
-
-
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-
-
-
 
     <fieldset>
 
         @if (Session["UserName"] != null)
         {<text>
-        <h1>  Herzlich willkommen @Session["UserName"].ToString() !</h1></text>
+                <h1>  Herzlich willkommen @Session["UserName"].ToString() !</h1></text>
     }
     </fieldset>
 

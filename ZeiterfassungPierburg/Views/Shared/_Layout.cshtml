@@ -13,11 +13,13 @@
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
 </head>
 <body>
-
-    @if (Session["UserName"] != null)
+    @if (Startup.AccessLayer == null || Startup.AccessLayer == 0)
     {
+        Response.Redirect("~/Zugriffsrechte/Login");
+    }
 
-    <h1>  @Session["AccessLayer"].ToString()   </h1>
+    @if (Startup.AccessLayer == 2)
+    {
 
         <div class="wrapper">
 
@@ -45,30 +47,17 @@
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
                                     <!-- Menu Toggle Button -->
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <!--<img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">-->
-                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                        <span id="logout" onclick="logout()">@Session["UserName"]</span>
-                                    </a>
+                                    @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
                                 </li>
-                                <!--
-                                    <li>
-                                        <a href="#" class="dropdown-toggle">Abmelden</a>
-                                    </li>
-                                -->
+
                             </ul>
                         </div>
                     </nav>
                 </header>
-                <!-- Left side column. contains the logo and sidebar -->
                 <aside class="main-sidebar">
 
-                    <!-- sidebar: style can be found in sidebar.less -->
                     <section class="sidebar">
 
-                        <!-- search form (Optional) -->
-                        <!-- /.search form -->
-                        <!-- Sidebar Menu -->
                         <ul class="sidebar-menu" data-widget="tree">
                             <li>@Html.ActionLink("NEUE ERFASSUNG - Band", "Create", "Neuezeiterfassung")</li>
                             <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
@@ -77,13 +66,11 @@
                             <li>@Html.ActionLink("Übersicht - Bänder", "Index", "MitarbeiterInSchicht")</li>
                             <li>@Html.ActionLink("Übersicht - MEBA  ", "IndexMEBA", "MitarbeiterInSchicht")</li>
                             _____________________________
-                            <!-- <li>@Html.ActionLink("Schichten", "Index", "SchichtInfo")</li>-->
                             <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
                             <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
                             <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
                             <li>@Html.ActionLink("Teile bei Anlagen", "Index", "TeileInProduktionsanlage")</li>
                             <li>@Html.ActionLink("Produktivität", "Create", "Produktivität")</li>
-                            <!--<li>@Html.ActionLink("Verwaltung", "Index", "Zugriffsrechte")</li>-->
                         </ul>
                         <!-- /.sidebar-menu -->
                     </section>
@@ -91,29 +78,7 @@
                 </aside>
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper">
-
-                    <!--
-                    <div class="navbar navbar-inverse navbar-fixed-top">
-                        <div class="container">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                            </div>
-                            <div class="navbar-collapse collapse">
-                                <ul class="nav navbar-nav">
-                                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
-                                </ul>
-                                @Html.Partial("_LoginPartial")
-                            </div>
-                        </div>
-                    </div> -->
+                    
                     @RenderBody()
 
                 </div>
@@ -125,7 +90,7 @@
                 @RenderSection("scripts", required: false)
                 <script>
 
-                    
+
                     $("#logout").click(function () {
                     window.location.href = '@Url.Action("DeleteSession", "HomeController")';
                     });
@@ -142,11 +107,99 @@
             </footer>
         </div>
     }
-    else
+    else if (Startup.AccessLayer == 1)
     {
-        Response.Redirect("~/Home/Login");
+
+
+        <div class="wrapper">
+
+            <div class="hold-transition skin-blue sidebar-mini">
+                <!-- Main Header -->
+                <header class="main-header">
+
+                    <!-- Logo -->
+                    <a href="~/" class="logo">
+                        <!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"><b>P</b>BG</span>
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"><b><img height="150" width="150" src="~/Content/dist/img/pierburg_logo.png" /></b></span>
+                    </a>
+
+                    <!-- Header Navbar -->
+                    <nav class="navbar navbar-static-top" role="navigation">
+                        <!-- Sidebar toggle button-->
+                        <img class="sidebar-toggle" data-toggle="push-menu" height="50" width="50" src="~/Content/dist/img/hamburger_white.png" />
+
+                        <!-- Navbar Right Menu -->
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+
+                                <!-- User Account Menu -->
+                                <li class="dropdown user user-menu">
+                                    <!-- Menu Toggle Button -->
+                                    @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
+                                </li>
+
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+                <aside class="main-sidebar">
+
+                    <section class="sidebar">
+
+                        <ul class="sidebar-menu" data-widget="tree">
+                            <li>@Html.ActionLink("NEUE ERFASSUNG - Band", "Create", "Neuezeiterfassung")</li>
+                            <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
+                            _____________________________
+
+                            <li>@Html.ActionLink("Übersicht - Bänder", "Index", "MitarbeiterInSchicht")</li>
+                            <li>@Html.ActionLink("Übersicht - MEBA  ", "IndexMEBA", "MitarbeiterInSchicht")</li>
+                            _____________________________
+                            <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
+                            <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
+                            <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
+                            <li>@Html.ActionLink("Teile bei Anlagen", "Index", "TeileInProduktionsanlage")</li>
+                            <li>@Html.ActionLink("Produktivität", "Create", "Produktivität")</li>
+                            <li>@Html.ActionLink("Verwaltung", "Index", "Zugriffsrechte")</li>
+                        </ul>
+                        <!-- /.sidebar-menu -->
+                    </section>
+                    <!-- /.sidebar -->
+                </aside>
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+
+
+                    @RenderBody()
+
+                </div>
+
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/bootstrap")
+                <script src="~/Scripts/adminlte.js"></script>
+
+                @RenderSection("scripts", required: false)
+                <script>
+
+
+                    $("#logout").click(function () {
+                    window.location.href = '@Url.Action("DeleteSession", "HomeController")';
+                    });
+                </script>
+
+            </div>
+            <!-- Main Footer -->
+            <footer class="main-footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs">
+                </div>
+                <!-- Default to the left -->
+                <strong> &copy; @DateTime.Now.Year <a href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
+            </footer>
+        </div>
     }
-    }
+    
 </body>
 </html>
     

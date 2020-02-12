@@ -77,18 +77,11 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                if ((Convert.ToInt32(Session["AccessLayer"]) == 1)
-)
-                {
+
                     SQLServer.Instance.RemoveItem<Mitarbeiter>(id);
                     TempData["Message"] = "Mitarbeiter gelöscht.";
                     return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["Message"] = "Du hast keine Berechtigung, eine Mitarbeiterin oder einen Mitarbeiter zu löschen!";
-                    return RedirectToAction("Index");
-                }
+                
             }
             catch 
             {

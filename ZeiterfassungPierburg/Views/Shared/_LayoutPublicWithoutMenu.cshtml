@@ -1,0 +1,77 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Pierburg Zeiterfassung</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-blue layout-top-nav">
+    @if (Session["UserName"] == null)
+    {
+        <div class="wrapper">
+
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <span class="logo-lg"><b><img height="50" width="150" src="~/Content/dist/img/pierburg_logo.png" /></b></span>
+
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+
+                            <!-- User Account Menu -->
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                    <!--<img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">-->
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
+                                    
+                            </li>
+                            <!--
+                <li>
+                    <a href="#" class="dropdown-toggle">Abmelden</a>
+                </li>
+            -->
+                        </ul>
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- Full Width Column -->
+            <div class="content-wrapper">
+
+                @RenderBody()
+            </div>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            <script src="~/Scripts/adminlte.js"></script>
+
+            @RenderSection("scripts", required: false)
+
+
+
+            <footer class="main-footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs">
+                </div>
+                <!-- Default to the left -->
+                <strong> &copy; @DateTime.Now.Year <a href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
+            </footer>
+        </div>
+
+    }
+    else
+    {
+        Response.Redirect("~/Zugriffsrechte/Login");
+    }
+    }
+</body>
+</html>

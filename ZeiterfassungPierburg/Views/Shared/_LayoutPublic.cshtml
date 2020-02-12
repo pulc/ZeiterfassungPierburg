@@ -14,9 +14,7 @@
 </head>
 <body>
 
-    @if (Session["UserName"] != null)
-    {
-
+    <h1>@Startup.AccessLayer</h1>
         <div class="wrapper">
 
             <div class="hold-transition skin-blue sidebar-mini">
@@ -43,11 +41,7 @@
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
                                     <!-- Menu Toggle Button -->
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <!--<img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">-->
-                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                        <span class="hidden-xs">@ViewBag.Name</span>
-                                    </a>
+                                    @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
                                 </li>
                                 <!--
                                     <li>
@@ -70,18 +64,6 @@
                         <ul class="sidebar-menu" data-widget="tree">
                             <li>@Html.ActionLink("NEUE ERFASSUNG - Band", "Create", "Neuezeiterfassung")</li>
                             <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
-                            _____________________________
-
-                            <li>@Html.ActionLink("Übersicht - Bänder", "Index", "MitarbeiterInSchicht")</li>
-                            <li>@Html.ActionLink("Übersicht - MEBA  ", "IndexMEBA", "MitarbeiterInSchicht")</li>
-                            _____________________________
-                            <!-- <li>@Html.ActionLink("Schichten", "Index", "SchichtInfo")</li>-->
-                            <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
-                            <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
-                            <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
-                            <li>@Html.ActionLink("Teile bei Anlagen", "Index", "TeileInProduktionsanlage")</li>
-                            <li>@Html.ActionLink("Produktivität", "Create", "Produktivität")</li>
-                            <!--<li>@Html.ActionLink("Verwaltung", "Index", "Zugriffsrechte")</li>-->
                         </ul>
                         <!-- /.sidebar-menu -->
                     </section>
@@ -133,11 +115,7 @@
                 <strong> &copy; @DateTime.Now.Year <a href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
             </footer>
         </div>
-    }
-    else
-    {
-            Response.Redirect("~/Home/Login");}
-    }
+    
     </body>
 
 

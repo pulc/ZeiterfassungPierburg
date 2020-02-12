@@ -1,0 +1,47 @@
+﻿@model ZeiterfassungPierburg.Models.Zugriffsrechte
+
+@{
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("Login", "Zugriffsrechte", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Du musst dich dafür einloggen!</legend>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Login != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Login
+            </div>
+        }
+        <table>
+            <tr>
+                <td>@Html.LabelFor(a => a.Benutzername)</td>
+                <td>@Html.TextBoxFor(a => a.Benutzername)</td>
+                <td>@Html.ValidationMessageFor(a => a.Benutzername)</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(a => a.Password)
+                </td>
+                <td>
+                    @Html.PasswordFor(a => a.Password)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(a => a.Password)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Login" />
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </fieldset>
+}  

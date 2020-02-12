@@ -26,6 +26,13 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
+        [Required(ErrorMessage = "Du musst noch das Password auswählen.")]
+        public string Password
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
+
         [Computed]
         [Display(Name = "Zugriffsebene")]
         public IEnumerable<SelectListItem> ZugriffsebeneList { get; set; } = new List<SelectListItem>()

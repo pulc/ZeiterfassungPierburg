@@ -10,7 +10,7 @@ namespace ZeiterfassungPierburg.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize(Users = Startup.Administrators)]
+        //[Authorize(Users = Startup.Administrators)]
         public ActionResult Index()
         {
             Dashboard d = new Dashboard();
@@ -73,6 +73,8 @@ namespace ZeiterfassungPierburg.Controllers
                     {
                         Session["UserID"] = obj.UserId.ToString();
                         Session["UserName"] = obj.UserName.ToString();
+                        Session["AccessLayer"] = obj.AccessLayer.ToString();
+
                         return RedirectToAction("Index");
                     }
                 }
@@ -81,23 +83,14 @@ namespace ZeiterfassungPierburg.Controllers
             return View(objUser);
         }
 
-
-
-
-
-
-
-
-        public ActionResult UserDashBoard()
+        public ActionResult DeleteSession()
         {
-            if (Session["UserID"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
+            Session["UserID"] = null;
+            Session["UserName"] = null;
+            Session["AccessLayer"] = null;
+
+            return Redirect("~/Home/Index");
+
         }
     }
 }

@@ -17,6 +17,8 @@
     @if (Session["UserName"] != null)
     {
 
+    <h1>  @Session["AccessLayer"].ToString()   </h1>
+
         <div class="wrapper">
 
             <div class="hold-transition skin-blue sidebar-mini">
@@ -46,7 +48,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <!--<img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">-->
                                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                        <span class="hidden-xs">@ViewBag.Name</span>
+                                        <span id="logout" onclick="logout()">@Session["UserName"]</span>
                                     </a>
                                 </li>
                                 <!--
@@ -121,7 +123,13 @@
                 <script src="~/Scripts/adminlte.js"></script>
 
                 @RenderSection("scripts", required: false)
+                <script>
 
+                    
+                    $("#logout").click(function () {
+                    window.location.href = '@Url.Action("DeleteSession", "HomeController")';
+                    });
+                </script>
 
             </div>
             <!-- Main Footer -->
@@ -136,10 +144,9 @@
     }
     else
     {
-        Response.Redirect("~/Home/Login");}
+        Response.Redirect("~/Home/Login");
+    }
     }
 </body>
-
-
 </html>
     

@@ -73,19 +73,27 @@ namespace ZeiterfassungPierburg.Controllers
             }
         }
         // GET: Mitarbeiter/Delete/5
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Delete(int id)
         {
             try
             {
-                SQLServer.Instance.RemoveItem<Mitarbeiter>(id);
-                return RedirectToAction("Index");
+                if ((Convert.ToInt32(Session["AccessLayer"]) == 1)
+)
+                {
+                    SQLServer.Instance.RemoveItem<Mitarbeiter>(id);
+                    TempData["Message"] = "Mitarbeiter gelöscht.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Du hast keine Berechtigung, eine Mitarbeiterin oder einen Mitarbeiter zu löschen!";
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            catch 
             {
                 TempData["Message"] = "Der Mitarbeiter konnte nicht gelöscht werden, weil er/sie bereits Einträge hat";
-                //return Index();
-                return RedirectToAction("Index" );
+                return RedirectToAction("Index");
             }
         }
     }

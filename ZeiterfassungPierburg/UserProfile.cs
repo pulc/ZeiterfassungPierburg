@@ -19,5 +19,7 @@ namespace ZeiterfassungPierburg
         public string Password { get; set; }
 
         public bool? IsActive { get; set; }
+
+        public int AccessLayer{ get; set; }
     }
 }

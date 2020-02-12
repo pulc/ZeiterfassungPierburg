@@ -34,7 +34,6 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(results.First());
         }
 
-
         // GET: Produktionsanlage/Create
         public ActionResult Create()
         {
@@ -85,6 +84,63 @@ namespace ZeiterfassungPierburg.Controllers
                 //return Index();
                 return RedirectToAction("Index");
             }
+        }
+
+        // FOR LOGIN PURPOSES
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(Zugriffsrechte o)
+        {
+            try
+            { 
+            if (ModelState.IsValid)
+            {
+                    //var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.Benutzername) && a.Password.Equals(objUser.)).FirstOrDefault();
+                    //if (obj != null)
+                    int id = SQLServer.Instance.GetNumber("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername +"'");
+                    string pw = SQLServer.Instance.GetOneString("Password","Zugriffsrechte", "ID = " +id);
+
+                    if (pw == o.Password)
+                    {
+                        Session["UserID"] = o.ID;
+                        Session["UserName"] = o.Benutzername;
+
+                        int al = SQLServer.Instance.GetNumber("Select Zugriffsebene from Zugriffsrechte where ID = " + id);
+                        Session["AccessLayer"] = al;
+
+                        return RedirectToAction("Index","Home",null);
+                    }
+                    else
+                    {
+                        ViewBag.Login = "Benutzername oder Passwort sind falsch.";
+                        return View(o);
+                    }
+            }
+            else
+                {
+                    ViewBag.Login = "Benutzername oder Passwort sind falsch.";
+                    return View(o);
+                }
+            }
+            catch { 
+            ViewBag.Login = "Benutzername oder Passwort sind falsch.";
+            return View(o);
+            }
+        }
+
+        public ActionResult DeleteSession()
+        {
+            Session["UserID"] = null;
+            Session["UserName"] = null;
+            Session["AccessLayer"] = null;
+
+            return Redirect("~/Home/Index");
+
         }
     }
 }

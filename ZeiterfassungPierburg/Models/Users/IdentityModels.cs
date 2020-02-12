@@ -29,5 +29,7 @@ namespace ZeiterfassungPierburg.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<ZeiterfassungPierburg.Models.Zugriffsrechte> Zugriffsrechtes { get; set; }
     }
 }

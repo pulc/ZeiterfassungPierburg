@@ -643,6 +643,24 @@ where ProduktionsanlageID =
             }
             return result.Substring(0, result.Length - 1); //substring to remove the last comma
         }
+
+        public string GetOneString(string column, string table, string where)
+        {
+            string result = "";
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = $"select {column} from {table} where {where} order by ID";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result = r.GetString(0);
+                }
+            }
+            return result; //substring to remove the last comma
+        }
+
         public Dictionary<int, string> GetDictionaryProduktivität(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();

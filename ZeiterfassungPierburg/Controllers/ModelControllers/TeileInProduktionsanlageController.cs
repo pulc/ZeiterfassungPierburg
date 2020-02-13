@@ -95,7 +95,18 @@ namespace ZeiterfassungPierburg.Controllers
                         {
                             InsertedID.Add(SQLServer.Instance.InsertItem<TeileInProduktionsanlage>(n));
                         }
+                        if (list.Count == 1)
+                        {
+                            ViewBag.Message = list.Count + " Fertigungsteil erfolgreich hinzugefügt";
+                        }
+                        else
+                        {
+                            ViewBag.Message = list.Count + " Fertigungsteile erfolgreich hinzugefügt";
+                        }
 
+                        return Create();
+                        /*
+                         * 
                         // checks how many Maschine there are
                         int checkcount = SQLServer.Instance.GetNumber(@"select COUNT(Bezeichner) from 
 TeileInProduktionsanlage left outer join Produktionsanlage on Produktionsanlage.ID = TeileInProduktionsanlage.ProduktionsanlageID
@@ -121,18 +132,19 @@ where Produktionsanlage.IstEineMaschine = 'false'");
 
                         }
                         else { 
+                        
                         foreach (var id in InsertedID)
                         {
                             SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
                         }
-
-
+                        ViewBag.Message = list.Count + " Fertigungsteile hinzugefügt.";
+                        /*
                         ViewBag.Message = "Die Eingabe war falsch. Du hast einen Teil zu einem Band hinzugefügt, dem bereits ein Teil zugewiesen wurde." +
                                 " Keine Teile wurden hinzugefügt.";
 
                         return View(model);
                         }
-
+                        */
 
                     }
                     catch (Exception e)
@@ -196,7 +208,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                 }
                 else
                 {
-                    TempData["Message"] = "Eine Produktionsanlage muss mindestens einen Teil haben muss.";
+                    TempData["Message"] = "Eine Produktionsanlage muss mindestens einen Teil haben.";
 
                     return RedirectToAction("Index");
                 }

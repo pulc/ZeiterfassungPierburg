@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ZeiterfassungPierburg.Models.Mitarbeiter>
+﻿
+
+
+@model IEnumerable<ZeiterfassungPierburg.Models.Mitarbeiter>
 
 
 <section class="content container-fluid">
@@ -41,36 +44,37 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Kostenstelle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Personalnummer)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nachname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Vorname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Abrechnungskreis)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mitarbeiterkreis)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Beschäftigungsart)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.istAktiv)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
-                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kostenstelle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personalnummer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nachname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Vorname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Abrechnungskreis)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mitarbeiterkreis)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Beschäftigungsart)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.istAktiv)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" }) |
+                                    <a href="~/Produktivität?ProduktionsanlageID=0&FertigungsteilID=0&MitarbeiterID=@item.ID&Art=0&Produktivität=0&Day=0&Month=0&Year=0&FertigungteilList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MitarbeiterList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&ProduktionsanlageList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MonthList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&DayList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&ArtList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D">Produktivität</a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>

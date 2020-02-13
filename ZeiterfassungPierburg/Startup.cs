@@ -15,6 +15,8 @@ namespace ZeiterfassungPierburg
 
         public const string Administrators = "MSI\\pulc";
         public const string Managers= "Pierburg\\CA72438, Pierburg\\CA724396";
-        
+
+        public static string SessionUserName = null;
+        public static int? AccessLayer = null;
     }
 }

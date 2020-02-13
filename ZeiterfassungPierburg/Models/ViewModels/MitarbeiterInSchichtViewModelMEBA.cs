@@ -44,6 +44,8 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
         [Display(Name = "Akkord")]
         public float Auswertung { get; set; }
 
+        public bool IstInSAPEingetragen { get; set; }
+
     }
 }
 

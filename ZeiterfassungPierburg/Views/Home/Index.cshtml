@@ -1,12 +1,25 @@
 ﻿@model ZeiterfassungPierburg.Models.ViewModels.Dashboard
-<link href="~/Content/Chart.css" rel="stylesheet" />
 
+@if (Startup.AccessLayer == null || Startup.AccessLayer == 0)
+{
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+
+
+<link href="~/Content/Chart.css" rel="stylesheet" />
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
-        Herzlich willkommen, @ViewBag.Name!
-    </h1>
+
+    <fieldset>
+
+        @if (Session["UserName"] != null)
+        {<text>
+                <h1>  Herzlich willkommen @Session["UserName"].ToString() !</h1></text>
+    }
+    </fieldset>
+
+
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Dashboard</li>
@@ -128,7 +141,7 @@
                     <div class="col-sm-12">
                         <!-- Progress bars -->
                         <div class="clearfix">
-                            <div id="productivity"></div>
+                            <!--  <div id="productivity"></div> -->
                         </div>
                     </div>
                 </div>
@@ -145,18 +158,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-xs-2">
+            <div class="box-footer text-black">
+                <h4>Produktivität der letzten 12 Monate</h4>
+
+                <div class="row">
+                    <canvas id="bar-chart" width="800" height="450"></canvas>
                 </div>
             </div>
-
-            <div class="col-lg-6 col-xs-2">
-                <div class="box-footer text-black">
-                    <h4>Produktivität der letzten 12 Monate</h4>
-
-                    <div class="row">
-                        <canvas id="bar-chart" width="800" height="450"></canvas>
-                    </div>
-                </div>
-            </div>
+        </div>
 </section>
 
 @section scripts{

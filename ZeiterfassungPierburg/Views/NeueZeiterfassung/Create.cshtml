@@ -1,5 +1,8 @@
 ﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
 
+@{ 
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
 {
@@ -53,15 +56,68 @@
 
             <div class="box-body">
                 <div class="table-responsive">
+                    <table class="table no-margin" id="teileTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(model => model.Fertigungsteil)
+                                </th>
+
+                                <th>
+                                    @Html.LabelFor(model => model.Stückzahl)
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.TeileEmpty ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil0", @class = "form-control" })
+
+                                    @Html.ValidationMessageFor(model => model.FertigungsteilString, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control", @name = "st0" } })
+                                    @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table" id="sendTableTeile">
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <i name="submit" style="font-size: 35px; color:green; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px; " type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRowTeile('teileTable');"></i>
+                                                <i name="submit" style="font-size: 35px; color:red; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px;" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow('teileTable');"></i>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div id="test"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+
+            <div class="box-body">
+                <div class="table-responsive">
                     <table class="table no-margin" id="mitarbeiterTable">
                         <thead>
                             <tr>
                                 <th>
                                     @Html.LabelFor(model => model.Name)
-                                </th>
-
-                                <th>
-                                    @Html.LabelFor(model => model.Stückzahl)
                                 </th>
                                 <th>
                                     @Html.LabelFor(model => model.DirZeit)
@@ -77,13 +133,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "Name", @name = "name0" })
+                                    @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name", @name = "name0" })
                                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                 </td>
-                                <td>
-                                    @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control", @name = "st0" } })
-                                    @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
-                                </td>
+
                                 <td>
                                     @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control", @name = "dirzeit0" } })
                                     @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
@@ -101,14 +154,14 @@
                     </table>
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table" id="sendTable">
+                            <table class="table" id="sendTableMitarbeiter">
 
                                 <tbody>
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                <i name="submit" style="font-size: 35px; color:green; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px; " type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRow();"></i>
-                                                <i name="submit" style="font-size: 35px; color:red; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px;" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow();"></i>
+                                                <i name="submit" style="font-size: 35px; color:green; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px; " type="submit" value="addMitarbeiter" class="glyphicon glyphicon-plus-sign" onclick="AddRowMitarbeiter('mitarbeiterTable');"></i>
+                                                <i name="submit" style="font-size: 35px; color:red; cursor: pointer; box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7); border-radius:25px;" type="submit" value="addMitarbeiter" class="glyphicon glyphicon-minus-sign" onclick="RemoveRow('mitarbeiterTable');"></i>
                                             </div>
                                         </td>
                                         <td></td>
@@ -129,7 +182,6 @@
                         </div>
                         @Html.Label("", (string)ViewBag.Message)
                     </div>
-                    @Html.ActionLink("Zur Übersicht", "Index", "MitarbeiterInSchicht")
                 </div>
                 <!-- /.box -->
             </div>
@@ -144,6 +196,26 @@
 
 
     <script>
+        // SET NAME ATTRIBUTE
+        var fteil = document.getElementById('fteil0');
+        fteil.setAttribute("name", "fteil0");
+
+        var st = document.getElementById('st');
+        st.setAttribute("name", "st0");
+
+        var nameMitarbeiter = document.getElementById('name');
+        nameMitarbeiter.setAttribute("name", "name0");
+
+        var dirzeit = document.getElementById('dirzeit');
+        dirzeit.setAttribute("name", "dirzeit0");
+
+        var indirzeit = document.getElementById('indirzeit');
+        indirzeit.setAttribute("name", "indirzeit0");
+
+        var bemerkung = document.getElementById('bemerkung');
+        bemerkung.setAttribute("name", "bemerkung0");
+
+
         $(document).ready(function () {
             $("#sendButton").hover(function () {
                 var validator = $("#frm").validate();
@@ -151,8 +223,29 @@
             });
         });
 
-        function RemoveRow() {
-            var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
+
+        $("#panlage").change(function () {
+            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+
+            var $eles = $(":input[name^='fteil']");
+
+            $.getJSON(url, { produktionsanlageID: id }, function (response) {
+
+                for (i = 0; i < $eles.length; i++) {
+
+                    $('#fteil' + i).empty();
+
+                    $.each(response, function (index, item) {
+
+                        $('#fteil' + i).append($('<option></option>').text(item));
+                    });
+                }
+                });
+        });
+
+        function RemoveRow(table) {
+            var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
 
             var rowCount = myTable.rows.length;
 
@@ -164,35 +257,50 @@
             console.log(rowCount);
         }
 
-    function AddRow() {
+    function AddRowTeile(table) {
        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
        // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
 
 
-        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+        var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
 
         var currentIndex = myTable.rows.length;
         var currentRow = myTable.insertRow(-1);
 
-        var name = document.getElementById('Name');
-        //name.setAttribute("name", "name0");
-        var st = document.getElementById('st');
-        //st.setAttribute("name", "st0");
-        var dirzeit = document.getElementById('dirzeit');
-        //dirzeit.setAttribute("name", "dirzeit0");
-        var indirzeit = document.getElementById('indirzeit');
-        //indirzeit.setAttribute("name", "indirzeit0");
-        var bemerkung = document.getElementById('bemerkung');
+        var fteilNew = fteil.cloneNode(true);
+        fteilNew.setAttribute("name", "fteil" + currentIndex);
+        fteilNew.setAttribute("id", "fteil" + currentIndex);
+        fteilNew.setAttribute("required", "true");
 
-        var nameNew = name.cloneNode(true);
+
+        var stNew = st.cloneNode(true);
+        stNew.setAttribute("name", "st" + currentIndex);
+        stNew.setAttribute("id", "st" + currentIndex);
+        stNew.setAttribute("required", "true");
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(fteilNew);
+
+        currentCell = currentRow.insertCell(-1);
+        currentCell.appendChild(stNew);
+
+        var rowCount = myTable.rows.length;
+        console.log(rowCount);
+        }
+
+        function AddRowMitarbeiter(table) {
+        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
+        // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
+
+        var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
+
+        var currentIndex = myTable.rows.length;
+        var currentRow = myTable.insertRow(-1);
+
+        var nameNew = nameMitarbeiter.cloneNode(true);
         nameNew.setAttribute("id", "name" + currentIndex);
         nameNew.setAttribute("name", "name" + currentIndex);
         nameNew.setAttribute("required", "true");
-
-        var stNew = st.cloneNode(true);
-        stNew.setAttribute("id", "st" + currentIndex);
-        stNew.setAttribute("name", "st" + currentIndex);
-        stNew.setAttribute("required", "true");
 
         var dirzeitNew = dirzeit.cloneNode(true);
         dirzeitNew.setAttribute("id", "dirzeit" + currentIndex);
@@ -215,10 +323,6 @@
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(nameNew);
 
-
-        currentCell = currentRow.insertCell(-1);
-        currentCell.appendChild(stNew);
-
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(dirzeitNew);
 
@@ -232,17 +336,20 @@
         console.log(rowCount);
         }
 
-    function RemoveRow() {
-        var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
+
+
+        function RemoveRow(table) {
+        var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
 
         var rowCount = myTable.rows.length;
 
         if (rowCount != 1) {
             myTable.deleteRow(rowCount - 1);
         }
-        else alert('Du musst mindestens einen Mitarbeiter oder eine Mitarbeiterin eingeben');
+        else alert('Du musst mindestens 1 eingeben');
         var rowCount = myTable.rows.length;
         console.log(rowCount);
         }
+
     </script>
 }

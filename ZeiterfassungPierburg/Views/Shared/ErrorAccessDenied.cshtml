@@ -1,9 +1,7 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
-@{
+﻿@{
+    Layout = "";
     ViewBag.Title = "Error";
 }
-
 
 <div class="container h-100">
     <div class="row align-items-center h-100">
@@ -11,13 +9,15 @@
             <div class="jumbotron">
                 <div class="col-6 mx-auto">
 
-                    <h1><big><big><big><big><big><big><big>☹</big></big></big></big></big></big></big></h1>
+                    <h1><big><big><big><big><big><big><big>☹</big></big></big></big>   </big></big></big></h1>
                 </div>
 
-                <h2>
-                    Du hast keine Rechte, um dir diese Seite anzeigen lassen zu können. 
-                </h2>
-
+                <h3>
+                    Das ist nicht gelungen. Wahrscheinlich hast du keinen Zugriff oder sie Seite existiert nicht.
+                </h3>
+                <h4>
+                    Falls du glaubst, dass etwas nicht stimmt, kontaktiere bitte den Administrator.
+                </h4>
             </div>
         </div>
     </div>

@@ -1,6 +1,10 @@
 ﻿@model ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA.NeuezeiterfassungMEBA
 
 
+@{
+    Layout = "~/Views/Shared/_LayoutPublic.cshtml";
+}
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
 {
     @Html.AntiForgeryToken()
@@ -15,6 +19,12 @@
                         <thead>
                             <tr>
                                 <th>
+                                    @Html.LabelFor(model => model.Produktionsanlage)
+                                </th>
+                                <th>
+                                    @Html.LabelFor(model => model.Name)
+                                </th>
+                                <th>
                                     @Html.LabelFor(model => model.Datum)
                                 </th>
                                 <th>
@@ -24,6 +34,21 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td>
+                                    <div class="form-group">
+
+                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Maschine aus -", new { @id = "panlage", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name", @name = "nameMitarbeiter" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </td>
                                 <td>
                                     <div class="form-group">
                                         @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
@@ -46,12 +71,8 @@
                     <table class="table no-margin" id="mitarbeiterTable">
                         <thead>
                             <tr>
-                                <th>
-                                    @Html.LabelFor(model => model.Name)
-                                </th>
-                                <th>
-                                    @Html.LabelFor(model => model.Produktionsanlage)
-                                </th>
+
+
                                 <th>
                                     @Html.LabelFor(model => model.Fertigungsteil)
                                 </th>
@@ -71,19 +92,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "Name", @name = "name0" })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                </td>
-                                <td>
-                                    @Html.DropDownListFor(m => m.Produktionsanlage, Model.MaschinenListList, "- Wähle die Maschine aus -", new { @id = "panlage", @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
 
-                                </td>
                                 <td>
-                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil", @class = "form-control" })
-
-                                    <!--@Html.DropDownListFor(m => m.Fertigungsteil, (SelectList)ViewBag.Cities ?? new SelectList(new List<SelectListItem> { }), "Wähle erst die Maschine aus", new { @Id = "fteil", @class = "form-control" })-->
+                                    @Html.DropDownListFor(m => m.FertigungsteilString, (SelectList)ViewBag.TeileEmpty ?? new SelectList(new List<SelectListItem> { }), new { @Id = "fteil0", @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.FertigungsteilString, "", new { @class = "text-danger" })
                                 </td>
                                 <td>
@@ -137,8 +148,6 @@
                         </div>
                         @Html.Label("", (string)ViewBag.Message)
                     </div>
-                    @Html.ActionLink("Zur Übersicht - MEBA", "IndexMEBA", "MitarbeiterInSchicht")
-
                 </div>
                 <!-- /.box -->
             </div>
@@ -151,36 +160,55 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        var fteil = document.getElementById('fteil0');
+        fteil.setAttribute("name", "fteil0");
+
+        var st = document.getElementById('st');
+        st.setAttribute("name", "st0");
+
+        var dirzeit = document.getElementById('dirzeit');
+        dirzeit.setAttribute("name", "dirzeit0");
+
+        var indirzeit = document.getElementById('indirzeit');
+        indirzeit.setAttribute("name", "indirzeit0");
+
+        var bemerkung = document.getElementById('bemerkung');
+        bemerkung.setAttribute("name", "bemerkung0");
+
+
         $(document).ready(function () {
             $("#sendButton").hover(function () {
                 var validator = $("#frm").validate();
                 validator.form()
             });
-
         });
 
         var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
-        var teile = $('#fteil'); // cache it
-
 
         $("#panlage").change(function () {
-        var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+
+            var $eles = $(":input[name^='fteil']");
 
             $.getJSON(url, { produktionsanlageID: id }, function (response) {
-            teile.empty();
 
-            $.each(response, function (index, item) {
+                for (i = 0; i < $eles.length; i++) {
 
-                teile.append($('<option></option>').text(item));
+                    $('#fteil' + i).empty();
 
-            });
-    });
-});
+                    $.each(response, function (index, item) {
+
+                        $('#fteil' + i).append($('<option></option>').text(item));
+                    });
+                }
+                });
+        });
+
+
 
     function AddRow() {
        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
        // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
-
 
 
         var myTable = document.getElementById("mitarbeiterTable").getElementsByTagName('tbody')[0];
@@ -188,32 +216,13 @@
         var currentIndex = myTable.rows.length;
         var currentRow = myTable.insertRow(-1);
 
-        var name = document.getElementById('Name');
-        //name.setAttribute("name", "name0");
-        var fteil = document.getElementById('fteil');
-        //fteil.setAttribute("name", "fteil0");
+
+        var fteil = document.getElementById('fteil0');
         var st = document.getElementById('st');
-        //st.setAttribute("name", "st0");
         var dirzeit = document.getElementById('dirzeit');
-        //dirzeit.setAttribute("name", "dirzeit0");
         var indirzeit = document.getElementById('indirzeit');
-        //indirzeit.setAttribute("name", "indirzeit0");
         var bemerkung = document.getElementById('bemerkung');
 
-        var panlage = document.getElementById('panlage');
-
-
-        var nameNew = name.cloneNode(true);
-        nameNew.setAttribute("id", "name" + currentIndex);
-        nameNew.setAttribute("name", "name" + currentIndex);
-        nameNew.setAttribute("required", "true");
-        nameNew.selectedIndex = name.selectedIndex;
-
-
-        var panlageNew = panlage.cloneNode(true);
-        panlageNew.setAttribute("id", "panlage" + currentIndex);
-        panlageNew.setAttribute("name", "panlage" + currentIndex);
-        panlageNew.setAttribute("required", "true");
 
         var fteilNew = fteil.cloneNode(true);
         fteilNew.setAttribute("name", "fteil" + currentIndex);
@@ -251,12 +260,6 @@
 
 
         currentCell = currentRow.insertCell(-1);
-        currentCell.appendChild(nameNew);
-
-        currentCell = currentRow.insertCell(-1);
-        currentCell.appendChild(panlageNew);
-
-        currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(fteilNew);
 
         currentCell = currentRow.insertCell(-1);
@@ -272,8 +275,9 @@
         currentCell.appendChild(bemerkungNew);
 
         var rowCount = myTable.rows.length;
-        console.log(rowCount);
+       // console.log(rowCount);
 
+        /*
         $("#panlage" + currentIndex).change(function () {
             var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
 
@@ -286,6 +290,8 @@
                 });
             });
         });
+        */
+
         }
 
     function RemoveRow() {

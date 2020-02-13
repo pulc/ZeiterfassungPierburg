@@ -19,8 +19,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
             string message = " ";
 
-            
-
+        
             if(m.Day != 0)
             {
                 message = message + " Tag:" + m.Day;
@@ -56,6 +55,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 message = message + " MitarbeiterID:" + m.MitarbeiterID;
 
                 ViewBag.Year = m.Year;
+                ViewBag.MitarbeiterBeschreibung = "Produktivität des folgenden Mitarbeiters:";
             }
             if (m.Art != 0)
             {

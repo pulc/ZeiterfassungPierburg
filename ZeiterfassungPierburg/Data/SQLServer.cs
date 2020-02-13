@@ -87,7 +87,6 @@ where p.IstEineMaschine = 'false' and (MONTH(s.Datum) = MONTH(DATEADD(MONTH, -" 
                     }
                 }
             }
-
             return result;
         }
         public Dictionary<string, float> GetProduktivitätMaschinenGesamt()
@@ -119,10 +118,8 @@ order by Bezeichner
                 // select ID from Produktionsanlage where IstEineMaschine = 'false'
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
 
-
                 while (r.Read())
                 {
-
                     try
                     {
                         result.Add(r.GetString(0) + "_" + r.GetString(1), (float)r.GetDecimal(2));
@@ -231,9 +228,6 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
             }
         }
 
-
-
-
         public T GetItem<T>(int id) where T : BasicModelObject, new()
         {
             using (var c = NewOpenConnection)
@@ -284,8 +278,10 @@ where p.IstEineMaschine = 'True'
             using (var c = NewOpenConnection)
             {
                 string groupyByString = @"group by p.Bezeichner, f.Bezeichnung ";
+                string select = @" 
+select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
 
-
+sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität";
 
                 string dayCondition = "'true'='true'";
                 if (day != 0) dayCondition = "DAY(s.Datum) = " + day;
@@ -302,20 +298,18 @@ where p.IstEineMaschine = 'True'
                 if (MitarbeiterID != 0)
                 {
                     mitarbeiterCondition = "MitarbeiterID = " + MitarbeiterID;
-                    groupyByString = groupyByString + " ,MitarbeiterID";
+                    groupyByString = groupyByString + " ,MitarbeiterID,m.Nachname,m.Vorname";
+                    select = select + " , m.Nachname + ' ' + m.Vorname as Mitarbeiter";
                 }
                 string schichtCondition = "'true'='true'";
                 if (Art != 0)
                 {
-                        schichtCondition = "Art = " + Art;
+                    schichtCondition = "Art = " + Art;
                     groupyByString = groupyByString + " ,Art";
                 }
 
 
-                string sql = @" 
-select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
-
-sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität
+                string sql = @"
 
   FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -328,7 +322,7 @@ LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID";
 
                 string orderBy = " order by Produktionsanlage,Fertigungsteil";
 
-                string cmd = sql + groupyByString + orderBy;
+                string cmd = select + sql + groupyByString + orderBy;
 
                 return c.Query<T>(cmd).ToList();
             }
@@ -368,7 +362,6 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where p.IstEineMaschine = 'False'
 ";
                 return c.Query<T>(sql).ToList();
-
             }
         }
         // helper methods
@@ -530,6 +523,35 @@ where p.IstEineMaschine = 'False'
             }
         }
 
+        public bool? GetBoolean(string command)
+        {
+            bool? result = null;
+            try
+            {
+                using (SqlConnection conn = NewOpenConnection)
+                {
+                    string sql;
+
+                    sql = command;
+
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+
+                    // TO DO: Nullbehandlung
+
+                    while (r.Read())
+                    {
+                        result = r.GetBoolean(0);
+                    }
+                    return result;
+                }
+            }
+            catch
+            {
+
+                return result;
+            }
+        }
+
         public IEnumerable<T> GetTeileInProduktionsanlageView<T>()
         {
             using (var c = NewOpenConnection)
@@ -562,7 +584,7 @@ TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where ProduktionsanlageID = 
-" + ProduktionsanlageID;
+" + ProduktionsanlageID + " and f.Bezeichnung is not null ";
 
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
@@ -621,6 +643,24 @@ where ProduktionsanlageID =
             }
             return result.Substring(0, result.Length - 1); //substring to remove the last comma
         }
+
+        public string GetOneString(string column, string table, string where)
+        {
+            string result = "";
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = $"select {column} from {table} where {where} order by ID";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result = r.GetString(0);
+                }
+            }
+            return result; //substring to remove the last comma
+        }
+
         public Dictionary<int, string> GetDictionaryProduktivität(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();

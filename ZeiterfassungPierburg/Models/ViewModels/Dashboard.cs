@@ -91,10 +91,12 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
 
         public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetNumber(SelectZeiterfassungen); }
 
+        /*
         public Dictionary<string, float> Produktivität
         {
             get => SQLServer.Instance.GetProduktivität();
         }
+        */
 
         public Dictionary<string, float> ProduktivitätLast12Months
         {

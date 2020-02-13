@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Pierburg Zeiterfassung</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+</head>
+<body>
+
+    @if (Session["UserName"] != null)
+    {
+
+        <div class="wrapper">
+
+            <div class="hold-transition skin-blue sidebar-mini">
+                <!-- Main Header -->
+                <header class="main-header">
+
+                    <!-- Logo -->
+                    <a href="~/" class="logo">
+                        <!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"><b>P</b>BG</span>
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"><b><img height="150" width="150" src="~/Content/dist/img/pierburg_logo.png" /></b></span>
+                    </a>
+
+                    <!-- Header Navbar -->
+                    <nav class="navbar navbar-static-top" role="navigation">
+                        <!-- Sidebar toggle button-->
+                        <img class="sidebar-toggle" data-toggle="push-menu" height="50" width="50" src="~/Content/dist/img/hamburger_white.png" />
+
+                        <!-- Navbar Right Menu -->
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+
+                                <!-- User Account Menu -->
+                                <li class="dropdown user user-menu">
+                                    <!-- Menu Toggle Button -->
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <!--<img src="~/Content/dist/img/default-50x50.gif" class="user-image" alt="User Image">-->
+                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                        <span class="hidden-xs">@ViewBag.Name</span>
+                                    </a>
+                                </li>
+                                <!--
+                                    <li>
+                                        <a href="#" class="dropdown-toggle">Abmelden</a>
+                                    </li>
+                                -->
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+                <!-- Left side column. contains the logo and sidebar -->
+                <aside class="main-sidebar">
+
+                    <!-- sidebar: style can be found in sidebar.less -->
+                    <section class="sidebar">
+
+                        <!-- search form (Optional) -->
+                        <!-- /.search form -->
+                        <!-- Sidebar Menu -->
+                        <ul class="sidebar-menu" data-widget="tree">
+                            <li>@Html.ActionLink("NEUE ERFASSUNG - Band", "Create", "Neuezeiterfassung")</li>
+                            <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
+                            _____________________________
+
+                            <li>@Html.ActionLink("Übersicht - Bänder", "Index", "MitarbeiterInSchicht")</li>
+                            <li>@Html.ActionLink("Übersicht - MEBA  ", "IndexMEBA", "MitarbeiterInSchicht")</li>
+                            _____________________________
+                            <li>@Html.ActionLink("Produktionsanlagen", "Index", "Produktionsanlage")</li>
+                            <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
+                            <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
+                            <li>@Html.ActionLink("Teile bei Anlagen", "Index", "TeileInProduktionsanlage")</li>
+                            <li>@Html.ActionLink("Produktivität", "Create", "Produktivität")</li>
+                            <li>@Html.ActionLink("Verwaltung", "Index", "Zugriffsrechte")</li>
+                        </ul>
+                        <!-- /.sidebar-menu -->
+                    </section>
+                    <!-- /.sidebar -->
+                </aside>
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    @RenderBody()
+
+                </div>
+
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/bootstrap")
+                <script src="~/Scripts/adminlte.js"></script>
+
+                @RenderSection("scripts", required: false)
+
+
+            </div>
+            <!-- Main Footer -->
+            <footer class="main-footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs">
+                </div>
+                <!-- Default to the left -->
+                <strong> &copy; @DateTime.Now.Year <a href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
+            </footer>
+        </div>
+    }
+    else
+    {
+        Response.Redirect("~/Zugriffsrechte/Login");}
+    }
+</body>
+
+
+</html>
+    

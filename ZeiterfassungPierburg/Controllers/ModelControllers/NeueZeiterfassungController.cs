@@ -30,7 +30,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         // GET: NeueZeiterfassung/Create
         public ActionResult Create()
         {
-            var lstCities = new SelectList(new[] { "City1", "City2", "City3" });
+            var lstCities = new SelectList(new[] { "Es gibt keine Teile für diese Produktionsanalage. Du musst erstmal bei 'Teile bei Anlagen' eine hinzufügen" });
             ViewBag.Cities = lstCities;
 
 
@@ -90,263 +90,201 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         {
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
+            SchichtInfo s = new SchichtInfo();
 
-                    try
-                    {
-                        SchichtInfo s = new SchichtInfo()
-                        {
-                            Datum = model.Datum,
-                            Art = model.Schicht
-                        };
-                        int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
-                        int ProduktionsanlageID = model.Produktionsanlage;
-                        List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
-                        
-                        var date = DateTime.Now;
-                        // truncate seconds and miliseconds
-                        date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0 , 0, date.Kind);
-                        string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+            try
+            {
 
-                        string getNumber = @"select f.ID from 
-TeileInProduktionsanlage t
-LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
-LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
-where ProduktionsanlageID = " + ProduktionsanlageID;
+                s.Datum = model.Datum;
+                s.Art = model.Schicht;
 
-                        int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
-                        
-                        string getTeZeit = @"select teZEIT from 
+
+                int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
+                int ProduktionsanlageID = model.Produktionsanlage;
+                List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
+
+                var date = DateTime.Now;
+                // truncate seconds and miliseconds
+                date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
+                string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+
+                /*
+                string getTeZeit = @"select teZEIT from 
 Fertigungsteil
 where ID = " + FertigungsTeilID;
 
-                        float teZeit = (float) SQLServer.Instance.GetDecimal(getTeZeit);
-                        if(teZeit == 0)
-                        {
-                            ViewBag.Message = "Kein Mitarbeiter wurde hinzugefügt. Es gibt kein Teil der Produktionsanlage zugeteilt oder die teZeit des Teiles ist 0.";
-                            return View(model);
+                float teZeit = (float) SQLServer.Instance.GetDecimal(getTeZeit);
+                if(teZeit == 0)
+                {
+                    ViewBag.Message = "Kein Mitarbeiter wurde hinzugefügt. Es gibt kein Teil der Produktionsanlage zugeteilt oder die teZeit des Teiles ist 0.";
+                    return View(model);
 
-                        }
+                }
+                */
 
-                        if ((model.InDirZeit + model.DirZeit) == 0)
+                Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
+                List<string> keyList = new List<string>(form.Keys);
+                int TeileCount = 0;
+                int MitarbeiterCount = 0;
+                foreach (string name in keyList)
+                {
+                    if (name.Contains("fteil"))
+                        TeileCount++;
+                    if (name.Contains("name"))
+                        MitarbeiterCount++;
+                }
+                if (MitarbeiterCount != 0)
+                {
+                    for (int i = 0; i < MitarbeiterCount; i++)
+                    {
+                        //float auswertung = 0;
+                        if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
                         {
+                            foreach (var id in InsertedID)
+                            {
+                                SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                            }
                             ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
                             return View(model);
                         }
+                        // auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
 
-                        float auswertung = 0;
-                        if((model.InDirZeit + model.DirZeit) != 0)
-                            { 
-                             auswertung = ((model.Stückzahl / (model.DirZeit + model.InDirZeit)) * 100) / teZeit;
-                        }
-
-                        // Create the first Mitarbeiter model
-                        MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
+                        // TODO: berechnen Fertigungsteil ID 
+                        for (int j = 0; j < TeileCount; j++)
                         {
-                            SchichtInfoID = SchichtInfoID,
-                            FertigungsteilID = FertigungsTeilID,
-                            MitarbeiterID = model.Name,
-                            DirStunden = model.DirZeit,
-                            InDirStunden = model.InDirZeit,
-                            Stück = model.Stückzahl,
-                            ProduktionsanlageID = ProduktionsanlageID,
-                            ErstelltAm = date,
-                            Bemerkung = model.Bemerkung,
-                            Auswertung = auswertung,
-                            EingetragenVon = ErstelltVon
-                        };  
-                       
-                        MitarbeiterInSchichtList.Add(m);
-                         
-                        Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
+                            string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + j]}'";
+                            int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
 
-                        int MitarbeiterToAdd = (col.Count - 10) / 5; //Count how many additionaly Mitarbeiter model there are
-
-                        if (MitarbeiterToAdd != 0)
-                        {
-                            for (int i = 1; i <= MitarbeiterToAdd; i++)
+                            MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                             {
-                                auswertung = 0;
-                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
-                                {
-                                    foreach (var id in InsertedID)
-                                    {
-                                        SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
-                                    }
-                                    ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
-                                    return View(model);
-                                }
-                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) != 0)
-                                {
-                                    auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
-                                }
-                                // TODO: berechnen Fertigungsteil ID 
-                                MitarbeiterInSchicht n = new MitarbeiterInSchicht()
-                                {
-                                    SchichtInfoID = SchichtInfoID,
-                                    FertigungsteilID = FertigungsTeilID,
-                                    MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
-                                    DirStunden = float.Parse(Request.Form["dirzeit" + i]),
-                                    InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
-                                    Stück = Int32.Parse(Request.Form["st" + i]),
-                                    ProduktionsanlageID = ProduktionsanlageID,
-                                    ErstelltAm = date,
-                                    Bemerkung = Request.Form["bemerkung"+i],
-                                    Auswertung = auswertung,
-                                    EingetragenVon = ErstelltVon
-                                };
-                                MitarbeiterInSchichtList.Add(n);
-                            }
+                                SchichtInfoID = SchichtInfoID,
+                                FertigungsteilID = FertigungsTeilID,
+                                MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
+                                DirStunden = float.Parse(Request.Form["dirzeit" + i]),
+                                InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
+                                Stück = Int32.Parse(Request.Form["st" + j]),
+                                ProduktionsanlageID = ProduktionsanlageID,
+                                ErstelltAm = date,
+                                Bemerkung = Request.Form["bemerkung" + i],
+                                //Auswertung = auswertung,
+                                EingetragenVon = ErstelltVon
+                            };
+                            MitarbeiterInSchichtList.Add(n);
                         }
-                        // add all models into the DB
-                        foreach (var n in MitarbeiterInSchichtList)
-                        {
-                            InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
-                        }
-                        ViewBag.Message = MitarbeiterInSchichtList.Count + " Mitarbeiter erfasst";
-                        return Create();
                     }
-                    catch (Exception e)
-                    {
-                        // delete added models (if any)
-                        foreach (var id in InsertedID)
-                        {
-                            SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
-                        }
-                        ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
-                            "\nDer ausführliche Grund: " + e.Message;
+                }
+                // add all models into the DB
+                foreach (var n in MitarbeiterInSchichtList)
+                {
+                    InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
+                }
+                ViewBag.Message = MitarbeiterInSchichtList.Count + " Einträge gemacht.";
+                return Create();
+            }
+            catch (Exception e)
+            {
+                SQLServer.Instance.RemoveItem<SchichtInfo>(s);
 
-                       return View(model);
-                    }
+                // delete added models (if any)
+                foreach (var id in InsertedID)
+                {
+                    SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                }
+                ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
+                    "\nDer ausführliche Grund: " + e.Message;
+
+                return View(model);
+            }
         }
         [HttpPost]
         public ActionResult CreateMEBA(NeuezeiterfassungMEBA model, FormCollection col)
         {
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
-            string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
 
+            try
+            {
+                SchichtInfo s = new SchichtInfo()
+                {
+                    Datum = model.Datum,
+                    Art = model.Schicht
+                };
 
-                    try
+                int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
+                int ProduktionsanlageID = model.Produktionsanlage;
+                int MitarbeiterID = model.Name;
+
+                List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
+
+                var date = DateTime.Now;
+                // truncate seconds and miliseconds
+                date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
+                string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+
+                Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
+                List<string> keyList = new List<string>(form.Keys);
+                int TeileCount = 0;
+                foreach (string name in keyList)
+                {
+                    if (name.Contains("fteil"))
+                        TeileCount++;
+                }
+
+                for (int i = 0; i < TeileCount; i++)
+                {
+                    //auswertung = 0;
+                    if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
                     {
-                        SchichtInfo s = new SchichtInfo()
-                        {
-                            Datum = model.Datum,
-                            Art = model.Schicht
-                        };
-                        int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
-                        int ProduktionsanlageID = model.Produktionsanlage;
-                        List<MitarbeiterInSchicht> MitarbeiterInSchichtList = new List<MitarbeiterInSchicht>();
-
-                        var date = DateTime.Now;
-                        // truncate seconds and miliseconds
-                        date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, 0, date.Kind);
-
-
-                        string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{model.FertigungsteilString}'";
-                        int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
-
-                        string getTeZeit = @"select teZEIT from 
-Fertigungsteil
-where ID = " + FertigungsTeilID;
-
-                        float teZeit = (float)SQLServer.Instance.GetDecimal(getTeZeit);
-                        float auswertung = 0;
-                        if ((model.InDirZeit + model.DirZeit) == 0)
-                        {
-                            ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
-                            return View(model);
-                        }
-
-
-                            if ((model.InDirZeit + model.DirZeit) != 0)
-                        {
-                            auswertung = ((model.Stückzahl / (model.DirZeit + model.InDirZeit)) * 100) / teZeit;
-                        }
-
-                // Create the first Mitarbeiter model
-                        MitarbeiterInSchicht m = new MitarbeiterInSchicht() //first 
-                        {
-                            SchichtInfoID = SchichtInfoID,
-                            FertigungsteilID = FertigungsTeilID,
-                            MitarbeiterID = model.Name,
-                            DirStunden = model.DirZeit,
-                            InDirStunden = model.InDirZeit,
-                            Stück = model.Stückzahl,
-                            ProduktionsanlageID = ProduktionsanlageID,
-                            ErstelltAm = date,
-                            Bemerkung = model.Bemerkung,
-                            Auswertung = auswertung,
-                            EingetragenVon = ErstelltVon
-                        };
-                        MitarbeiterInSchichtList.Add(m);
-
-                        Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
-
-                        int MitarbeiterToAdd = (col.Count - 11) / 7; //Count how many additionaly Mitarbeiter model there are
-
-                        if (MitarbeiterToAdd != 0)
-                        {
-                            for (int i = 1; i <= MitarbeiterToAdd; i++)
-                            {
-                                auswertung = 0;
-                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
-                                {
-                                    foreach (var id in InsertedID)
-                                    {
-                                        SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
-                                    }
-                                    ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
-                                    return View(model);
-                                }
-
-
-                                if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) != 0)
-                                {
-                                    auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
-
-                                }
-
-                                getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
-                                FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
-
-
-                                MitarbeiterInSchicht n = new MitarbeiterInSchicht()
-                                {
-                                    SchichtInfoID = SchichtInfoID,
-                                    FertigungsteilID = FertigungsTeilID,
-                                    MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
-                                    DirStunden = float.Parse(Request.Form["dirzeit" + i]),
-                                    InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
-                                    Stück = Int32.Parse(Request.Form["st" + i]),
-                                    ProduktionsanlageID = Int32.Parse(Request.Form["panlage" + i]),
-                                    ErstelltAm = date,
-                                    Bemerkung = Request.Form["bemerkung" + i],
-                                    Auswertung = auswertung,
-                                    EingetragenVon = ErstelltVon
-                                };
-                                MitarbeiterInSchichtList.Add(n);
-                            }
-                        }
-                        // add all models into the DB
-                        foreach (var n in MitarbeiterInSchichtList)
-                        {
-                            InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
-                        }
-                        ViewBag.Message = MitarbeiterInSchichtList.Count + " Mitarbeiter erfasst";
-                        return CreateMEBA();
-                    }
-                    catch (Exception e)
-                    {
-                        // delete added models (if any)
                         foreach (var id in InsertedID)
                         {
                             SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                         }
-                        ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
-                            "\nDer ausführliche Grund: " + e.Message;
-
+                        ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
                         return View(model);
                     }
+                    // float auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
+
+                    string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
+                    int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+
+                    MitarbeiterInSchicht n = new MitarbeiterInSchicht()
+                    {
+                        SchichtInfoID = SchichtInfoID,
+                        FertigungsteilID = FertigungsTeilID,
+                        MitarbeiterID = MitarbeiterID,
+                        DirStunden = float.Parse(Request.Form["dirzeit" + i]),
+                        InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
+                        Stück = Int32.Parse(Request.Form["st" + i]),
+                        ProduktionsanlageID = ProduktionsanlageID,
+                        ErstelltAm = date,
+                        Bemerkung = Request.Form["bemerkung" + i],
+                        //Auswertung = auswertung,
+                        EingetragenVon = ErstelltVon
+                    };
+                    MitarbeiterInSchichtList.Add(n);
+                }
+
+                // add all models into the DB
+                foreach (var n in MitarbeiterInSchichtList)
+                {
+                    InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
+                }
+                ViewBag.Message = MitarbeiterInSchichtList.Count + " Produkte erfasst";
+                return CreateMEBA();
+            }
+            catch (Exception e)
+            {
+                // delete added models (if any)
+                foreach (var id in InsertedID)
+                {
+                    SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                }
+                ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
+                    "\nDer ausführliche Grund: " + e.Message;
+
+
+                return View(model);
+            }
 
         }
         // GET: NeueZeiterfassung/Edit/5

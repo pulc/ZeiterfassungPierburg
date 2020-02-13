@@ -18,8 +18,15 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Name = System.Web.HttpContext.Current.User.Identity.Name;
 
             //ViewBag.Produktivität = d.Produktivität;
+
+            ViewBag.ProduktivitätBerechnungProBandLastMonth = d.ProduktivitätBerechnungProBandLastMonth;
+
+
             ViewBag.ProduktivitätLast12Months = d.ProduktivitätLast12Months;
             ViewBag.ProduktivitätMaschinen = d.ProduktivitätMaschinen;
+
+
+
 
             ViewBag.MitarbeiterAnzahl = d.MitarbeiterAnzahl;
 
@@ -90,7 +97,6 @@ namespace ZeiterfassungPierburg.Controllers
             Session["AccessLayer"] = null;
 
             return Redirect("~/Home/Index");
-
         }
     }
 }

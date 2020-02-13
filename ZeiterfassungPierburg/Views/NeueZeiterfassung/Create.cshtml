@@ -1,8 +1,10 @@
 ﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
 
-@{ 
+@if (Convert.ToInt32(Session["AccessLayer"]) == null || Convert.ToInt32(Session["AccessLayer"]) == 0)
+{
     Layout = "~/Views/Shared/_LayoutPublic.cshtml";
 }
+
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
 {

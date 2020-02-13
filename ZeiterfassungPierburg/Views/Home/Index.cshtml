@@ -131,12 +131,12 @@
 
         <div class="col-lg-3 col-xs-6">
             <div class="box-footer text-black">
-                <h4 style="padding-bottom: 20px;">Produktivität gesamt</h4>
+                <h4 style="padding-bottom: 20px;">Produktivität gesamt - Bänder</h4>
                 <div class="row">
                     <div class="col-sm-12">
                         <!-- Progress bars -->
                         <div class="clearfix">
-                            <!--  <div id="productivity"></div> -->
+                              <div id="productivity"></div> 
                         </div>
                     </div>
                 </div>
@@ -255,7 +255,7 @@
         */
 
             var html = '';
-                            var dictionary = @Html.Raw(Json.Encode(ViewBag.Produktivität));
+                            var dictionary = @Html.Raw(Json.Encode(ViewBag.ProduktivitätBerechnungProBandLastMonth));
                             for(var key in dictionary ){
                                 var value = dictionary[key];
 

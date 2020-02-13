@@ -137,6 +137,7 @@ namespace ZeiterfassungPierburg.Controllers
             }
         }
 
+
         public ActionResult DeleteSession()
         {
             Session["UserID"] = null;

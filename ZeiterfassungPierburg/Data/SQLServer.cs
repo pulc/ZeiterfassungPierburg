@@ -236,7 +236,7 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
                 return result;
             }
         }
-
+        
         public IEnumerable<T> GetMitarbeiterInSchichtModelMEBA<T>()
         {
             using (var c = NewOpenConnection)
@@ -307,8 +307,6 @@ sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität";
                     schichtCondition = "Art = " + Art;
                     groupyByString = groupyByString + " ,Art";
                 }
-
-
                 string sql = @"
 
   FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
@@ -685,5 +683,98 @@ where ProduktionsanlageID =
             return result;
         }
 
+
+        public Dictionary<string, float> ProduktivitätBerechnungProBandGesamt()
+        {
+
+            Dictionary<string, float> result = new Dictionary<string, float>();
+
+
+            List<int> AlleBänderList = new List<int>();
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql =
+                    @"select ID
+from Produktionsanlage
+where IstEineMaschine = 'false'";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    AlleBänderList.Add(r.GetInt32(0));
+                }
+            }
+
+            foreach(var BandID in AlleBänderList)
+            {
+                string BandName = SQLServer.Instance.GetOneString("Bezeichner", "Produktionsanlage", "ID = " + BandID);
+
+                List<int> SchichtInfoList = new List<int>(); //get List of all SchichtInfos in the last month for each Band
+                List<float> ProduktivitätSchichtInfoList = new List<float>(); //List of all calculated Produktivität for each Schicht
+                float sumProduktivität = 0.0f;
+                float avgProduktivität = 0.0f;
+
+                using (SqlConnection conn = NewOpenConnection)
+                {
+                    string sql =
+                        @"
+select distinct SchichtinfoID
+from MitarbeiterInSchicht m
+left outer join Schichtinfo i on m.SchichtInfoID = i.ID
+left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
+where p.ID = "+BandID+" ;";
+                    //and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND getdate())
+                    SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                    while (r.Read())
+                    {
+                        SchichtInfoList.Add(r.GetInt32(0));
+                    }
+                }
+
+                foreach(var SchichtInfoID in SchichtInfoList)
+                {
+
+                    using (SqlConnection conn = NewOpenConnection)
+                    {
+                        string sql =
+                            @"
+select   
+ (sum(t.Stück)*sum(f.Tezeit)*sum(f.AnzahlMA)/sum(t.dirstunden)/60/COUNT(MitarbeiterID)/COUNT(MitarbeiterID)/count(MitarbeiterID))  as Produktivität --I5
+
+FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+
+
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
+LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
+LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID
+
+where SchichtInfoID = "+SchichtInfoID+@" 
+
+group by SchichtInfoID, f.ID
+order by SchichtInfoID";
+
+                        int CountTeile = 0;
+                        float SummeProduktivitätProTeil = 0.0f; //temporarily save productivity for each product
+
+                        SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                        while (r.Read())
+                        {
+                            SummeProduktivitätProTeil = SummeProduktivitätProTeil + (float)r.GetDecimal(0);
+                            CountTeile++;
+                        }
+
+                        float ProduktivitätProSchichtInfo = SummeProduktivitätProTeil / CountTeile;
+                        sumProduktivität = sumProduktivität + ProduktivitätProSchichtInfo;
+
+
+                    }
+                }
+                avgProduktivität = sumProduktivität / SchichtInfoList.Count;
+
+                result.Add(BandName, avgProduktivität);
+            }
+            return result;
+        }
     }
 }

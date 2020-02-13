@@ -43,12 +43,16 @@
                         <!-- Navbar Right Menu -->
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
-
+                                <li class="dropdown user user-menu">
+                                    @{
+                                        <a>  @Session["UserName"].ToString() </a>;
+                                    }
+                                </li>
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
-                                    <!-- Menu Toggle Button -->
-                                    @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
+                                    <a href="/Zugriffsrechte/DeleteSession"><span class="glyphicon">&#xe163;</span></a>
                                 </li>
+
 
                             </ul>
                         </div>
@@ -70,7 +74,6 @@
                             <li>@Html.ActionLink("Fertigungsteile", "Index", "Fertigungsteil")</li>
                             <li>@Html.ActionLink("Mitarbeiter", "Index", "Mitarbeiter")</li>
                             <li>@Html.ActionLink("Teile bei Anlagen", "Index", "TeileInProduktionsanlage")</li>
-                            <li>@Html.ActionLink("Produktivität", "Create", "Produktivität")</li>
                         </ul>
                         <!-- /.sidebar-menu -->
                     </section>
@@ -133,11 +136,15 @@
                         <!-- Navbar Right Menu -->
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
+                                <li class="dropdown user user-menu">
+                                    @{
+                                    <a>  @Session["UserName"].ToString() </a>;
+                                    }
+                                </li>
 
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
-                                    <!-- Menu Toggle Button -->
-                                    @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
+                                    <a href="/Zugriffsrechte/DeleteSession"><span class="glyphicon">&#xe163;</span></a>
                                 </li>
 
                             </ul>

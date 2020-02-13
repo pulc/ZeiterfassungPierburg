@@ -1,10 +1,9 @@
 ﻿@model ZeiterfassungPierburg.Models.ViewModels.Dashboard
 
-@if (Startup.AccessLayer == null || Startup.AccessLayer == 0)
+@if (Convert.ToInt32(Session["AccessLayer"]) == null || Convert.ToInt32(Session["AccessLayer"]) == 0)
 {
     Layout = "~/Views/Shared/_LayoutPublic.cshtml";
 }
-
 
 <link href="~/Content/Chart.css" rel="stylesheet" />
 
@@ -20,10 +19,6 @@
     </fieldset>
 
 
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-    </ol>
 </section>
 <section class="content">
 

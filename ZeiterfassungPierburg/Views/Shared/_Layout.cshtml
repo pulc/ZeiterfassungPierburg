@@ -13,12 +13,12 @@
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
 </head>
 <body>
-    @if (Startup.AccessLayer == null || Startup.AccessLayer == 0)
+    @if (Convert.ToInt32(Session["AccessLayer"]) == null || Convert.ToInt32(Session["AccessLayer"]) == 0)
     {
         Response.Redirect("~/Zugriffsrechte/Login");
     }
 
-    @if (Startup.AccessLayer == 2)
+    @if (Convert.ToInt32(Session["AccessLayer"]) == 2)
     {
 
         <div class="wrapper">
@@ -107,7 +107,7 @@
             </footer>
         </div>
     }
-    else if (Startup.AccessLayer == 1)
+    else if (Convert.ToInt32(Session["AccessLayer"]) == 1)
     {
 
 

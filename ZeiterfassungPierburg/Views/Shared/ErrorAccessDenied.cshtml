@@ -8,17 +8,19 @@
         <div class="col-6 mx-auto">
             <div class="jumbotron">
                 <div class="col-6 mx-auto">
-
                     <h1><big><big><big><big><big><big><big>☹</big></big></big></big>   </big></big></big></h1>
                 </div>
-
                 <h3>
-                    Das ist nicht gelungen. Wahrscheinlich hast du keinen Zugriff oder sie Seite existiert nicht.
+                    Du hast keinen Zugriff auf diese Seite.
                 </h3>
                 <h4>
-                    Falls du glaubst, dass etwas nicht stimmt, kontaktiere bitte den Administrator.
+                    Kontaktiere den Admin, um die Rechte zu bekommen.
                 </h4>
+
+
             </div>
+            <button onclick="goBack()">Zurück auf die vorige Seite</button>
+
         </div>
     </div>
 </div>
@@ -32,3 +34,8 @@
 
     </div>
 </section>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>

@@ -39,6 +39,7 @@ namespace ZeiterfassungPierburg.Models
         {
         new SelectListItem{ Text="Admin", Value="1"},
         new SelectListItem{ Text="Verwalter", Value="2"},
+        new SelectListItem{ Text="Keine Rechte", Value="0"},
         };
     }
 }

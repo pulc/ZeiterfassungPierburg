@@ -24,36 +24,39 @@
     {
         <!--- Pierburg colors: #0E4170, #167DBF -->
 
-        <body class="hold-transition login-page" style="  background-image: linear-gradient(45deg, 	#0E4170 ,  white);">
+        <body class="hold-transition login-page" style="  background-image: linear-gradient(45deg,  	#0E4170 ,  #167DBF,white);">
             <div class="login-box">
                 <div class="login-logo">
-                    <a href="../../index2.html"><b>Pierburg Zeiterfassung</b></a>
+                    <img height="115" width="400" src="~/Content/dist/img/pierburg_logo.png" />
+
+                    <!--<a href="../../index2.html"><b>Pierburg Zeiterfassung</b></a>-->
                 </div>
                 <!-- /.login-logo -->
-        <div class="login-box-body">
-            <p class="login-box-msg">Melde dich an.</p>
+                <div class="login-box-body">
+                    <p class="login-box-msg"><big>Melde dich an.</big></p>
 
-            <form action="../../index2.html" method="post">
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(a => a.Benutzername, new { @class = "form-control", @placeholder = "Benutzername" })
+                    <form action="../../index2.html" method="post">
+                        <div class="form-group has-feedback">
+                            @Html.TextBoxFor(a => a.Benutzername, new { @class = "form-control", @placeholder = "Benutzername" })
+                        </div>
+                        <div class="form-group has-feedback">
+                            @Html.PasswordFor(a => a.Password, new { @class = "form-control", @placeholder = "Passwort", @type = "password" })
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Anmelden</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group has-feedback">
-                    @Html.PasswordFor(a => a.Password, new { @class = "form-control", @placeholder = "Passwort", @type = "password" })
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Anmelden</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-        </div>
-        <!-- /.login-box-body -->
-        </div>
+
+                <!-- /.login-box-body -->
+            </div>
         <!-- /.login-box -->
         <!-- jQuery 3 -->
         <script src="../../bower_components/jquery/dist/jquery.min.js"></script>

@@ -3,37 +3,28 @@
     ViewBag.Title = "Error";
 }
 
-<div class="container h-100">
-    <div class="row align-items-center h-100">
-        <div class="col-6 mx-auto">
-            <div class="jumbotron">
-                <div class="col-6 mx-auto">
-                    <h1><big><big><big><big><big><big><big>☹</big></big></big></big>   </big></big></big></h1>
-                </div>
-                <h3>
-                    Du hast keinen Zugriff auf diese Seite.
-                </h3>
-                <h4>
-                    Kontaktiere den Admin, um die Rechte zu bekommen.
-                </h4>
+<section class="content">
 
+    <div class="error-page">
+        <h2 class="headline text-red">☹</h2>
 
-            </div>
-            <button onclick="goBack()">Zurück auf die vorige Seite</button>
+        <div class="error-content">
+            <h3><i class="fa fa-warning text-red"></i> Du hast keinen Zugriff auf diese Seite.</h3>
 
+            <p>
+                Kontaktiere den Admin, um die Rechte zu bekommen.
+
+            </p>
+
+            <p>
+                <button class="btn-toolbar" onclick="goBack()">Zurück auf die vorige Seite</button>
+            </p>
         </div>
     </div>
-</div>
+    <!-- /.error-page -->
 
-<section class="content container-fluid">
-    <div class="container d-flex h-100">
-        <div class="row justify-content-center align-self-center">
-
-        </div>
-
-
-    </div>
 </section>
+
 <script>
     function goBack() {
         window.history.back();

@@ -381,7 +381,6 @@
     <Content Include="Views\Fertigungsteil\Edit.cshtml" />
     <Content Include="Views\Produktionsanlage\Index.cshtml" />
     <Content Include="Views\Mitarbeiter\Delete.cshtml" />
-    <Content Include="Views\Fertigungsteil\Delete.cshtml" />
     <Content Include="Views\Produktionsanlage\Create.cshtml" />
     <Content Include="Views\Produktionsanlage\Delete.cshtml" />
     <Content Include="Views\Produktionsanlage\Edit.cshtml" />

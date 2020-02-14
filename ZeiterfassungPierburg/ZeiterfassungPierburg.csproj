@@ -401,7 +401,6 @@
     <Content Include="Views\Produktivität\Index.cshtml" />
     <Content Include="Views\Produktivität\Create.cshtml" />
     <Content Include="Views\TeileInProduktionsanlage\Edit.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin .cshtml" />
     <Content Include="Views\Shared\_LayoutPublic.cshtml" />
     <Content Include="Views\Zugriffsrechte\Login.cshtml" />

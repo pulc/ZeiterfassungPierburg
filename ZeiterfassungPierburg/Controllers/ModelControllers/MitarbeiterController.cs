@@ -75,11 +75,14 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Mitarbeiter/Delete/5
         public ActionResult Delete(int id)
         {
+
             try
             {
-
+                if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
+                {
                     SQLServer.Instance.RemoveItem<Mitarbeiter>(id);
                     TempData["Message"] = "Mitarbeiter gelöscht.";
+                }
                     return RedirectToAction("Index");
                 
             }

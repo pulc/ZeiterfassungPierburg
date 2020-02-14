@@ -20,10 +20,11 @@ namespace ZeiterfassungPierburg.Controllers
             //ViewBag.Produktivität = d.Produktivität;
 
             ViewBag.ProduktivitätBerechnungProBandLastMonth = d.ProduktivitätBerechnungProBandLastMonth;
+            ViewBag.ProduktivitätBerechnungProMaschineLastMonth = d.ProduktivitätBerechnungProMaschineLastMonth;
 
 
             ViewBag.ProduktivitätLast12Months = d.ProduktivitätLast12Months;
-            ViewBag.ProduktivitätMaschinen = d.ProduktivitätMaschinen;
+           // ViewBag.ProduktivitätMaschinen = d.ProduktivitätMaschinen;
 
 
 

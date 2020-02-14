@@ -113,17 +113,19 @@
                                     @Html.DisplayFor(modelItem => item.InDirStunden)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Bemerkung)
+
+                                @Html.DisplayFor(modelItem => item.Bemerkung)
                                 </td>
-                                <td>
+                                <!--<td>
                                     @Html.DisplayFor(modelItem => item.Auswertung)%
                                 </td>
-
+                                    -->
                                 <td>
-                                    @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
-                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
-                                    <!--@Html.ActionLink("Eintragen", "Eintragen", new { istEingetragen = true, id = item.ID })
-                                    @Html.ActionLink("Austragen", "Eintragen", new { istEingetragen = false }, new { id = item.ID })-->
+
+                                @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
+                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+                                <!--@Html.ActionLink("Eintragen", "Eintragen", new { istEingetragen = true, id = item.ID })
+        @Html.ActionLink("Austragen", "Eintragen", new { istEingetragen = false }, new { id = item.ID })-->
                                     <p id="@item.ID" hidden>@item.IstInSAPEingetragen</p> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
                                     | <a href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID">Eintragen</a>
                                 </td>
@@ -222,7 +224,7 @@
             $('#min, #max, #schicht').change(function () {
                 table.draw();
             });
-            
+
 
             /*
             $('table > tbody  > tr').each(function (index, tr) {
@@ -233,7 +235,7 @@
             });
 
     */
-            
+
 
 
         var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';

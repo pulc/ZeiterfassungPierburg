@@ -73,15 +73,22 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Zugriffsrechte/Delete/5
         public ActionResult Delete(int id)
         {
-            try
+            if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
             {
-                SQLServer.Instance.RemoveItem<Zugriffsrechte>(id);
-                return RedirectToAction("Index");
+                try
+                {
+                    SQLServer.Instance.RemoveItem<Zugriffsrechte>(id);
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    TempData["Message"] = "Der Zugriffsrechte konnte nicht gelöscht werden.";
+                    //return Index();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            else
             {
-                TempData["Message"] = "Der Zugriffsrechte konnte nicht gelöscht werden.";
-                //return Index();
                 return RedirectToAction("Index");
             }
         }
@@ -97,13 +104,13 @@ namespace ZeiterfassungPierburg.Controllers
         public ActionResult Login(Zugriffsrechte o)
         {
             try
-            { 
-            if (ModelState.IsValid)
             {
+                if (ModelState.IsValid)
+                {
                     //var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.Benutzername) && a.Password.Equals(objUser.)).FirstOrDefault();
                     //if (obj != null)
-                    int id = SQLServer.Instance.GetNumber("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername +"'");
-                    string pw = SQLServer.Instance.GetOneString("Password","Zugriffsrechte", "ID = " +id);
+                    int id = SQLServer.Instance.GetNumber("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
+                    string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "ID = " + id);
 
                     if (pw == o.Password)
                     {
@@ -117,23 +124,24 @@ namespace ZeiterfassungPierburg.Controllers
 
                         Session["AccessLayer"] = al;
 
-                        return RedirectToAction("Index","Home",null);
+                        return RedirectToAction("Index", "Home", null);
                     }
                     else
                     {
                         ViewBag.Login = "Benutzername oder Passwort sind falsch.";
                         return View(o);
                     }
-            }
-            else
+                }
+                else
                 {
                     ViewBag.Login = "Benutzername oder Passwort sind falsch.";
                     return View(o);
                 }
             }
-            catch { 
-            ViewBag.Login = "Benutzername oder Passwort sind falsch.";
-            return View(o);
+            catch
+            {
+                ViewBag.Login = "Benutzername oder Passwort sind falsch.";
+                return View(o);
             }
         }
 

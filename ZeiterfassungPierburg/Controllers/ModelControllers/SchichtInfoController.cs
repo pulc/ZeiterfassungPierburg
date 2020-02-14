@@ -20,7 +20,6 @@ namespace ZeiterfassungPierburg.Controllers
         }
 
         // GET: SchichtInfo/Edit/5
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Edit(int id)
         {
             var results = SQLServer.Instance.GetItems<SchichtInfo>("id = " + id.ToString());
@@ -108,7 +107,6 @@ namespace ZeiterfassungPierburg.Controllers
 
         // POST: SchichtInfo/Edit/5
 
-        [Authorize(Users = Startup.Administrators)]
         [HttpPost]
         public ActionResult Edit(SchichtInfo m)
         {
@@ -122,14 +120,17 @@ namespace ZeiterfassungPierburg.Controllers
                 return View();
             }
         }
-        [Authorize(Users = Startup.Administrators)]
         // GET: SchichtInfo/Delete/5
         public ActionResult Delete(int id)
         {
             try
             {
-                SQLServer.Instance.RemoveItem<SchichtInfo>(id);
-                return RedirectToAction("Index");
+                if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
+                {
+                    SQLServer.Instance.RemoveItem<SchichtInfo>(id);
+                }
+                    return RedirectToAction("Index");
+                
             }
             catch
             {

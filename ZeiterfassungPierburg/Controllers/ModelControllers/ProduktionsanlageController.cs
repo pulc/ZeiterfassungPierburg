@@ -78,7 +78,10 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                SQLServer.Instance.RemoveItem<Produktionsanlage>(id);
+                if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
+                {
+                    SQLServer.Instance.RemoveItem<Produktionsanlage>(id);
+                }
                 return RedirectToAction("Index");
             }
             catch

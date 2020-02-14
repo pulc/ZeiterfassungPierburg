@@ -112,7 +112,10 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
-                SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
+                {
+                    SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
+                }
                 return RedirectToAction("Index");
             }
             catch (InvalidCastException e)

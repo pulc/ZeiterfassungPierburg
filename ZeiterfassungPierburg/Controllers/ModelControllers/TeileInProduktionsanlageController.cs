@@ -24,7 +24,6 @@ namespace ZeiterfassungPierburg.Controllers
             return View(results);
         }
 
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Edit(int id)
         {
             List<List<string>> results = SQLServer.Instance.GetDictionaryTeileInProduktionsanlageEdit(id);
@@ -35,7 +34,7 @@ namespace ZeiterfassungPierburg.Controllers
             m.ProduktionsanlageBezeichner = temp[0];
             m.Produktionsanlage = Int32.Parse(temp[1]);
             m.ID = id;
-              
+
             return View(m);
         }
 
@@ -56,7 +55,7 @@ namespace ZeiterfassungPierburg.Controllers
 
             switch (submit)
             {
-  
+
                 case "Abschicken":
 
                     try
@@ -155,7 +154,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                             SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
                         }
                         ViewBag.Message = "Die Eingabe ist falsch. Keine Teile sind hinzugefügt worden.";
-                        ViewBag.ErrorMessage = "Der Grund: " +e.Message;
+                        ViewBag.ErrorMessage = "Der Grund: " + e.Message;
                         return View(model);
                     }
                 default:
@@ -164,7 +163,6 @@ where Produktionsanlage.IstEineMaschine = 'false'");
         }
 
 
-        [Authorize(Users = Startup.Administrators)]
         [HttpPost]
         public ActionResult Edit(CreateTeileInProduktionsanlageViewModel m, FormCollection col)
         {
@@ -177,7 +175,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
 
                 string sqlstring = @"
    UPDATE [dbo].[TeileInProduktionsanlage]
-   SET    [FertigungsteilID] = "+fteil+" WHERE ID = "+id;
+   SET    [FertigungsteilID] = " + fteil + " WHERE ID = " + id;
 
                 int success = SQLServer.Instance.ExecuteCommand(sqlstring);
                 TempData["Message"] = "Die Anlage wurde geändet.";
@@ -191,33 +189,41 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                 return View(m);
             }
         }
-        
-        [Authorize(Users = Startup.Administrators)]
+
         public ActionResult Delete(int id)
         {
-            try
+            if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
             {
-                int fteileCount = SQLServer.Instance.GetNumber(@"SELECT *
+                try
+                {
+
+                    int fteileCount = SQLServer.Instance.GetNumber(@"SELECT *
   FROM[zeiterfassung].[dbo].[TeileInProduktionsanlage] left outer join Produktionsanlage on TeileInProduktionsanlage.ProduktionsanlageID = Produktionsanlage.ID
   where TeileInProduktionsanlage.ID = " + id);
 
-                if (fteileCount != 1)
-                {
-                    SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    TempData["Message"] = "Eine Produktionsanlage muss mindestens einen Teil haben.";
+                    if (fteileCount != 1)
+                    {
+                        SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Eine Produktionsanlage muss mindestens einen Teil haben.";
 
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch
+                {
+                    TempData["Message"] = "Der TeileInProduktionsanlage konnte nicht gelöscht werden.";
+                    //return Index();
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            else
             {
-                TempData["Message"] = "Der TeileInProduktionsanlage konnte nicht gelöscht werden.";
-                //return Index();
                 return RedirectToAction("Index");
+
             }
         }
     }

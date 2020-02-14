@@ -21,7 +21,6 @@ namespace ZeiterfassungPierburg.Controllers
             return View(results);
         }
 
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Edit(int id)
         {
             var results = SQLServer.Instance.GetItems<Fertigungsteil>("id = " + id.ToString());
@@ -57,7 +56,7 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(m);
             }
         }
-        [Authorize(Users = Startup.Administrators)]
+
         [HttpPost]
         public ActionResult Edit(Fertigungsteil m)
         {
@@ -74,19 +73,29 @@ namespace ZeiterfassungPierburg.Controllers
 
             }
         }
-        [Authorize(Users = Startup.Administrators)]
+
+
         public ActionResult Delete(int id)
         {
-            try
+            if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
             {
-                SQLServer.Instance.RemoveItem<Fertigungsteil>(id);
-                return RedirectToAction("Index");
+
+                try
+                {
+                    SQLServer.Instance.RemoveItem<Fertigungsteil>(id);
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    TempData["Message"] = "Der Fertigungsteil konnte nicht gelöscht werden, weil es bereits für Einträge benutzt wurde";
+                    //return Index();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+            else
             {
-                TempData["Message"] = "Der Fertigungsteil konnte nicht gelöscht werden, weil es bereits für Einträge benutzt wurde";
-                //return Index();
                 return RedirectToAction("Index");
+
             }
         }
     }

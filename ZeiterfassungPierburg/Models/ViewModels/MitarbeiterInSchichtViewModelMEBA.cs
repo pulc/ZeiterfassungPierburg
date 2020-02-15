@@ -30,6 +30,7 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
 
         public int SAPAPNr { get; set; }
 
+        [Display(Name = "ZeichnungNr")]
         public string ZeichenNr { get; set; }
 
         public int Stück { get; set; }
@@ -44,6 +45,7 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
         [Display(Name = "Akkord")]
         public float Auswertung { get; set; }
 
+        [Display(Name = "In SAP")]
         public bool IstInSAPEingetragen { get; set; }
 
     }

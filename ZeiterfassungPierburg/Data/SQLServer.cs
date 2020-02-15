@@ -807,10 +807,10 @@ where IstEineMaschine = 'true' and istAktiv = 'true'";
 
                 List<int> SchichtInfoList = new List<int>(); //get List of all SchichtInfos in the last month for each Band
                 List<float> ProduktivitätSchichtInfoList = new List<float>(); //List of all calculated Produktivität for each Schicht
+
                 float avgProduktivität = 0.0f;
                 float SummeProduktivZeit = 0.0f;
                 float Anwesenheit = 0.0f;
-
 
                 using (SqlConnection conn = NewOpenConnection)
                 {
@@ -838,7 +838,7 @@ where p.ID = " + BandID + " and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND ge
                             @"
 select   
 sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(MitarbeiterID)/COUNT(MitarbeiterID) as ProduktivZeit, --H5
-(sum(t.dirstunden)*60) as Anwesenheit	 --I5
+(sum(t.dirstunden)*60) as Anwesenheit	 
 
 
 FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t

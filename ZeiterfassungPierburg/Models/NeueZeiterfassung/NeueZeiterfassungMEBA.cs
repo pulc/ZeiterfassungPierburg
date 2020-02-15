@@ -74,12 +74,12 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
         public int Stückzahl { get; set; }
 
         [Display(Name = "Dir. Stunden")]
-        [Range(0, 9.99)]
+        [Range(0, 10)]
         [Required(ErrorMessage = "Du musst noch die direkte Zeit eingeben.")]
         public float DirZeit { get; set; }
 
         [Display(Name = "Indir. Stunden")]
-        [Range(0, 9.99)]
+        [Range(0, 10)]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
         public float InDirZeit { get; set; }
 

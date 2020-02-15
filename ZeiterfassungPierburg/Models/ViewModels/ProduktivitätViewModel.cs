@@ -29,6 +29,9 @@ namespace ZeiterfassungPierburg.Models.ViewModels
 
         public decimal Produktivität { get; set; }
 
+        [Display(Name = "Gesamte Produktivität")]
+        public int ProduktivitätGesamt { get; set; }
+
         [Display(Name = "Tag")]
         public int Day { get; set; }
         [Display(Name = "Monat")]

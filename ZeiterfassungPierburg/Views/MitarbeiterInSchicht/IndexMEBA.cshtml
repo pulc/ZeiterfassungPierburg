@@ -1,22 +1,26 @@
 ﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel.MitarbeiterInschichtViewModel>
 
+@Styles.Render("~/bundles/tablePluginStyleBundle");
+
+
 <section class="content container-fluid">
     <div class="box-header with-border">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3>MEBA: Übersicht der Mitarbeiter in Schichten</h3>
+                <h3>Übersicht der Mitarbeiter in Schichten</h3>
 
-                <div class="col-lg-12" style="padding-bottom: 25px; padding-top: 5px">
-                    <div class="col-md-2">
+
+                <div class="row row-list" style="padding-bottom: 25px; padding-top: 5px">
+                    <div class="col-xs-2">
                         <label>Einträge von:</label>
                         <input class="form-control text-box single-line" id="min" name="Datum" type="date">
                     </div>
-                    <div class="mt-2 col-md-2"> 
+                    <div class="col-xs-2">
                         <label>Einträge bis:</label>
 
                         <input class="form-control text-box single-line" id="max" name="Datum" type="date">
                     </div>
-                    <div class="mt-2 col-md-2">
+                    <div class="col-xs-2">
                         <label>Wähle die Schicht aus:</label>
 
                         <select class="form-control text-box single-line" id="schicht">
@@ -68,79 +72,101 @@
                                 @Html.DisplayNameFor(model => model.Bemerkung)
                             </th>
                             <!--
-    <th>
-        @Html.DisplayNameFor(model => model.Auswertung)
-    </th>
-        -->
+                            <th>
+                                @Html.DisplayNameFor(model => model.Auswertung)
+                            </th>
+                                -->
 
-                            <th></th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IstInSAPEingetragen)
+                            </th>
+
+                            <th>
+                                Aktionen
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Datum)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Art)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Anlage)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Personalnummer)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Kostenstelle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SAPAPNr)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ZeichenNr)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Stück)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DirStunden)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InDirStunden)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Bemerkung)
-                            </td>
-                            <!--
-        <td>
-        @Html.DisplayFor(modelItem => item.Auswertung)%
-    </td>
-        -->
-                            <td>
-                                @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
-                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
-                            </td>
-                        </tr>
+                            <tr value="@item.ID" , id="row+@item.ID">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Datum)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Art)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Anlage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personalnummer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kostenstelle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SAPAPNr)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ZeichenNr)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stück)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DirStunden)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InDirStunden)
+                                </td>
+                                <td>
+
+                                    @Html.DisplayFor(modelItem => item.Bemerkung)
+                                </td>
+                                <td>
+
+                                    <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
+                                </td>
+                                <!--
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.Auswertung)%
+                                </td>
+                                    -->
+                                <td>
+
+                                    @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+
+                                    <p id="@item.ID" hidden>@item.IstInSAPEingetragen</p> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
-                <img id="btnExport" class="pull-left btn btn-default" onclick="fnExcelReport();" src="~/Content/dist/img/excel_icon.png" />
-@Html.ActionLink("Neue Zeiterfassung - MEBA", "CreateMEBA", "Neuezeiterfassung", null,  new { @class = "pull-right btn btn-default", @type = "button", });
+                @ViewBag.Message
 
+
+                @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
             </div>
         </div>
     </div>
 </section>
 <iframe id="txtArea1" style="display: none"></iframe>
 
+
+
 @section scripts{
-    @Styles.Render("~/bundles/tableStyleBundle")
+
+
+
     @Scripts.Render("~/bundles/tableScriptBundle")
+    @Scripts.Render("~/bundles/dataTablesPlugins")
+
 
 
     <script>
@@ -156,19 +182,12 @@
                 var iColumn = 0;
                 var schichtColumn = 1;
 
-
-                // document.getElementById('min').value = today; //z.B. 'Thu Jan 16 2020 17:31:26 GMT+0100 (W. Europe Standard Time)'
-                //document.getElementById('max').value = today;
-
-
                 var iMin = Date.parse(document.getElementById('min').value);
                 var iMax = Date.parse(document.getElementById('max').value);
 
-
                 var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
                 iVersion = Date.parse(iVersion);
-                console.log(iVersion);
-
+                //console.log(iVersion);
 
                 var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
                 var schicht = $(document.getElementById('schicht')).children("option:selected").val();
@@ -181,58 +200,94 @@
             }
         );
 
+        var table = document.getElementById('myTable');
+
+        var rowLength = table.rows.length;
+        for (var i = 0; i < rowLength; i += 1) {
+
+            var row = table.rows[i];
+            var id = row.getAttribute('value'); //id
+            var boolValue = $('#' + id).text(); //get bool value
+
+            if (boolValue == 'True') {
+                $("#eintragen_" + id).prop("checked", true);
+                $(row).css("background-color", "#90ee90");
+            }
+            if (boolValue == 'False') {
+                $("#eintragen_" + id).prop("checked", false)
+
+                $(row).css("background-color", "#ffcccb");
+            }
+        }
+
 
         $(document).ready(function () {
 
-
-            console.log(document.getElementById('min').value);
-            console.log(document.getElementById('max').value);
-
-           // document.getElementById('min').value = '2018-07-22';
+            //console.log(document.getElementById('min').value);
+            //document.getElementById('min').value = '15-Jan-2020';
 
 
-            var table = $('#myTable').DataTable();
+            var table = $('#myTable').DataTable(
+                {
+                    dom: 'Bfrtip',
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+                });
 
             $('#min, #max, #schicht').change(function () {
                 table.draw();
             });
 
 
+            /*
+            $('table > tbody  > tr').each(function (index, tr) {
+
+                var bla = tr.attr("value");
+                console.log(bla);
+
+            });
+
+    */
+
+
+
         });
-        function fnExcelReport() {
-            var tab_text = "<table border='2px'><tr bgcolor='#87AFC6'>";
-            var textRange; var j = 0;
-            tab = document.getElementById('myTable'); // id of table
 
-            for (j = 0; j < tab.rows.length; j++) {
-                tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
-                //tab_text=tab_text+"</tr>";
-            }
+         var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
 
-            tab_text = tab_text + "</table>";
-            tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-            tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
-            tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // removes input params
+            $('[id^=eintragen_]').click(function () {
 
-            var ua = window.navigator.userAgent;
-            var msie = ua.indexOf("MSIE ");
+                var id = $(this).attr('value'); // get ID
+                var boolValue = $('#' + id).text(); //get bool value
 
-            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-            {
-                txtArea1.document.open("txt/html", "replace");
-                txtArea1.document.write(tab_text);
-                txtArea1.document.close();
-                txtArea1.focus();
-                sa = txtArea1.document.execCommand("SaveAs", true, "TabelleExport.xls");
-            }
-            else                 //other browser not tested on IE 11
-                sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-            return (sa);
-        }
+                var row = $(this).closest("tr");
+
+                //console.log(boolValue);
+
+                $.getJSON(url, { istEingetragen: boolValue, id: id }, function (response) {
+
+                    if (response == 0) {
+                        alert('Das lief schief. Aktualisiere die Seite und versuhce es erneut.')
+                    }
+                });
+
+                if (boolValue == 'True') {
+                    $(row).css("background-color", "#ffcccb");
+                    $('#' + id).text('False');
+                }
+                else if (boolValue == 'False') {
+                    $(row).css("background-color", "#90ee90");
+                    $('#' + id).text('True');
+
+
+                }
+        });
+
 
 
     </script>
-
 
 }
 

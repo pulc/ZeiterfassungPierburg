@@ -11,6 +11,7 @@
 
     <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+    <link href="~/fonts/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -30,7 +31,7 @@
                     <!-- Header Navbar -->
                     <nav class="navbar navbar-static-top" role="navigation">
                         <!-- Sidebar toggle button-->
-                        <img class="sidebar-toggle" data-toggle="push-menu" height="50" width="50" src="~/Content/dist/img/hamburger_white.png" />
+                        <div class="sidebar-toggle" data-toggle="push-menu"></div>
 
                         <!-- Navbar Right Menu -->
                         <div class="navbar-custom-menu">
@@ -42,10 +43,10 @@
                                     @Html.ActionLink("Anmelden", "Login", "Zugriffsrechte")
                                 </li>
                                 <!--
-                                    <li>
-                                        <a href="#" class="dropdown-toggle">Abmelden</a>
-                                    </li>
-                                -->
+                <li>
+                    <a href="#" class="dropdown-toggle">Abmelden</a>
+                </li>
+            -->
                             </ul>
                         </div>
                     </nav>

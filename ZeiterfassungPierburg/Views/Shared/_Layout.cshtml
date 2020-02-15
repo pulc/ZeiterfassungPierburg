@@ -3,14 +3,21 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Pierburg Zeiterfassung</title>
+    @if (@ViewBag.Title != null)
+    {
+        <title>Pierburg Zeiterfassung</title>
+    }
+    else
+    {
+        <title>@ViewBag.Title </title>
 
+    }
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/modernizr")
 
     <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
     @if (Convert.ToInt32(Session["AccessLayer"]) == null || Convert.ToInt32(Session["AccessLayer"]) == 0)
@@ -32,13 +39,16 @@
                         <!-- mini logo for sidebar mini 50x50 pixels -->
                         <span class="logo-mini"><b>P</b>BG</span>
                         <!-- logo for regular state and mobile devices -->
+
                         <span class="logo-lg"><b><img height="150" width="150" src="~/Content/dist/img/pierburg_logo.png" /></b></span>
                     </a>
 
                     <!-- Header Navbar -->
                     <nav class="navbar navbar-static-top" role="navigation">
                         <!-- Sidebar toggle button-->
-                        <img class="sidebar-toggle" data-toggle="push-menu" height="50" width="50" src="~/Content/dist/img/hamburger_white.png" />
+
+                        <div class="sidebar-toggle" data-toggle="push-menu"></div>
+
 
                         <!-- Navbar Right Menu -->
                         <div class="navbar-custom-menu">
@@ -131,14 +141,16 @@
                     <!-- Header Navbar -->
                     <nav class="navbar navbar-static-top" role="navigation">
                         <!-- Sidebar toggle button-->
-                        <img class="sidebar-toggle" data-toggle="push-menu" height="50" width="50" src="~/Content/dist/img/hamburger_white.png" />
+                        <div class="sidebar-toggle" data-toggle="push-menu">
+
+                        </div>
 
                         <!-- Navbar Right Menu -->
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown user user-menu">
                                     @{
-                                    <a>  @Session["UserName"].ToString() </a>;
+                                        <a>  @Session["UserName"].ToString() </a>;
                                     }
                                 </li>
 

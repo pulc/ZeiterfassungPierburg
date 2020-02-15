@@ -14,6 +14,7 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: MitarbeiterInSchicht
         public ActionResult Index()
         {
+            ViewBag.Title = "Übersicht der Schichten in Montage";
             ViewBag.Message = TempData["Message"];
 
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();

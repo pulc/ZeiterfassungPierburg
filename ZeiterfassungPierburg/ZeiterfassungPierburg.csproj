@@ -18,9 +18,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -285,11 +286,8 @@
     <Content Include="Content\dist\css\skins\skin-yellow.min.css" />
     <Content Include="Content\dist\css\skins\_all-skins.css" />
     <Content Include="Content\dist\css\skins\_all-skins.min.css" />
-    <Content Include="Content\dist\img\default-50x50.gif" />
     <Content Include="Content\dist\img\icon_copy.png" />
     <Content Include="Content\dist\img\icon_excel.png" />
-    <Content Include="Content\dist\img\hamburger.png" />
-    <Content Include="Content\dist\img\hamburger_white.png" />
     <Content Include="Content\dist\img\icon_pdf.png" />
     <Content Include="Content\dist\img\icon_print.png" />
     <Content Include="Content\dist\img\pierburg_logo.png" />
@@ -319,6 +317,7 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

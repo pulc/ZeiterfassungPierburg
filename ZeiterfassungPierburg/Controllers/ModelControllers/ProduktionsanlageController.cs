@@ -23,7 +23,6 @@ namespace ZeiterfassungPierburg.Controllers
 
         // GET: Produktionsanlage/Edit/5
 
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Edit(int id)
         {
             var results = SQLServer.Instance.GetItems<Produktionsanlage>("id = " + id.ToString());
@@ -58,7 +57,6 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(m);
             }
         }
-        [Authorize(Users = Startup.Administrators)]
         [HttpPost]
         public ActionResult Edit(Produktionsanlage m)
         {
@@ -72,7 +70,6 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(m);
             }
         }
-        [Authorize(Users = Startup.Administrators)]
         // GET: Produktionsanlage/Delete/5
         public ActionResult Delete(int id)
         {

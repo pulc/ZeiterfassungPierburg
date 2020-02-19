@@ -22,7 +22,6 @@ namespace ZeiterfassungPierburg.Controllers
         }
 
         // GET: Mitarbeiter/Edit/5
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Edit(int id)
         {
             var results = SQLServer.Instance.GetItems<Mitarbeiter>("id = " + id.ToString());
@@ -58,7 +57,6 @@ namespace ZeiterfassungPierburg.Controllers
                 return View(m);
             }
         }
-        [Authorize(Users = Startup.Administrators)]
         [HttpPost]
         public ActionResult Edit(Mitarbeiter m)
         {

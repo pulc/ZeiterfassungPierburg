@@ -108,7 +108,6 @@ namespace ZeiterfassungPierburg.Controllers
             }
         }
 
-        [Authorize(Users = Startup.Administrators)]
         public ActionResult Delete(int id)
         {
             try

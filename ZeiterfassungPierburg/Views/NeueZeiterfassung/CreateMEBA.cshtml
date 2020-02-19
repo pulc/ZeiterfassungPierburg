@@ -45,7 +45,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in aus -", new { @class = "form-control", @id = "name", @name = "nameMitarbeiter" })
+                                        @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name", @name = "nameMitarbeiter" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
                                 </td>
@@ -104,10 +104,14 @@
                                 <td>
                                     @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control", @name = "dirzeit0" } })
                                     @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
+                                    <small><small><label>Für Dezimalzahlen einen Punkt eingeben</label></small></small>
+
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control", @name = "indirzeit0" } })
                                     @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
+                                <small><small><label>Für Dezimalzahlen einen Punkt eingeben</label></small></small>
+
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.Bemerkung, new { htmlAttributes = new { @id = "bemerkung", @class = "form-control", @name = "bemerkung0" } })

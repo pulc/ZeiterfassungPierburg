@@ -35,7 +35,7 @@
                             <tr>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage -", new { @id = "panlage", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.Produktionsanlage, Model.ProduktionsanlageList, "- Wähle die Produktionsanlage aus -", new { @id = "panlage", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Produktionsanlage, "", new { @class = "text-danger" })
                                     </div>
                                 </td>
@@ -47,7 +47,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht aus -", new { @class = "form-control" })
                                     </div>
                                 </td>
                             </tr>

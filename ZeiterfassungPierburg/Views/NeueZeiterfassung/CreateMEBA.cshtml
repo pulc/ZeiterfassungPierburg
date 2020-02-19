@@ -45,10 +45,9 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in -", new { @class = "form-control", @id = "name", @name = "nameMitarbeiter" })
+                                        @Html.DropDownListFor(m => m.Name, Model.NameList, "- Wähle Mitarbeiter*in aus -", new { @class = "form-control", @id = "name", @name = "nameMitarbeiter" })
                                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                     </div>
-
                                 </td>
                                 <td>
                                     <div class="form-group">
@@ -58,7 +57,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht -", new { @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.Schicht, Model.SchichtList, "- Wähle die Schicht aus-", new { @class = "form-control" })
                                     </div>
                                 </td>
                             </tr>

@@ -106,7 +106,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 var date = DateTime.Now;
                 // truncate seconds and miliseconds
                 date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
-                string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+                //string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+
+                string ErstelltVon = "unbekannt";
+                if(Session["UserName"] != null)
+                {
+                    ErstelltVon = Session["UserName"].ToString();
+                }
+
+
 
                 /*
                 string getTeZeit = @"select teZEIT from 
@@ -219,7 +227,13 @@ where ID = " + FertigungsTeilID;
                 var date = DateTime.Now;
                 // truncate seconds and miliseconds
                 date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
-                string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+                //string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
+
+                string ErstelltVon = "unbekannt";
+                if (Session["UserName"] != null)
+                {
+                    ErstelltVon = Session["UserName"].ToString();
+                }
 
                 Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
                 List<string> keyList = new List<string>(form.Keys);

@@ -144,11 +144,11 @@
                                     -->
                                 <td>
 
-                                    <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:black" class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:black" class="glyphicon glyphicon-edit"></span></a>
 
                                     |
                                     <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:black"  class="glyphicon glyphicon-remove"></span></a>
+                                    <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:black"  class="glyphicon glyphicon-remove"></span></a>
 
                                     <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
                                 </td>

@@ -14,8 +14,8 @@
 
             <div class="box-body">
                 <h2>Neue Zeiterfassung</h2>
-                <h5 style="padding-bottom: 25px; padding-top: 5px;">Hinweis: Dezimalzahlen müssen einen Punkt anstatt einer Komma benutzen.</h5>
-
+                <!--<h5 style="padding-bottom: 25px; padding-top: 5px;">Hinweis: Dezimalzahlen müssen einen Punkt anstatt einer Komma benutzen.</h5>
+        -->
                 <div class="table-responsive">
                     <table class="table no-margin">
                         <thead>
@@ -210,9 +210,11 @@
 
         var dirzeit = document.getElementById('dirzeit');
         dirzeit.setAttribute("name", "dirzeit0");
+        dirzeit.setAttribute("type", "number");
 
         var indirzeit = document.getElementById('indirzeit');
         indirzeit.setAttribute("name", "indirzeit0");
+        indirzeit.setAttribute("type", "number");
 
         var bemerkung = document.getElementById('bemerkung');
         bemerkung.setAttribute("name", "bemerkung0");

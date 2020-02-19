@@ -104,13 +104,11 @@
                                 <td>
                                     @Html.EditorFor(model => model.DirZeit, new { htmlAttributes = new { @id = "dirzeit", @class = "form-control", @name = "dirzeit0" } })
                                     @Html.ValidationMessageFor(model => model.DirZeit, "", new { @class = "text-danger" })
-                                    <small><small><label>Für Dezimalzahlen einen Punkt eingeben</label></small></small>
 
                                 </td>
                                 <td>
                                     @Html.EditorFor(model => model.InDirZeit, new { htmlAttributes = new { @id = "indirzeit", @class = "form-control", @name = "indirzeit0" } })
                                     @Html.ValidationMessageFor(model => model.InDirZeit, "", new { @class = "text-danger" })
-                                <small><small><label>Für Dezimalzahlen einen Punkt eingeben</label></small></small>
 
                                 </td>
                                 <td>
@@ -172,9 +170,13 @@
 
         var dirzeit = document.getElementById('dirzeit');
         dirzeit.setAttribute("name", "dirzeit0");
+        dirzeit.setAttribute("type", "number");
+
 
         var indirzeit = document.getElementById('indirzeit');
         indirzeit.setAttribute("name", "indirzeit0");
+        indirzeit.setAttribute("type", "number");
+
 
         var bemerkung = document.getElementById('bemerkung');
         bemerkung.setAttribute("name", "bemerkung0");

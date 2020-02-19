@@ -17,11 +17,33 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Title = "Übersicht der Schichten in Montage";
             ViewBag.Message = TempData["Message"];
 
+
+            IEnumerable<SelectListItem> ProduktionsanlageList = SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'false' AND istAktiv = 'true'")
+                        .Select(s => new SelectListItem()
+                        {
+                            Text = s.Value,
+                            Value = s.Value
+                        });
+
+
+            ViewBag.AnlageFilter = ProduktionsanlageList;
+
+
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();
             return View(results);
         }
         public ActionResult IndexMEBA()
         {
+            IEnumerable<SelectListItem> ProduktionsanlageList = SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'true' AND istAktiv = 'true'")
+            .Select(s => new SelectListItem()
+            {
+                Text = s.Value,
+                Value = s.Value
+            });
+
+
+            ViewBag.AnlageFilter = ProduktionsanlageList;
+
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModelMEBA<MitarbeiterInschichtViewModel>();
             return View(results);
         }

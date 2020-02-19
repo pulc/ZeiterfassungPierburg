@@ -12,7 +12,6 @@ using ZeiterfassungPierburg.Models;
 
 namespace ZeiterfassungPierburg.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

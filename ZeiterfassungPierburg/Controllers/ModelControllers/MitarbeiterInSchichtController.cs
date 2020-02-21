@@ -7,6 +7,8 @@ using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models;
 using ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel;
 
+
+
 namespace ZeiterfassungPierburg.Controllers
 {
     public class MitarbeiterInSchichtController : Controller
@@ -18,15 +20,7 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Message = TempData["Message"];
 
 
-            IEnumerable<SelectListItem> ProduktionsanlageList = SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'false' AND istAktiv = 'true'")
-                        .Select(s => new SelectListItem()
-                        {
-                            Text = s.Value,
-                            Value = s.Value
-                        });
-
-
-            ViewBag.AnlageFilter = ProduktionsanlageList;
+            ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'false'");
 
 
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();
@@ -34,15 +28,10 @@ namespace ZeiterfassungPierburg.Controllers
         }
         public ActionResult IndexMEBA()
         {
-            IEnumerable<SelectListItem> ProduktionsanlageList = SQLServer.Instance.GetDictionary("Produktionsanlage", "Bezeichner", "istEineMaschine = 'true' AND istAktiv = 'true'")
-            .Select(s => new SelectListItem()
-            {
-                Text = s.Value,
-                Value = s.Value
-            });
+            ViewBag.Title = "Übersicht der Schichten in MeBA";
+            ViewBag.Message = TempData["Message"];
+            ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'true'");
 
-
-            ViewBag.AnlageFilter = ProduktionsanlageList;
 
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModelMEBA<MitarbeiterInschichtViewModel>();
             return View(results);

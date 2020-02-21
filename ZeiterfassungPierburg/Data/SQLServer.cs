@@ -873,6 +873,40 @@ order by SchichtInfoID";
             return result;
         }
 
+        public string generateHtmlProduktionsanlagen(string condition)
+        {
+            string result = @"
 
+            <select class=""form-control text-box single-line"" id=""anlageFilter"">
+                            <option value = """"> alle Anlagen </option>";
+
+            
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = "";
+
+                if(condition == null)
+                {
+                    return null;
+                }
+                else
+                {
+                     sql =
+                    @"select Bezeichner
+from Produktionsanlage
+where "+condition;
+
+                }
+                
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    result = result +   @"<option value =  """+ r.GetString(0)+ @""" > " + r.GetString(0) + "</option>";
+                }
+            }
+
+            return result + " </select>";
+        }
     }
 }

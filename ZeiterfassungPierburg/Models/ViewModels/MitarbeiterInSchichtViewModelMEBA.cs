@@ -15,8 +15,8 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Datum { get; set; }
 
-        [Display(Name="Schicht")]
-        public int Art{ get; set; }
+        [Display(Name = "Schicht")]
+        public int Art { get; set; }
 
         public string Anlage { get; set; }
 

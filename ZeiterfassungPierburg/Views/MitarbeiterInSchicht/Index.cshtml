@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel.MitarbeiterInschichtViewModel>
 
+
 @Styles.Render("~/bundles/tablePluginStyleBundle");
 
 
@@ -30,21 +31,17 @@
 
                         <select class="form-control text-box single-line" id="schicht">
                             <option value="">alle Schichten</option>
-                            <option value="1">Früh</option>
+                            <option value="1">Früh</option>1
                             <option value="2">Spät</option>
                             <option value="3">Nacht</option>
                         </select>
                     </div>
 
-                    <!--
-    <div class="col-xs-2">
+                    <div class="col-xs-2">
 
-        <label>Wähle das Band aus:</label>
-        @Html.DropDownList("accountid", new SelectList(ViewBag.AnlageFilter));
-
-    </div>
-        -->
-
+                        <label>Wähle das Band aus:</label>
+                        @Html.Raw((String)ViewBag.AnlageFilter)
+                    </div>
 
 
                 </div>
@@ -119,7 +116,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Personalnummer)
                                 </td>
@@ -160,7 +156,7 @@
 
                                     |
                                     <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:black"  class="glyphicon glyphicon-remove"></span></a>
+                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:black" class="glyphicon glyphicon-remove"></span></a>
 
                                     <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
                                 </td>
@@ -216,18 +212,22 @@
                 function (oSettings, aData, iDataIndex) {
                     var iColumn = 0;
                     var schichtColumn = 1;
+                    var anlageColumn = 2; //which column
 
                     var iMin = Date.parse(document.getElementById('min').value);
                     var iMax = Date.parse(document.getElementById('max').value);
 
                     var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
                     iVersion = Date.parse(iVersion);
-                    //console.log(iVersion);
 
                     var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
                     var schicht = $(document.getElementById('schicht')).children("option:selected").val();
 
-                    if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
+
+                    var anlageColumn = (aData[anlageColumn] ==    "-" ? 0 : aData[anlageColumn]);
+                    var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val();
+
+                    if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
 
                         return false;
                     }
@@ -250,7 +250,6 @@
                 }
                 if (boolValue == 'False') {
                     $("#eintragen_" + id).prop("checked", false)
-
                     $(row).css("background-color", "#ffcccb");
                 }
             }
@@ -299,7 +298,7 @@
                         ]
                     });
 
-                $('#min, #max, #schicht').change(function () {
+                $('#min, #max, #schicht, #anlageFilter').change(function () {
                     table.draw();
                 });
         });

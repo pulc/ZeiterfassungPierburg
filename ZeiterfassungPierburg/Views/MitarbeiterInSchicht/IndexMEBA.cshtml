@@ -35,6 +35,10 @@
                             <option value="3">Nacht</option>
                         </select>
                     </div>
+                    <div class="col-xs-2">
+                        <label>Wähle das Band aus:</label>
+                        @Html.Raw((String)ViewBag.AnlageFilter)
+                    </div>
                 </div>
 
                 <table id="myTable" class="table table-striped table-bordered" style="text-align:center">
@@ -200,28 +204,32 @@
             }
             var today = new Date();
 
-            jQuery.fn.dataTableExt.afnFiltering.push(
-                function (oSettings, aData, iDataIndex) {
-                    var iColumn = 0;
-                    var schichtColumn = 1;
+        jQuery.fn.dataTableExt.afnFiltering.push(
+            function (oSettings, aData, iDataIndex) {
+                var iColumn = 0;
+                var schichtColumn = 1;
+                var anlageColumn = 2; //which column
 
-                    var iMin = Date.parse(document.getElementById('min').value);
-                    var iMax = Date.parse(document.getElementById('max').value);
+                var iMin = Date.parse(document.getElementById('min').value);
+                var iMax = Date.parse(document.getElementById('max').value);
 
-                    var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
-                    iVersion = Date.parse(iVersion);
-                    //console.log(iVersion);
+                var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
+                iVersion = Date.parse(iVersion);
 
-                    var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
-                    var schicht = $(document.getElementById('schicht')).children("option:selected").val();
+                var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
+                var schicht = $(document.getElementById('schicht')).children("option:selected").val();
 
-                    if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "")) {
 
-                        return false;
-                    }
-                    else return true;
+                var anlageColumn = (aData[anlageColumn] == "-" ? 0 : aData[anlageColumn]);
+                var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val();
+
+                if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
+
+                    return false;
                 }
-            );
+                else return true;
+            }
+        );
 
             var table = document.getElementById('myTable');
 
@@ -287,7 +295,7 @@
                         ]
                     });
 
-                $('#min, #max, #schicht').change(function () {
+                $('#min, #max, #schicht, #anlageFilter').change(function () {
                     table.draw();
                 });
         });

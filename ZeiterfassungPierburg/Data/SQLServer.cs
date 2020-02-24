@@ -709,7 +709,7 @@ where IstEineMaschine = 'false' and istAktiv = 'true'";
             {
                 string BandName = SQLServer.Instance.GetOneString("Bezeichner", "Produktionsanlage", "ID = " + BandID);
 
-                List<int> SchichtInfoList = new List<int>(); //get List of all SchichtInfos in the last month for each Band
+                List<int> SchichtInfoList = new List<int>(); //List of all SchichtInfos in the last month for each Band
                 List<float> ProduktivitätSchichtInfoList = new List<float>(); //List of all calculated Produktivität for each Schicht
                 float sumProduktivität = 0.0f;
                 float avgProduktivität = 0.0f;
@@ -730,8 +730,11 @@ where p.ID = "+BandID+" and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND getdat
                         SchichtInfoList.Add(r.GetInt32(0));
                     }
                 }
+                float SummeProduktivZeit = 0.0f; //add all Produktivzeit together
+                float Anwesenheit = 0.0f; //add all Anwesenheit together 
 
-                foreach(var SchichtInfoID in SchichtInfoList)
+
+                foreach (var SchichtInfoID in SchichtInfoList)
                 {
 
                     using (SqlConnection conn = NewOpenConnection)
@@ -756,24 +759,27 @@ where SchichtInfoID = " + SchichtInfoID+@"
 group by SchichtInfoID, f.ID
 order by SchichtInfoID";
 
-                       // int CountTeile = 0;
-                        float SummeProduktivZeit = 0.0f; //temporarily save productivity for each product
-                        float Anwesenheit = 0.0f; //temporarily save productivity for each product
+                        // int CountTeile = 0;
+                        float AnwesenheitTemp = 0f;
 
                         SqlDataReader r = ExecuteSelectStatement(conn, sql);
                         while (r.Read())
                         {
                             SummeProduktivZeit = SummeProduktivZeit + (float)r.GetDecimal(0);
-                            Anwesenheit =  (float)r.GetDecimal(1);
+                            AnwesenheitTemp =  (float)r.GetDecimal(1); // should be each time the same
                             //CountTeile++;
                         }
+                        Anwesenheit = Anwesenheit + AnwesenheitTemp; //add only one time for Schicht
 
-                        float ProduktivitätProSchichtInfo = SummeProduktivZeit / Anwesenheit * 100;
-                        sumProduktivität = sumProduktivität + ProduktivitätProSchichtInfo;
+                        //float ProduktivitätProSchichtInfo = SummeProduktivZeit / Anwesenheit * 100;
+                        //sumProduktivität = sumProduktivität + ProduktivitätProSchichtInfo;
 
                     }
                 }
-                avgProduktivität = sumProduktivität / SchichtInfoList.Count;
+
+                // avgProduktivität = sumProduktivität / SchichtInfoList.Count;
+
+                avgProduktivität = SummeProduktivZeit * 100 / Anwesenheit;
 
                 result.Add(BandName, avgProduktivität);
             }

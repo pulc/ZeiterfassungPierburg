@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel.MitarbeiterInschichtViewModel>
 
 
-@Styles.Render("~/bundles/tablePluginStyleBundle");
+@Styles.Render("~/bundles/tablePluginStyleBundle")
 
 
 
@@ -10,9 +10,9 @@
     @ViewBag.Title
 </title>
 <section class="content container-fluid">
-    <div class="box-header with-border">
-        <div class="box box-info">
-            <div class="box-header with-border">
+    <div class="box-header with-border ">
+        <div class="box box-info ">
+            <div class="box-header with-border " >
                 <h3>Übersicht der Mitarbeiter in Schichten</h3>
 
 
@@ -131,7 +131,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Stück)
                                 </td>
-                                <td>
+                                <td name="dst">
                                     @Html.DisplayFor(modelItem => item.DirStunden)
                                 </td>
                                 <td>
@@ -152,11 +152,11 @@
                                     -->
                                 <td>
 
-                                    <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:black" class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
 
                                     |
                                     <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:black" class="glyphicon glyphicon-remove"></span></a>
+                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
 
                                     <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
                                 </td>
@@ -195,10 +195,8 @@
 
         var today = now.getFullYear() + "-" + (month) + "-" + (day - 1);
 
-        $('#min').val(today);
-        $('#max').val(today);
-
-
+        $('#min').val(today); //set filter date to yesterday
+        $('#max').val(today); //set filter date to yesterday
 
 
             function addDays(date, days) {
@@ -208,6 +206,7 @@
             }
             var today = new Date();
 
+       
             jQuery.fn.dataTableExt.afnFiltering.push(
                 function (oSettings, aData, iDataIndex) {
                     var iColumn = 0;
@@ -233,9 +232,12 @@
                     }
                     else return true;
                 }
-            );
+            )
 
-            var table = document.getElementById('myTable');
+        var table = document.getElementById('myTable');
+
+
+        
 
             var rowLength = table.rows.length;
             for (var i = 0; i < rowLength; i += 1) {
@@ -256,9 +258,6 @@
 
 
             $(document).ready(function () {
-
-                //console.log(document.getElementById('min').value);
-                //document.getElementById('min').value = '15-Jan-2020';
 
 
                 var table = $('#myTable').DataTable(
@@ -304,9 +303,6 @@
         });
 
 
-
-
-
              var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
 
                 $('[id^=eintragen_]').click(function () {
@@ -316,15 +312,13 @@
 
                     var row = $(this).closest("tr");
 
-                    //console.log(boolValue);
-
                     $.getJSON(url, { istEingetragen: boolValue, id: id }, function (response) {
 
                         if (response == 0) {
-                            alert('Das lief schief. Aktualisiere die Seite und versuhce es erneut.')
+                            alert('Das lief schief. Aktualisiere die Seite und versuche es erneut.')
                         }
                     });
-
+                    //change colors if clicked
                     if (boolValue == 'True') {
                         $(row).css("background-color", "#ffcccb");
                         $('#' + id).text('False');
@@ -332,13 +326,8 @@
                     else if (boolValue == 'False') {
                         $(row).css("background-color", "#90ee90");
                         $('#' + id).text('True');
-
-
                     }
             });
-
-
-
     </script>
 
 }

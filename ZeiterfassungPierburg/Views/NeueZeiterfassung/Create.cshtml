@@ -15,7 +15,7 @@
             <div class="box-body">
                 <h2>Neue Zeiterfassung</h2>
                 <!--<h5 style="padding-bottom: 25px; padding-top: 5px;">Hinweis: Dezimalzahlen müssen einen Punkt anstatt einer Komma benutzen.</h5>
-        -->
+                -->
                 <div class="table-responsive">
                     <table class="table no-margin">
                         <thead>
@@ -167,14 +167,22 @@
                                             </div>
                                         </td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <p id="warnMessage"></p>
+                                            </div>
+
+                                        </td>
+
                                         <td>
                                             <div class="form-group">
                                                 <div>
+
                                                     <input id="sendButton" name="submit" style="font-size: 18px; box-shadow: 0 10px 15px -8px rgba(0, 0, 0,.7);" type="submit" value="Abschicken" class="pull-right btn btn-default" onlick="RefreshForm()" />
+
                                                 </div>
                                             </div>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -221,8 +229,26 @@
 
 
         $(document).ready(function () {
+
+
+
             $("#sendButton").hover(function () {
                 var validator = $("#frm").validate();
+                
+               // $('#warnMessage').text((validator.dirzeit0.val));
+                console.log($('#st'.val));
+                //alert('sdsadsa' + validator.bemerkung.val);
+
+                /*
+                console.log(validator.dirzeit1 + validator.indirzeit1);
+                if (!((validator.dirzeit0 + validator.indirzeit0) > 0)) {
+                    $('#warnMessage').text("Anzahl der direkten und indirekten Studen darf nicht 0 sein!");
+                }
+                else {
+                    $('#warnMessage').text("ist in Ordnung");
+                }
+                */
+
                 validator.form()
             });
         });

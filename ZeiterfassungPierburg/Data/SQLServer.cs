@@ -272,57 +272,204 @@ where p.IstEineMaschine = 'True'
             }
         }
 
-        public IEnumerable<T> GetProduktivitätViewModel<T>(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID, int MitarbeiterID, int Art)
+        public Dictionary<string, float> GetProduktivitätCustomDictionary(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID, int MitarbeiterID, int Art)
         {
-            using (var c = NewOpenConnection)
-            {
-                string groupyByString = @"group by p.Bezeichner, f.Bezeichnung ";
-                string select = @" 
-select  p.Bezeichner as Produktionsanlage,  f.Bezeichnung as Fertigungsteil,
+            Dictionary<string, float> result = new Dictionary<string, float>();
 
-sum(Stück)*100/(sum(f.teZEIT*(DirStunden+InDirStunden))) as Produktivität";
+    
 
                 string dayCondition = "'true'='true'";
-                if (day != 0) dayCondition = "DAY(s.Datum) = " + day;
+                if (day != 0) dayCondition = "DAY(i.Datum) = " + day;
                 string monthCondition = "'true'='true'";
-                if (month != 0) monthCondition = "MONTH(s.Datum) = " + month;
+                if (month != 0) monthCondition = "MONTH(i.Datum) = " + month;
                 string yearCondition = "'true'='true'";
-                if (year != 0) yearCondition = "YEAR(s.Datum) = " + year;
+                if (year != 0) yearCondition = "YEAR(i.Datum) = " + year;
                 string anlageCondition = "'true'='true'";
                 if (ProduktionsanlageID != 0) anlageCondition = "ProduktionsanlageID = " + ProduktionsanlageID;
                 string teilCondition = "'true'='true'";
                 if (FertigungsteilID != 0) teilCondition = "FertigungsteilID = " + FertigungsteilID;
-
                 string mitarbeiterCondition = "'true'='true'";
-                if (MitarbeiterID != 0)
-                {
-                    mitarbeiterCondition = "MitarbeiterID = " + MitarbeiterID;
-                    groupyByString = groupyByString + " ,MitarbeiterID,m.Nachname,m.Vorname";
-                    select = select + " , m.Nachname + ' ' + m.Vorname as Mitarbeiter";
-                }
+                if (MitarbeiterID != 0) mitarbeiterCondition = "MitarbeiterID = " + MitarbeiterID;
                 string schichtCondition = "'true'='true'";
-                if (Art != 0)
-                {
-                    schichtCondition = "Art = " + Art;
-                    groupyByString = groupyByString + " ,Art";
-                }
-                string sql = @"
+                if (Art != 0) schichtCondition = "Art = " + Art;
+            string sql = "";
 
-  FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+
+                List<int> AlleBänderList = new List<int>();
+
+                if (ProduktionsanlageID == 0)
+                {
+                    using (SqlConnection conn = NewOpenConnection)
+                    {
+                        sql =
+                           @"select ID
+from Produktionsanlage
+";
+
+                        SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                        while (r.Read())
+                        {
+                            AlleBänderList.Add(r.GetInt32(0));
+                        }
+                    }
+                }
+                else
+                {
+                    AlleBänderList.Add(ProduktionsanlageID);
+                }
+
+                foreach (var BandID in AlleBänderList)
+                {
+                    bool? istEineMaschine = SQLServer.Instance.GetBoolean("select IstEineMaschine from Produktionsanlage where ID = " + BandID);
+                    string BandName = SQLServer.Instance.GetOneString("Bezeichner", "Produktionsanlage", "ID = " + BandID);
+
+                    if (istEineMaschine == true)
+                    {
+
+                        List<int> SchichtInfoList = new List<int>(); //get List of all SchichtInfos in the last month for each Band
+                        List<float> ProduktivitätSchichtInfoList = new List<float>(); //List of all calculated Produktivität for each Schicht
+
+                        float avgProduktivität = 0.0f;
+                        float SummeProduktivZeit = 0.0f;
+                        float Anwesenheit = 0.0f;
+
+                        using (SqlConnection conn = NewOpenConnection)
+                        {
+                            sql =
+                               @"
+select distinct SchichtinfoID
+from MitarbeiterInSchicht m
+left outer join Schichtinfo i on m.SchichtInfoID = i.ID
+left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
+where p.ID = " + BandID + " and " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + teilCondition + " and " + mitarbeiterCondition + " and " + schichtCondition;
+                        ;
+
+                        SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                            while (r.Read())
+                            {
+                                SchichtInfoList.Add(r.GetInt32(0));
+                            }
+                        }
+
+                        foreach (var SchichtInfoID in SchichtInfoList)
+                        {
+
+                            using (SqlConnection conn = NewOpenConnection)
+                            {
+                                sql =
+                                   @"
+select   
+sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(MitarbeiterID)/COUNT(MitarbeiterID) as ProduktivZeit, --H5
+(sum(t.dirstunden)*60) as Anwesenheit	 
+
+
+FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+
+
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
 LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
 LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
-LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID";
+LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID
+
+where SchichtInfoID = " + SchichtInfoID + 
+@" 
+
+group by SchichtInfoID, f.ID
+order by SchichtInfoID";
+
+                                // int CountTeile = 0;
+
+                                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                                while (r.Read())
+                                {
+                                    SummeProduktivZeit = SummeProduktivZeit + (float)r.GetDecimal(0);
+                                    Anwesenheit = Anwesenheit + (float)r.GetDecimal(1);
+                                    //CountTeile++;
+                                }
+                            }
+                        }
+                        avgProduktivität = SummeProduktivZeit / Anwesenheit * 100;
+
+                        result.Add(BandName, avgProduktivität);
+                    }
+                    else if (istEineMaschine == false)
+                    {
+                        List<int> SchichtInfoList = new List<int>(); //List of all SchichtInfos in the last month for each Band
+                        List<float> ProduktivitätSchichtInfoList = new List<float>(); //List of all calculated Produktivität for each Schicht
+
+                        float avgProduktivität = 0.0f;
+
+                        using (SqlConnection conn = NewOpenConnection)
+                        {
+                            sql =
+                               @"
+select distinct SchichtinfoID
+from MitarbeiterInSchicht m
+left outer join Schichtinfo i on m.SchichtInfoID = i.ID
+left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
+where p.ID = " + BandID + " and " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + teilCondition + " and " + mitarbeiterCondition + " and " + schichtCondition;
+                        //
+                        SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                            while (r.Read())
+                            {
+                                SchichtInfoList.Add(r.GetInt32(0));
+                            }
+                        }
+                        float SummeProduktivZeit = 0.0f; //add all Produktivzeit together
+                        float Anwesenheit = 0.0f; //add all Anwesenheit together 
 
 
-                sql = sql + " where " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + anlageCondition + " and " + teilCondition + " and " + mitarbeiterCondition + " and " + schichtCondition;
+                        foreach (var SchichtInfoID in SchichtInfoList)
+                        {
 
-                string orderBy = " order by Produktionsanlage,Fertigungsteil";
+                            using (SqlConnection conn = NewOpenConnection)
+                            {
+                                 sql =
+                                    @"
+select   
+sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(MitarbeiterID)/COUNT(MitarbeiterID) as ProduktivZeit, --H5
+(sum(t.dirstunden)*60) as Anwesenheit	 --I5
 
-                string cmd = select + sql + groupyByString + orderBy;
 
-                return c.Query<T>(cmd).ToList();
-            }
+FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+
+
+LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
+LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
+LEFT OUTER JOIN Schichtinfo s ON t.SchichtInfoID = s.ID
+
+where SchichtInfoID = " + SchichtInfoID + @" 
+
+group by SchichtInfoID, f.ID
+order by SchichtInfoID";
+
+                                // int CountTeile = 0;
+                                float AnwesenheitTemp = 0f;
+
+                                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                                while (r.Read())
+                                {
+                                    SummeProduktivZeit = SummeProduktivZeit + (float)r.GetDecimal(0);
+                                    AnwesenheitTemp = (float)r.GetDecimal(1); // should be each time the same
+                                                                              //CountTeile++;
+                                }
+                                Anwesenheit = Anwesenheit + AnwesenheitTemp; //add only one time for Schicht
+
+                                //float ProduktivitätProSchichtInfo = SummeProduktivZeit / Anwesenheit * 100;
+                                //sumProduktivität = sumProduktivität + ProduktivitätProSchichtInfo;
+
+                            }
+                        }
+
+                        // avgProduktivität = sumProduktivität / SchichtInfoList.Count;
+
+                        avgProduktivität = SummeProduktivZeit * 100 / Anwesenheit;
+                        result.Add(BandName, avgProduktivität);
+                    }
+
+                }
+                return result;
         }
 
 
@@ -780,7 +927,6 @@ order by SchichtInfoID";
                 // avgProduktivität = sumProduktivität / SchichtInfoList.Count;
 
                 avgProduktivität = SummeProduktivZeit * 100 / Anwesenheit;
-
                 result.Add(BandName, avgProduktivität);
             }
             return result;

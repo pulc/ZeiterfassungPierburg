@@ -1,6 +1,6 @@
-﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModels.ProduktivitätViewModel>
+﻿@model ZeiterfassungPierburg.Models.ViewModels.ProduktivitätViewModel
 
-@if (Convert.ToInt32(Session["AccessLayer"]) != 1)
+@if (Convert.ToInt32(Session["AccessLayer"]) == 0 || Convert.ToInt32(Session["AccessLayer"]) == null)
 {
     Html.RenderPartial("ErrorAccessDenied");
 }
@@ -16,45 +16,22 @@ else
                         Benutzte Filter: <span class="label label-warning"> @ViewBag.Message </span>
 
                     </h5>
-                    @if (Model.Any())
-                    {
-                        @ViewBag.MitarbeiterBeschreibung <big><big><big>@Html.DisplayFor(modelItem => Model.First().Mitarbeiter)</big></big></big>
-                    }
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-6">
 
+                            <div class="box-footer text-black">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- Progress bars -->
+                                        <div class="clearfix">
+                                            <div id="productivity"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Produktionsanlage)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Fertigungsteil)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Produktivität)
-                                </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Produktionsanlage)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Fertigungsteil)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Produktivität)
-                                    </td>
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
                     <h4>@ViewBag.MitarbeiterMessage</h4>
                     @Html.ActionLink("Neue Suche", "Create", null, new { @class = "pull-left btn btn-default", @type = "button", })
                 </div>
@@ -67,8 +44,38 @@ else
 
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
-            });
+
+                var html = '';
+                            var dictionaryMaschinen = @Html.Raw(Json.Encode(ViewBag.Produktivität));
+            for (var key in dictionaryMaschinen ){
+                var value = dictionaryMaschinen[key];
+
+                if (!Number.isNaN(value)) {
+
+                    html = html + ` <div class="clearfix">
+                            <span class="pull-left">`+ key + `</span>
+                            <small class="pull-right">`+ value.toFixed(2) + `%</small>
+                        </div>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
+                        </div>`;
+                }
+                else {
+                                        html = html + ` <div class="clearfix">
+                            <span class="pull-left">`+ key + `</span>
+                            <small class="pull-right">keine Einträge</small>
+                        </div>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
+                        </div>`;
+
+                }
+            }
+            var r = document.getElementById("productivity");
+                r.innerHTML = html;
+
+
+    });
         </script>
     }
 }

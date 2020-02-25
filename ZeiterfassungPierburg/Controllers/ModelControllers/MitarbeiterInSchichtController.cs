@@ -115,6 +115,7 @@ namespace ZeiterfassungPierburg.Controllers
             }
             catch (Exception)
             {
+                ViewBag.Message = "Ein Fehler ist aufgetreten.";
                 return View(m);
             }
         }

@@ -11,13 +11,11 @@
 <section class="content-header">
 
     <fieldset>
-
         @if (Session["UserName"] != null)
         {<text>
-                <h1>  Herzlich willkommen @Session["UserName"].ToString()!</h1></text>
+                <h4>  Herzlich willkommen @Session["UserName"].ToString()!</h4></text>
     }
     </fieldset>
-
 
 </section>
 <section class="content">
@@ -230,7 +228,7 @@
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: 'Die Produktivität an allen Bändern in jeweiligen Monaten'
+                    text: 'Die Produktivität an allen Anlagen insgesamt in jeweiligen Monaten'
                 }
             }
         });

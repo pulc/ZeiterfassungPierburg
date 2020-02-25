@@ -30,15 +30,10 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         // GET: NeueZeiterfassung/Create
         public ActionResult Create()
         {
-            var lstCities = new SelectList(new[] { "Es gibt keine Teile für diese Produktionsanalage. Du musst erstmal bei 'Teile bei Anlagen' eine hinzufügen" });
-            ViewBag.Cities = lstCities;
-
 
             ModelState.Clear();
             var model = new NeueZeiterfassung();
             model.Datum = DateTime.Today;
-
-            //ViewBag.FertigungsteileList = model.FertigungteilList;
 
             var date = DateTime.Now;
             if (date.Hour >= 22 || date.Hour <= 6)
@@ -94,10 +89,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
             try
             {
-
                 s.Datum = model.Datum;
                 s.Art = model.Schicht;
-
 
                 int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
                 int ProduktionsanlageID = model.Produktionsanlage;
@@ -113,27 +106,12 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 {
                     ErstelltVon = Session["UserName"].ToString();
                 }
-
-
-
-                /*
-                string getTeZeit = @"select teZEIT from 
-Fertigungsteil
-where ID = " + FertigungsTeilID;
-
-                float teZeit = (float) SQLServer.Instance.GetDecimal(getTeZeit);
-                if(teZeit == 0)
-                {
-                    ViewBag.Message = "Kein Mitarbeiter wurde hinzugefügt. Es gibt kein Teil der Produktionsanlage zugeteilt oder die teZeit des Teiles ist 0.";
-                    return View(model);
-
-                }
-                */
+                
 
                 Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
                 List<string> keyList = new List<string>(form.Keys);
-                int TeileCount = 0;
-                int MitarbeiterCount = 0;
+                int TeileCount = 0; //how many Teile should get added
+                int MitarbeiterCount = 0; //how many Mitarbeiter should get added
                 foreach (string name in keyList)
                 {
                     if (name.Contains("fteil"))
@@ -186,20 +164,35 @@ where ID = " + FertigungsTeilID;
                 {
                     InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
                 }
-                ViewBag.Message = MitarbeiterInSchichtList.Count + " Einträge gemacht.";
+                if(MitarbeiterInSchichtList.Count == 1)
+                {
+                    ViewBag.Message = "1 Eintrag gespeichert.";
+                }
+                else { 
+
+                    if(TeileCount == 1)
+                    {
+                        ViewBag.Message = MitarbeiterCount + " Mitarbeiter und 1 Produkt erfasst";
+                    }
+                    else
+                    {
+                        ViewBag.Message = MitarbeiterCount + " Mitarbeiter und " + TeileCount + " Produkte erfasst";
+                    }
+                }
                 return Create();
             }
             catch (Exception e)
             {
-                SQLServer.Instance.RemoveItem<SchichtInfo>(s);
 
                 // delete added models (if any)
                 foreach (var id in InsertedID)
                 {
                     SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                 }
+                SQLServer.Instance.RemoveItem<SchichtInfo>(s); 
+
                 ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
-                    "\nDer ausführliche Grund: " + e.Message;
+                    " Der ausführliche Grund: " + e.Message;
 
                 return View(model);
             }
@@ -209,14 +202,13 @@ where ID = " + FertigungsTeilID;
         {
             ViewBag.Message = "";
             List<int> InsertedID = new List<int>();
+            SchichtInfo s = new SchichtInfo();
+
 
             try
             {
-                SchichtInfo s = new SchichtInfo()
-                {
-                    Datum = model.Datum,
-                    Art = model.Schicht
-                };
+                s.Datum = model.Datum;
+                s.Art = model.Schicht;
 
                 int SchichtInfoID = SQLServer.Instance.InsertItem<SchichtInfo>(s);
                 int ProduktionsanlageID = model.Produktionsanlage;
@@ -272,7 +264,6 @@ where ID = " + FertigungsTeilID;
                         ProduktionsanlageID = ProduktionsanlageID,
                         ErstelltAm = date,
                         Bemerkung = Request.Form["bemerkung" + i],
-                        //Auswertung = auswertung,
                         EingetragenVon = ErstelltVon
                     };
                     MitarbeiterInSchichtList.Add(n);
@@ -283,7 +274,14 @@ where ID = " + FertigungsTeilID;
                 {
                     InsertedID.Add(SQLServer.Instance.InsertItem<MitarbeiterInSchicht>(n));
                 }
-                ViewBag.Message = MitarbeiterInSchichtList.Count + " Produkte erfasst";
+                if(MitarbeiterInSchichtList.Count == 1)
+                { 
+                ViewBag.Message = "1 Produkt erfasst";
+                }
+                else
+                {
+                    ViewBag.Message = MitarbeiterInSchichtList.Count + "Produkte erfasst";
+                }
                 return CreateMEBA();
             }
             catch (Exception e)
@@ -293,6 +291,9 @@ where ID = " + FertigungsTeilID;
                 {
                     SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                 }
+                SQLServer.Instance.RemoveItem<SchichtInfo>(s);
+
+
                 ViewBag.Message = "Die Eingabe ist falsch. Keine Mitarbeiter sind hinzugefügt worden." +
                     "\nDer ausführliche Grund: " + e.Message;
 
@@ -323,16 +324,6 @@ where ID = " + FertigungsTeilID;
             }
         }
 
-        public ActionResult Done()
-        {
-            // Get information from the session
-            var model = Session["NeueZeiterfassung"] as NeueZeiterfassung;
-
-            // Display Done.html page that shows Name and selected state.
-            return View(model);
-        }
-
-
         // GET: NeueZeiterfassung/Delete/5
         public ActionResult Delete(int id)
         {
@@ -354,13 +345,6 @@ where ID = " + FertigungsTeilID;
             }
         }
 
-        private int ConvertStringToInt(string intString)
-        {
-            int? c = null;
-            c = (Int32.TryParse(intString, out int i) ? c : (int?)null);
-
-            return i;
-        }
         /*
         private float calculateAuswertung (float stückzahl, float gettezeit, float dirst, float indirst)
         {

@@ -18,11 +18,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
         {
 
             string message = " ";
-
-        
-            if(m.Day != 0)
+            
+            if((Convert.ToInt32(Session["AccessLayer"]) == 2 || Convert.ToInt32(Session["AccessLayer"]) == null) & m.MitarbeiterID != 0)
             {
-                message = message + " Tag:" + m.Day;
+                return PartialView("~/Views/Shared/ErrorAccessDenied");
+            }
+            
+            if (m.Day != 0)
+            {
+            message = message + " Tag:" + m.Day;
             ViewBag.Day = m.Day;
             }
             if(m.Month != 0)
@@ -40,13 +44,13 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             
             if (m.ProduktionsanlageID != 0)
             {
-                message = message + " ProduktionsanlageID:" + m.FertigungsteilID;
+                message = message + " ProduktionsanlageID:" + m.ProduktionsanlageID;
 
                 ViewBag.Year = m.Year;
             }
             if (m.FertigungsteilID != 0)
             {
-                message = message + " FertigungsteilID:" + m.ProduktionsanlageID;
+                message = message + " FertigungsteilID:" + m.FertigungsteilID;
 
                 ViewBag.Year = m.Year;
             }
@@ -65,14 +69,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             }
 
             ViewBag.Message = message;
-
+            ViewBag.Produktivität = SQLServer.Instance.GetProduktivitätCustomDictionary(m.Day, m.Month, m.Year, m.ProduktionsanlageID, m.FertigungsteilID, m.MitarbeiterID, m.Art);
             /*
             ViewBag.day = m.Day;
             ViewBag.day = m.Day;
             */
 
-            var results = SQLServer.Instance.GetProduktivitätViewModel<ProduktivitätViewModel>(m.Day, m.Month, m.Year, m.ProduktionsanlageID, m.FertigungsteilID, m.MitarbeiterID, m.Art);
-            return View(results);
+            //var results = SQLServer.Instance.GetProduktivitätViewModel<ProduktivitätViewModel>(m.Day, m.Month, m.Year, m.ProduktionsanlageID, m.FertigungsteilID, m.MitarbeiterID, m.Art);
+            //return View(results);
+            return View();
         }
         
         // GET: Produktivität/Edit/5

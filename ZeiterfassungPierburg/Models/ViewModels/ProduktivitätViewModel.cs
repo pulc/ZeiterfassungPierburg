@@ -64,7 +64,7 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         [Display(Name = "Produktionsanlage")]
         public IEnumerable<SelectListItem> ProduktionsanlageList
         {
-            get => SQLServer.Instance.GetDictionaryProduktivität("Produktionsanlage", "Bezeichner", "istEineMaschine = 'false' AND istAktiv = 'true'")
+            get => SQLServer.Instance.GetDictionaryProduktivität("Produktionsanlage", "Bezeichner", null)
                     .Select(s => new SelectListItem()
                     {
                         Text = s.Value,

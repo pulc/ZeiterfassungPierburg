@@ -86,7 +86,7 @@
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="~/MitarbeiterInSchicht/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="~/MitarbeiterInSchicht" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <div class="col-lg-9 col-xs-9">
+        <div class="col-lg-6 col-xs-12">
 
 
             <div class="box-footer text-black">
@@ -182,24 +182,12 @@
         </div>
     </div>
 
-
-
-    <!-- ./col -->
-    <!-- ./col -->
-
-
-
-
-
-
 </section>
 
 @section scripts{
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="~/Scripts/Chart.js"></script>
-
-
 
 
     <script>
@@ -211,7 +199,7 @@
 
         for (var key in monthsDictionary) {
             months.push(key)
-            values.push(monthsDictionary[key]);
+            values.push(monthsDictionary[key].toFixed(2));
         }
         new Chart(document.getElementById("bar-chart"), {
             type: 'bar',
@@ -287,13 +275,26 @@
                                 var value = dictionary[key];
 
 
-                                html = html+ ` <div class="clearfix">
-                            <span class="pull-left">`+ key +`</span>
-                            <small class="pull-right">`+ value +`%</small>
+                                if (!Number.isNaN(value)) {
+
+                                    html = html + ` <div class="clearfix">
+                            <span class="pull-left">`+ key + `</span>
+                            <small class="pull-right">`+ value.toFixed(2) + `%</small>
                         </div>
                         <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: `+ value +`%;"></div>
+                            <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
                         </div>`;
+                                }
+                                else {
+                                    html = html + ` <div class="clearfix">
+                            <span class="pull-left">`+ key + `</span>
+                            <small class="pull-right">keine Einträge</small>
+                        </div>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
+                        </div>`;
+
+                                }
             }
             var p = document.getElementById("productivity");
             p.innerHTML = html;
@@ -308,13 +309,26 @@
                 var value = dictionaryMaschinen[key];
 
 
-                                htmlMaschinen = htmlMaschinen+ ` <div class="clearfix">
-                            <span class="pull-left">`+ key +`</span>
-                            <small class="pull-right">`+ value +`%</small>
+                if (!Number.isNaN(value)) {
+
+                    htmlMaschinen = htmlMaschinen + ` <div class="clearfix">
+                            <span class="pull-left">`+ key + `</span>
+                            <small class="pull-right">`+ value.toFixed(2) + `%</small>
                         </div>
                         <div class="progress xs">
-                            <div class="progress-bar progress-bar-green" style="width: `+ value +`%;"></div>
+                            <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
                         </div>`;
+                }
+                else {
+                    htmlMaschinen = htmlMaschinen + ` <div class="clearfix">
+                            <span class="pull-left">`+ key + `</span>
+                            <small class="pull-right">keine Einträge</small>
+                        </div>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
+                        </div>`;
+
+                }
             }
             var r = document.getElementById("productivityMaschinen");
             r.innerHTML = htmlMaschinen;

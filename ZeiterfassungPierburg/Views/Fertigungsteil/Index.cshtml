@@ -31,27 +31,31 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ZeichenNr)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Bezeichnung)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.teZEIT)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AnzahlMA)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IstAktiv)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
-                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ZeichenNr)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Bezeichnung)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.teZEIT)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AnzahlMA)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IstAktiv)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID }) |
+                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+
+                                   | <a href="~/Produktivität?ProduktionsanlageID=0&FertigungsteilID=@item.ID&MitarbeiterID=0&Art=0&Produktivität=0&Day=0&Month=0&Year=0&FertigungteilList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MitarbeiterList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&ProduktionsanlageList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MonthList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&DayList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&ArtList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D">Produktivität </a>
+
+                                </td>
+
+                            </tr>
                         }
 
                     </tbody>

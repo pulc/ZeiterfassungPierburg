@@ -23,7 +23,7 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'false'");
 
 
-            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'False'");
             return View(results);
         }
         public ActionResult IndexMEBA()
@@ -33,7 +33,7 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'true'");
 
 
-            var results = SQLServer.Instance.GetMitarbeiterInSchichtModelMEBA<MitarbeiterInschichtViewModel>();
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'True'");
             return View(results);
         }
 

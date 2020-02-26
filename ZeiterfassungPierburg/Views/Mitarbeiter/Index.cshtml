@@ -37,7 +37,7 @@
                                 @Html.DisplayNameFor(model => model.istAktiv)
                             </th>
                             <th>
-
+                                Aktionen
                             </th>
                         </tr>
                     </thead>
@@ -77,7 +77,10 @@
                                     {<text>
                                             | <a href="~/Produktivität?ProduktionsanlageID=0&FertigungsteilID=0&MitarbeiterID=@item.ID&Art=0&Produktivität=0&Day=0&Month=0&Year=0&FertigungteilList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MitarbeiterList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&ProduktionsanlageList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MonthList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&DayList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&ArtList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D">Produktivität</a>
                                     </text>
+
                                 }
+                                    | @Html.ActionLink("Einträge", "Details", new { id = item.ID })
+
                                 </td>
                             </tr>
                         }

@@ -375,42 +375,6 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
             }
         }
         
-        public IEnumerable<T> GetMitarbeiterInSchichtModelMEBA<T>()
-        {
-            using (var c = NewOpenConnection)
-            {
-                string sql = @" 
-SELECT
-t.ID,
-s.Datum,
-s.Art,
-m.Nachname + ', ' + m.Vorname as Name,
-m.Personalnummer,
-m.Kostenstelle,
-p.Bezeichner as Anlage,
-p.Kostenstelle,
-p.SAPAPNr,
-f.ZeichenNr
-
-      ,t.Stück
-      ,t.DirStunden
-      ,t.InDirStunden
-      ,t.IstInSAPEingetragen
-,t.Auswertung
-	  ,Bemerkung
-      ,t.ErstelltAm
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
-LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID 
-LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
-LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
-LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID 
-where p.IstEineMaschine = 'True'
-";
-                return c.Query<T>(sql).ToList();
-
-            }
-        }
-
         public Dictionary<string, float> GetProduktivitätCustomDictionary(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID, int MitarbeiterID, int Art)
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
@@ -610,8 +574,14 @@ order by SchichtInfoID";
         }
 
 
-        public IEnumerable<T> GetMitarbeiterInSchichtModel<T>()
+        public IEnumerable<T> GetMitarbeiterInSchichtModel<T>(string where = null)
         {
+            string con = "'true' = 'true'";
+
+            if(where != null)
+            {
+                con = where;
+            }
             using (var c = NewOpenConnection)
             {
                 string sql = @" 
@@ -640,8 +610,8 @@ LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID 
-where p.IstEineMaschine = 'False'
-";
+where  
+"+con;
                 return c.Query<T>(sql).ToList();
             }
         }

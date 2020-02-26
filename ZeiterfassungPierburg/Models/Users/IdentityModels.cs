@@ -31,5 +31,7 @@ namespace ZeiterfassungPierburg.Models
         }
 
         public System.Data.Entity.DbSet<ZeiterfassungPierburg.Models.Zugriffsrechte> Zugriffsrechtes { get; set; }
+
+        public System.Data.Entity.DbSet<ZeiterfassungPierburg.Models.Mitarbeiter> Mitarbeiters { get; set; }
     }
 }

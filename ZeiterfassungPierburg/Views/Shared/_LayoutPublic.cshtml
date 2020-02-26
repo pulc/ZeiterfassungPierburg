@@ -7,14 +7,12 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/modernizr")
 
     <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
     <link href="~/fonts/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
-
         <div class="wrapper">
             <div class="hold-transition skin-blue sidebar-mini">
                 <!-- Main Header -->
@@ -43,11 +41,7 @@
                                     <a href="/Zugriffsrechte/Login"><span class="glyphicon glyphicon-log-in"></span></a>
 
                                 </li>
-                                <!--
-                <li>
-                    <a href="#" class="dropdown-toggle">Abmelden</a>
-                </li>
-            -->
+
                             </ul>
                         </div>
                     </nav>
@@ -58,11 +52,8 @@
                     <!-- sidebar: style can be found in sidebar.less -->
                     <section class="sidebar">
 
-                        <!-- search form (Optional) -->
-                        <!-- /.search form -->
-                        <!-- Sidebar Menu -->
                         <ul class="sidebar-menu" data-widget="tree">
-                            <li>@Html.ActionLink("NEUE ERFASSUNG - Band", "Create", "Neuezeiterfassung")</li>
+                            <li>@Html.ActionLink("NEUE ERFASSUNG - Montage", "Create", "Neuezeiterfassung")</li>
                             <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
                         </ul>
                         <!-- /.sidebar-menu -->
@@ -72,29 +63,6 @@
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper">
 
-
-                    <!--
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div> -->
                     @RenderBody()
 
                 </div>
@@ -116,9 +84,6 @@
                 <strong> &copy; @DateTime.Now.Year <a href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
             </footer>
         </div>
-    
     </body>
-
-
 </html>
     

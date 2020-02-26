@@ -114,13 +114,10 @@ namespace ZeiterfassungPierburg.Controllers
 
                     if (pw == o.Password)
                     {
-                        Startup.SessionUserName = o.Benutzername;
                         Session["UserID"] = o.ID;
                         Session["UserName"] = o.Benutzername;
 
                         int al = SQLServer.Instance.GetNumber("Select Zugriffsebene from Zugriffsrechte where ID = " + id);
-                        Startup.AccessLayer = al;
-                        // Convert.ToInt32(Session["AccessLayer"]) 1)
 
                         Session["AccessLayer"] = al;
 

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using ZeiterfassungPierburg.Models;
+using ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel;
 
 namespace ZeiterfassungPierburg.Controllers
 {
@@ -18,6 +19,21 @@ namespace ZeiterfassungPierburg.Controllers
 
             var results = SQLServer.Instance.GetItems<Mitarbeiter>();
 
+            return View(results);
+        }
+
+        public ActionResult Details(int id)
+        {
+
+            ViewBag.Message = TempData["Message"];
+            Mitarbeiter m = SQLServer.Instance.GetItem<Mitarbeiter>(id);
+
+            ViewBag.Name = m.Vorname + " " + m.Nachname;
+            ViewBag.Title = "Übersicht der Schichten von" + ViewBag.Name;
+
+            ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen(" 'true' = 'true' ");
+
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("t.mitarbeiterID = " + id);
             return View(results);
         }
 

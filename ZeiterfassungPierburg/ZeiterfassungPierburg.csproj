@@ -412,6 +412,7 @@
     <Content Include="Views\Zugriffsrechte\Login.cshtml" />
     <Content Include="Views\Shared\ErrorAccessDenied.cshtml" />
     <Content Include="Views\Shared\_LayoutPublicWithoutMenu.cshtml" />
+    <Content Include="Views\Mitarbeiter\Details.cshtml" />
     <None Include="Web.DebugMartin.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

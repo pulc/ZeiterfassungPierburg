@@ -2,20 +2,14 @@
 
 @Styles.Render("~/bundles/tablePluginStyleBundle")
 
-
-
-
 <title>
     @ViewBag.Title
 </title>
 <section class="content container-fluid">
-    <div class="box-header with-border">
-        <div class="box box-info">
-            <div class="box-header with-border">
-                <h3>Übersicht der Mitarbeiter in Schichten in MeBa im letzten Monat</h3>
-                <h4>
-                    Für ältere Einträge besuche das @Html.ActionLink("Archiv", "ArchivMeBa", "MitarbeiterInSchicht").                 
-                </h4>
+    <div class="box-header with-border ">
+        <div class="box box-info ">
+            <div class="box-header with-border ">
+                <h3>Archiv - Übersicht der Mitarbeiter in Schichten in Montage und MeBa seit Einführung</h3>
 
 
                 <div class="row row-list" style="padding-bottom: 25px; padding-top: 15px">
@@ -33,15 +27,19 @@
 
                         <select class="form-control text-box single-line" id="schicht">
                             <option value="">alle Schichten</option>
-                            <option value="1">Früh</option>
+                            <option value="1">Früh</option>1
                             <option value="2">Spät</option>
                             <option value="3">Nacht</option>
                         </select>
                     </div>
+
                     <div class="col-xs-2">
+
                         <label>Wähle das Band aus:</label>
                         @Html.Raw((String)ViewBag.AnlageFilter)
                     </div>
+
+
                 </div>
 
                 <table id="myTable" class="table table-striped table-bordered" style="text-align:center">
@@ -114,7 +112,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Personalnummer)
                                 </td>
@@ -130,7 +127,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Stück)
                                 </td>
-                                <td>
+                                <td name="dst">
                                     @Html.DisplayFor(modelItem => item.DirStunden)
                                 </td>
                                 <td>
@@ -151,11 +148,11 @@
                                     -->
                                 <td>
 
-                                    <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
 
                                     |
                                     <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                    <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey"  class="glyphicon glyphicon-remove"></span></a>
+                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
 
                                     <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
                                 </td>
@@ -175,15 +172,12 @@
 <iframe id="txtArea1" style="display: none"></iframe>
 
 
-
 @section scripts{
 
 
 
     @Scripts.Render("~/bundles/tableScriptBundle")
     @Scripts.Render("~/bundles/dataTablesPlugins")
-
-
 
     <script>
 
@@ -194,10 +188,8 @@
 
         var today = now.getFullYear() + "-" + (month) + "-" + (day - 1);
 
-        $('#min').val(today);
-        $('#max').val(today);
-
-
+        $('#min').val(today); //set filter date to yesterday
+        $('#max').val(today); //set filter date to yesterday
 
 
             function addDays(date, days) {
@@ -207,35 +199,38 @@
             }
             var today = new Date();
 
-        jQuery.fn.dataTableExt.afnFiltering.push(
-            function (oSettings, aData, iDataIndex) {
-                var iColumn = 0;
-                var schichtColumn = 1;
-                var anlageColumn = 2; //which column
 
-                var iMin = Date.parse(document.getElementById('min').value);
-                var iMax = Date.parse(document.getElementById('max').value);
+            jQuery.fn.dataTableExt.afnFiltering.push(
+                function (oSettings, aData, iDataIndex) {
+                    var iColumn = 0;
+                    var schichtColumn = 1;
+                    var anlageColumn = 2; //which column
 
-                var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
-                iVersion = Date.parse(iVersion);
+                    var iMin = Date.parse(document.getElementById('min').value);
+                    var iMax = Date.parse(document.getElementById('max').value);
 
-                var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
-                var schicht = $(document.getElementById('schicht')).children("option:selected").val();
+                    var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
+                    iVersion = Date.parse(iVersion);
+
+                    var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
+                    var schicht = $(document.getElementById('schicht')).children("option:selected").val();
 
 
-                var anlageColumn = (aData[anlageColumn] == "-" ? 0 : aData[anlageColumn]);
-                var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val();
+                    var anlageColumn = (aData[anlageColumn] ==    "-" ? 0 : aData[anlageColumn]);
+                    var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val();
 
-                if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
+                    if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
 
-                    return false;
+                        return false;
+                    }
+                    else return true;
                 }
-                else return true;
-            }
-        )
+            )
+
+        var table = document.getElementById('myTable');
 
 
-            var table = document.getElementById('myTable');
+
 
             var rowLength = table.rows.length;
             for (var i = 0; i < rowLength; i += 1) {
@@ -250,16 +245,12 @@
                 }
                 if (boolValue == 'False') {
                     $("#eintragen_" + id).prop("checked", false)
-
                     $(row).css("background-color", "#ffcccb");
                 }
             }
 
 
             $(document).ready(function () {
-
-                //console.log(document.getElementById('min').value);
-                //document.getElementById('min').value = '15-Jan-2020';
 
 
                 var table = $('#myTable').DataTable(
@@ -305,9 +296,6 @@
         });
 
 
-
-
-
              var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
 
                 $('[id^=eintragen_]').click(function () {
@@ -317,15 +305,13 @@
 
                     var row = $(this).closest("tr");
 
-                    //console.log(boolValue);
-
                     $.getJSON(url, { istEingetragen: boolValue, id: id }, function (response) {
 
                         if (response == 0) {
-                            alert('Das lief schief. Aktualisiere die Seite und versuhce es erneut.')
+                            alert('Das lief schief. Aktualisiere die Seite und versuche es erneut.')
                         }
                     });
-
+                    //change colors if clicked
                     if (boolValue == 'True') {
                         $(row).css("background-color", "#ffcccb");
                         $('#' + id).text('False');
@@ -333,13 +319,8 @@
                     else if (boolValue == 'False') {
                         $(row).css("background-color", "#90ee90");
                         $('#' + id).text('True');
-
-
                     }
             });
-
-
-
     </script>
 
 }

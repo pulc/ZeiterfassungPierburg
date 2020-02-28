@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel.MitarbeiterInschichtViewModel>
 
-
 @Styles.Render("~/bundles/tablePluginStyleBundle")
-
-
-
 
 <title>
     @ViewBag.Title
@@ -12,9 +8,11 @@
 <section class="content container-fluid">
     <div class="box-header with-border ">
         <div class="box box-info ">
-            <div class="box-header with-border " >
-                <h3>Übersicht der Mitarbeiter in Schichten</h3>
-
+            <div class="box-header with-border ">
+                <h3>Übersicht der Mitarbeiter in Schichten in der Montage im letzten Monat</h3>
+                <h4>
+                    Für ältere Einträge besuche das @Html.ActionLink("Archiv", "ArchivMontage", "MitarbeiterInSchicht").                    
+                </h4>
 
                 <div class="row row-list" style="padding-bottom: 25px; padding-top: 15px">
                     <div class="col-xs-2">
@@ -86,12 +84,13 @@
                                 @Html.DisplayNameFor(model => model.Bemerkung)
                             </th>
                             <!--
-                            <th>
-                                @Html.DisplayNameFor(model => model.Auswertung)
-                            </th>
-                                -->
+                <th>
+                    @Html.DisplayNameFor(model => model.Auswertung)
+                </th>
+                    -->
 
                             <th>
+
                                 @Html.DisplayNameFor(model => model.IstInSAPEingetragen)
                             </th>
 
@@ -146,10 +145,10 @@
                                     <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
                                 </td>
                                 <!--
-                                    <td>
-                                    @Html.DisplayFor(modelItem => item.Auswertung)%
-                                </td>
-                                    -->
+                        <td>
+                        @Html.DisplayFor(modelItem => item.Auswertung)%
+                    </td>
+                        -->
                                 <td>
 
                                     <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
@@ -167,8 +166,8 @@
                 @ViewBag.Message
 
                 <!--
-                     @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
-                -->
+         @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
+    -->
             </div>
         </div>
     </div>

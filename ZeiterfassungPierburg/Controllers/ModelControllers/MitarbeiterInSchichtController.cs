@@ -23,7 +23,7 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'false'");
 
 
-            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'False'");
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'False' and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND getdate())");
             return View(results);
         }
         public ActionResult IndexMEBA()
@@ -33,9 +33,48 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'true'");
 
 
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'True' and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND getdate())");
+            return View(results);
+        }
+
+        // GET: MitarbeiterInSchicht
+        public ActionResult Archiv()
+        {
+            ViewBag.Title = "Übersicht der Schichten";
+            ViewBag.Message = TempData["Message"];
+
+
+            ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("'true' =  'true'");
+
+
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>();
+            return View(results);
+        }
+        public ActionResult ArchivMontage()
+        {
+            ViewBag.Title = "Übersicht der Schichten";
+            ViewBag.Message = TempData["Message"];
+
+
+            ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine =  'false'");
+
+
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'False'");
+            return View(results);
+        }
+        public ActionResult ArchivMeBa()
+        {
+            ViewBag.Title = "Übersicht der Schichten";
+            ViewBag.Message = TempData["Message"];
+
+
+            ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'true'");
+
+
             var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'True'");
             return View(results);
         }
+
 
         // GET: MitarbeiterInSchicht/Edit/5
         public ActionResult Edit(int id)

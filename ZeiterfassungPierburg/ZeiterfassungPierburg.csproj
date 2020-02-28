@@ -203,12 +203,7 @@
     <Compile Include="Controllers\ModelControllers\TeileInProduktionsanlageController.cs" />
     <Compile Include="Controllers\ModelControllers\ZugriffsrechteController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
-    <Compile Include="Data\DataAttributes.cs" />
-    <Compile Include="Data\DataMapper.cs" />
-    <Compile Include="Data\PropertyMappingInfo.cs" />
     <Compile Include="Data\SQLServer.cs" />
-    <Compile Include="Models\AnlageInSchichtInfo.cs" />
-    <Compile Include="Models\AnlagenInSchicht.cs" />
     <Compile Include="Models\BasicModelObject.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

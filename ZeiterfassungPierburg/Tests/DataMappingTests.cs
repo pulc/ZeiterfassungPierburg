@@ -55,6 +55,7 @@ namespace ZeiterfassungPierburg.Tests
             Assert.AreEqual(1, data.Count());
         }
         */
+        /*
         [TestMethod]
         public void InsertCommandIsValid()
         {
@@ -84,6 +85,7 @@ namespace ZeiterfassungPierburg.Tests
             }
             Assert.AreNotEqual(-1, newId);
         }
+        */
 
         [TestMethod]
         public void FormToModelValid()

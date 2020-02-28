@@ -107,8 +107,7 @@ namespace ZeiterfassungPierburg.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.Benutzername) && a.Password.Equals(objUser.)).FirstOrDefault();
-                    //if (obj != null)
+
                     int id = SQLServer.Instance.GetNumber("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
                     string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "ID = " + id);
 

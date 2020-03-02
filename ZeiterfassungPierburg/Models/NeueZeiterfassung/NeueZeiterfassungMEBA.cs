@@ -12,7 +12,7 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
     [Table("NeuezeiterfassungMEBA")]
     public class NeuezeiterfassungMEBA
     {
-        [Required]
+        [Required(ErrorMessage = "Du musst noch das Datum auswählen.")]
         [DataType(DataType.Date)]
         public DateTime Datum { get; set; }
 

@@ -139,7 +139,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         for (int j = 0; j < TeileCount; j++)
                         {
                             string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + j]}'";
-                            int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+                            int FertigungsTeilID = SQLServer.Instance.GetInt(getNumber);
 
                             MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                             {
@@ -251,7 +251,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                     // float auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
 
                     string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
-                    int FertigungsTeilID = SQLServer.Instance.GetNumber(getNumber);
+                    int FertigungsTeilID = SQLServer.Instance.GetInt(getNumber);
 
                     MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                     {

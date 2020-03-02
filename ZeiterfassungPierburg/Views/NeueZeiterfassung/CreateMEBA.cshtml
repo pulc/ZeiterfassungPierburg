@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_LayoutPublic.cshtml";
 }
 
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frm" }))
 {
     @Html.AntiForgeryToken()
@@ -310,7 +309,7 @@
         }
         else alert('Du musst mindestens einen Mitarbeiter oder eine Mitarbeiterin eingeben');
         var rowCount = myTable.rows.length;
-        console.log(rowCount);
+       // console.log(rowCount);
         }
     </script>
 }

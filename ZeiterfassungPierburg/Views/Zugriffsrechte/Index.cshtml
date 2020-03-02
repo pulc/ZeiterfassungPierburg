@@ -6,7 +6,6 @@
 }
 else
 {
-
     <section class="content container-fluid">
         <div class="box-header with-border">
             <div class="box box-info">
@@ -14,7 +13,7 @@ else
                     <h3>Übersicht der Zugriffsrechte</h3>
                     <h5 style=" color:red">Hinweis: Wenn du deine Rechte löschst, kannst du sie dir selber nicht mehr zuteilen.</h5>
                     <h5>1 = Admin</h5>
-                    <h5 style="padding-bottom: 25px ">2 = Verwalter (kann nicht Rechte zuteilen)</h5>
+                    <h5 style="padding-bottom: 25px ">2 = Verwalter (kann keine Rechte zuteilen)</h5>
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -50,7 +49,9 @@ else
                         </tbody>
                     </table>
                     <h4>@ViewBag.MitarbeiterMessage</h4>
-                    @Html.ActionLink("Hinzufügen", "Create", null, new { @class = "pull-left btn btn-default", @type = "button", })
+
+                        @Html.ActionLink("Hinzufügen", "Create", null, new { @class = "pull-left btn btn-default", @type = "button", })
+
                 </div>
             </div>
         </div>

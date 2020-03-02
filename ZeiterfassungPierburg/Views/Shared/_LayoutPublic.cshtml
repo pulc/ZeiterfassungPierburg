@@ -51,11 +51,33 @@
 
                     <!-- sidebar: style can be found in sidebar.less -->
                     <section class="sidebar">
-
                         <ul class="sidebar-menu" data-widget="tree">
-                            <li>@Html.ActionLink("NEUE ERFASSUNG - Montage", "Create", "Neuezeiterfassung")</li>
-                            <li>@Html.ActionLink("NEUE ERFASSUNG - MEBA", "CreateMEBA", "Neuezeiterfassung")</li>
+                            <li class="active treeview menu-open">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <span>Neue Zeiterfassung</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="@Url.Action("Create", "Neuezeiterfassung")">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                                            <span>Montage</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CreateMEBA", "Neuezeiterfassung")">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                                            <span>MeBa</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
+
                         <!-- /.sidebar-menu -->
                     </section>
                     <!-- /.sidebar -->

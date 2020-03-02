@@ -64,11 +64,9 @@
                                 <th>
                                     @Html.LabelFor(model => model.Fertigungsteil)
                                 </th>
-
                                 <th>
                                     @Html.LabelFor(model => model.Stückzahl)
                                 </th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +80,7 @@
                                     @Html.EditorFor(model => model.Stückzahl, new { htmlAttributes = new { @id = "st", @class = "form-control", @name = "st0" } })
                                     @Html.ValidationMessageFor(model => model.Stückzahl, "", new { @class = "text-danger" })
                                 </td>
+
 
                             </tr>
                         </tbody>
@@ -236,7 +235,7 @@
                 var validator = $("#frm").validate();
                 
                // $('#warnMessage').text((validator.dirzeit0.val));
-                console.log($('#st'.val));
+                //console.log($('#st'.val));
                 //alert('sdsadsa' + validator.bemerkung.val);
 
                 /*
@@ -284,7 +283,7 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
             }
             else alert('Du musst mindestens einen Mitarbeiter oder eine Mitarbeiterin eingeben');
             var rowCount = myTable.rows.length;
-            console.log(rowCount);
+          //  console.log(rowCount);
         }
 
     function AddRowTeile(table) {
@@ -315,7 +314,7 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
         currentCell.appendChild(stNew);
 
         var rowCount = myTable.rows.length;
-        console.log(rowCount);
+        //console.log(rowCount);
         }
 
         function AddRowMitarbeiter(table) {
@@ -363,7 +362,7 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
         currentCell.appendChild(bemerkungNew);
 
         var rowCount = myTable.rows.length;
-        console.log(rowCount);
+        //console.log(rowCount);
         }
 
 
@@ -378,7 +377,7 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
         }
         else alert('Du musst mindestens 1 eingeben');
         var rowCount = myTable.rows.length;
-        console.log(rowCount);
+        //console.log(rowCount);
         }
 
     </script>

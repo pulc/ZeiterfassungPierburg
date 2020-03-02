@@ -197,7 +197,7 @@ where Produktionsanlage.IstEineMaschine = 'false'");
                 try
                 {
 
-                    int fteileCount = SQLServer.Instance.GetNumber(@"SELECT *
+                    int fteileCount = SQLServer.Instance.GetInt(@"SELECT *
   FROM[zeiterfassung].[dbo].[TeileInProduktionsanlage] left outer join Produktionsanlage on TeileInProduktionsanlage.ProduktionsanlageID = Produktionsanlage.ID
   where TeileInProduktionsanlage.ID = " + id);
 

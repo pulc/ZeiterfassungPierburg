@@ -108,7 +108,7 @@ namespace ZeiterfassungPierburg.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    int id = SQLServer.Instance.GetNumber("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
+                    int id = SQLServer.Instance.GetInt("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
                     string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "ID = " + id);
 
                     if (pw == o.Password)
@@ -116,7 +116,7 @@ namespace ZeiterfassungPierburg.Controllers
                         Session["UserID"] = o.ID;
                         Session["UserName"] = o.Benutzername;
 
-                        int al = SQLServer.Instance.GetNumber("Select Zugriffsebene from Zugriffsrechte where ID = " + id);
+                        int al = SQLServer.Instance.GetInt("Select Zugriffsebene from Zugriffsrechte where ID = " + id);
 
                         Session["AccessLayer"] = al;
 

@@ -66,30 +66,30 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
         [Display(Name = "Produktionsanlage")]
         public int MitarbeiterAnzahl
         {
-            get => SQLServer.Instance.GetNumber(SelectMitarbiter);
+            get => SQLServer.Instance.GetInt(SelectMitarbiter);
 
         }
-        public int Produktionsanlagen { get => SQLServer.Instance.GetNumber(SelectProduktionsanlagen); }
+        public int Produktionsanlagen { get => SQLServer.Instance.GetInt(SelectProduktionsanlagen); }
 
-        public int Fertigungsteile { get => SQLServer.Instance.GetNumber(SelectFertigungsteile); }
+        public int Fertigungsteile { get => SQLServer.Instance.GetInt(SelectFertigungsteile); }
 
-        public int StückeToday { get => SQLServer.Instance.GetNumber(selectStückeToday); }
+        public int StückeToday { get => SQLServer.Instance.GetInt(selectStückeToday); }
 
-        public int StückeMinusOneDay { get => SQLServer.Instance.GetNumber(selectStückeMinusOneDay); }
+        public int StückeMinusOneDay { get => SQLServer.Instance.GetInt(selectStückeMinusOneDay); }
 
-        public int StückeMinusTwoDays { get => SQLServer.Instance.GetNumber(selectStückeMinusTwoDays);  }
+        public int StückeMinusTwoDays { get => SQLServer.Instance.GetInt(selectStückeMinusTwoDays);  }
 
-        public int StückeMinusThreeDays { get => SQLServer.Instance.GetNumber(selectStückeMinusThreeDays); }
+        public int StückeMinusThreeDays { get => SQLServer.Instance.GetInt(selectStückeMinusThreeDays); }
 
-        public int StückeMinusFourDays { get => SQLServer.Instance.GetNumber(selectStückeMinusFourDays); }
+        public int StückeMinusFourDays { get => SQLServer.Instance.GetInt(selectStückeMinusFourDays); }
 
-        public int StückeMinusFiveDays { get => SQLServer.Instance.GetNumber(selectStückeMinusFiveDays); }
+        public int StückeMinusFiveDays { get => SQLServer.Instance.GetInt(selectStückeMinusFiveDays); }
 
-        public int StückeMinusSixDays { get => SQLServer.Instance.GetNumber(selectStückeMinusSixDays); }
+        public int StückeMinusSixDays { get => SQLServer.Instance.GetInt(selectStückeMinusSixDays); }
 
-        public int StückeWoche { get => SQLServer.Instance.GetNumber(selectStückepastWeek); }
+        public int StückeWoche { get => SQLServer.Instance.GetInt(selectStückepastWeek); }
 
-        public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetNumber(SelectZeiterfassungen); }
+        public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetInt(SelectZeiterfassungen); }
 
         /*
         public Dictionary<string, float> Produktivität

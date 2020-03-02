@@ -13,7 +13,6 @@
 
 @using (Html.BeginForm("Login", "Zugriffsrechte", FormMethod.Post))
 {
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/adminlte.js"></script>
@@ -22,14 +21,12 @@
     @Html.ValidationSummary(true)
 
     {
-        <!--- Pierburg colors: #0E4170, #167DBF -->
+        <!--- Pierburg colors from logo: #0E4170, #167DBF -->
 
         <body class="hold-transition login-page" style="  background-image: linear-gradient(45deg,  	#0E4170 ,  #167DBF,white);">
             <div class="login-box">
                 <div class="login-logo">
                     <img height="115" width="400" src="~/Content/dist/img/pierburg_logo.png" />
-
-                    <!--<a href="../../index2.html"><b>Pierburg Zeiterfassung</b></a>-->
                 </div>
                 <!-- /.login-logo -->
                 <div class="login-box-body">

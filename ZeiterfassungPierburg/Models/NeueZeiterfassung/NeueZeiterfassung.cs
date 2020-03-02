@@ -12,7 +12,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
     [Table("Neuezeiterfassung")]
     public class NeueZeiterfassung
     {
-        [Required]
+        [Required(ErrorMessage = "Du musst noch das Datum auswählen.")]
         [DataType(DataType.Date)]
         public DateTime Datum { get; set; }
 
@@ -70,19 +70,19 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         public int Stückzahl { get; set; }
 
         [Display(Name = "Dir. Stunden")]
-        [Range(0, 10)]
+        [Range(0, 10, ErrorMessage = "Die Anzahl muss zwischen 0 und 10 liegen")]
         [Required(ErrorMessage = "Du musst noch die direkte Zeit eingeben.")]
         public float DirZeit { get; set; }
 
         [Display(Name = "Indir. Stunden")]
-        [Range(0, 10)]
+        [Range(0, 10, ErrorMessage = "Die Anzahl muss zwischen 0 und 10 liegen")]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
         public float InDirZeit { get; set; }
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage { get; set; }
 
-        [MaxLength(99)] 
+        [MaxLength(99, ErrorMessage = "Die maximale Länge ist 99 Buchstaben")] 
         public string Bemerkung { get; set; }
 
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]

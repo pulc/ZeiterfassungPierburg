@@ -309,6 +309,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="App_Data\backup" />
+    <Content Include="Pieburg_Dokumentation.docx" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />
@@ -383,12 +384,8 @@
     <Content Include="Views\Fertigungsteil\Create.cshtml" />
     <Content Include="Views\Fertigungsteil\Edit.cshtml" />
     <Content Include="Views\Produktionsanlage\Index.cshtml" />
-    <Content Include="Views\Mitarbeiter\Delete.cshtml" />
     <Content Include="Views\Produktionsanlage\Create.cshtml" />
-    <Content Include="Views\Produktionsanlage\Delete.cshtml" />
     <Content Include="Views\Produktionsanlage\Edit.cshtml" />
-    <Content Include="Views\Schichtinfo\Index.cshtml" />
-    <Content Include="Views\Schichtinfo\Create.cshtml" />
     <Content Include="Views\NeueZeiterfassung\Create.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\Index.cshtml" />
     <Content Include="Views\MitarbeiterInSchicht\IndexMEBA.cshtml" />
@@ -399,7 +396,6 @@
     <Content Include="Views\Zugriffsrechte\Create.cshtml" />
     <Content Include="Views\Zugriffsrechte\Index.cshtml" />
     <Content Include="Views\Zugriffsrechte\Edit.cshtml" />
-    <Content Include="Views\MitarbeiterInSchicht\test.cshtml" />
     <Content Include="Views\Shared\Error401.cshtml" />
     <Content Include="Views\Produktivität\Index.cshtml" />
     <Content Include="Views\Produktivität\Create.cshtml" />
@@ -433,9 +429,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Create\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

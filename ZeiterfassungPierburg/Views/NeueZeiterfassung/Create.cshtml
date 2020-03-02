@@ -1,6 +1,6 @@
 ﻿@model ZeiterfassungPierburg.Models.NeueZeiterfassung.NeueZeiterfassung
 
-@if (Convert.ToInt32(Session["AccessLayer"]) == null || Convert.ToInt32(Session["AccessLayer"]) == 0)
+@if (Convert.ToInt32(Session["AccessLayer"]) == 0)
 {
     Layout = "~/Views/Shared/_LayoutPublic.cshtml";
 }
@@ -105,7 +105,6 @@
                                 </tbody>
                             </table>
                             <div id="test"></div>
-
                         </div>
                     </div>
                 </div>
@@ -199,13 +198,12 @@
     <!-- /.content -->
 }
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
 
     <script>
-        // SET NAME ATTRIBUTE
+        // set attributes for the elements that derived from the model
         var fteil = document.getElementById('fteil0');
         fteil.setAttribute("name", "fteil0");
 
@@ -226,40 +224,24 @@
         var bemerkung = document.getElementById('bemerkung');
         bemerkung.setAttribute("name", "bemerkung0");
 
-
+        // validate the form when hovering the send button
         $(document).ready(function () {
-
-
 
             $("#sendButton").hover(function () {
                 var validator = $("#frm").validate();
-                
-               // $('#warnMessage').text((validator.dirzeit0.val));
-                //console.log($('#st'.val));
-                //alert('sdsadsa' + validator.bemerkung.val);
-
-                /*
-                console.log(validator.dirzeit1 + validator.indirzeit1);
-                if (!((validator.dirzeit0 + validator.indirzeit0) > 0)) {
-                    $('#warnMessage').text("Anzahl der direkten und indirekten Studen darf nicht 0 sein!");
-                }
-                else {
-                    $('#warnMessage').text("ist in Ordnung");
-                }
-                */
-
                 validator.form()
             });
         });
 
-var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
+        // load Fertigungsteile dynamically
+        var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
 
         $("#panlage").change(function () {
-            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again; get the ID of the Produktionsanlage
 
-            var $eles = $(":input[name^='fteil']");
+            var $eles = $(":input[name^='fteil']"); //get all elements that start with fteil
 
-            $.getJSON(url, { produktionsanlageID: id }, function (response) {
+            $.getJSON(url, { produktionsanlageID: id }, function (response) { //call controller and fetch all Fertigungsteile assigned with the ID of the Produktionsanlage
 
                 for (i = 0; i < $eles.length; i++) {
 
@@ -267,7 +249,7 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
 
                     $.each(response, function (index, item) {
 
-                        $('#fteil' + i).append($('<option></option>').text(item));
+                        $('#fteil' + i).append($('<option></option>').text(item)); //append each Fertigungsteil to each dropdown
                     });
                 }
                 });
@@ -287,10 +269,6 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
         }
 
     function AddRowTeile(table) {
-       // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
-       // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
-
-
         var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
 
         var currentIndex = myTable.rows.length;
@@ -312,14 +290,9 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
 
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(stNew);
-
-        var rowCount = myTable.rows.length;
-        //console.log(rowCount);
         }
 
         function AddRowMitarbeiter(table) {
-        // $("#rowForNewMitarbeiter").load('@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")');
-        // window.location.href = '@Url.Action("AddMitarbeiterHTML", "NeueZeiterfassung")';
 
         var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];
 
@@ -364,8 +337,6 @@ var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't h
         var rowCount = myTable.rows.length;
         //console.log(rowCount);
         }
-
-
 
         function RemoveRow(table) {
         var myTable = document.getElementById(table).getElementsByTagName('tbody')[0];

@@ -172,10 +172,8 @@ namespace ZeiterfassungPierburg.Controllers
             catch (InvalidCastException e)
             {
                 TempData["Message"] = "Der Eintrag konnte nicht gelöscht werden. Der Grund:" +e;
-                //return Index();
                 return RedirectToAction("Index");
             }
         }
-       
     }
 }

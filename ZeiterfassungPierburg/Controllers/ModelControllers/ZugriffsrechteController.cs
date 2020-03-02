@@ -114,9 +114,6 @@ namespace ZeiterfassungPierburg.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
-                    //int id = SQLServer.Instance.GetInt("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
-                   // string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "ID = " + id);
                     string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "Benutzername = '" + o.Benutzername + "'");
 
                     if (pw == o.Password)
@@ -125,7 +122,6 @@ namespace ZeiterfassungPierburg.Controllers
                         Session["UserName"] = o.Benutzername;
 
                         int al = SQLServer.Instance.GetInt("Select Zugriffsebene from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
-
                         Session["AccessLayer"] = al;
 
                         return RedirectToAction("Index", "Home", null);

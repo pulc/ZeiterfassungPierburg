@@ -19,7 +19,7 @@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
-    @if (Convert.ToInt32(Session["AccessLayer"]) == null || Convert.ToInt32(Session["AccessLayer"]) == 0)
+    @if (Convert.ToInt32(Session["AccessLayer"]) == 0)
     {
         Response.Redirect("~/Zugriffsrechte/Login");
     }

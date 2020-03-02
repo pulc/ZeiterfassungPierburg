@@ -846,6 +846,23 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
             Decimal result = (Decimal)c.ExecuteScalar();
             return Convert.ToInt32(result);
         }
+        public int CountResults (string cmd)
+        {
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                try
+                {
+                    SqlCommand c = new SqlCommand(cmd, conn);
+                    object result = c.ExecuteScalar();
+
+                    return (int)result;
+                }
+                catch (Exception e)
+                {
+                    return 0;
+                }
+            }
+        }
         // TODO: Needs to be corrected
         public int ExecuteCommand(string command)
         {

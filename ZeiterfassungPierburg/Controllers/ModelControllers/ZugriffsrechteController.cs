@@ -46,6 +46,13 @@ namespace ZeiterfassungPierburg.Controllers
         {
             try
             {
+                int countBenutzername = SQLServer.Instance.CountResults("SELECT COUNT(*) FROM Zugriffsrechte where Benutzername = '" + m.Benutzername + "'");
+                if(countBenutzername > 0)
+                {
+                    ViewBag.Message = "Der Benutzer mit diesem Benutzernamen existiert bereits. Wähle einen anderen Benutzernamen aus.";
+                    return View(m);
+                }
+
                 SQLServer.Instance.InsertItem<Zugriffsrechte>(m);
                 return RedirectToAction("Index");
             }
@@ -73,7 +80,7 @@ namespace ZeiterfassungPierburg.Controllers
         // GET: Zugriffsrechte/Delete/5
         public ActionResult Delete(int id)
         {
-            if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
+            if (Convert.ToInt32(Session["AccessLayer"]) == 1)
             {
                 try
                 {
@@ -108,15 +115,16 @@ namespace ZeiterfassungPierburg.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    int id = SQLServer.Instance.GetInt("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
-                    string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "ID = " + id);
+                    //int id = SQLServer.Instance.GetInt("Select ID from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
+                   // string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "ID = " + id);
+                    string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "Benutzername = '" + o.Benutzername + "'");
 
                     if (pw == o.Password)
                     {
                         Session["UserID"] = o.ID;
                         Session["UserName"] = o.Benutzername;
 
-                        int al = SQLServer.Instance.GetInt("Select Zugriffsebene from Zugriffsrechte where ID = " + id);
+                        int al = SQLServer.Instance.GetInt("Select Zugriffsebene from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
 
                         Session["AccessLayer"] = al;
 

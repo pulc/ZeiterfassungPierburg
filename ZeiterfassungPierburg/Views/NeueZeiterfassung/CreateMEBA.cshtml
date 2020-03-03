@@ -207,17 +207,18 @@
             $.getJSON(url, { produktionsanlageID: id }, function (response) { //pass Produktionsanlage ID to the Controller 
 
                 for (i = 0; i < $eles.length; i++) {
-
+                                       
                     $('#fteil' + i).empty();
 
-                    $.each(response, function (index, item) {
+                    var dictionary = JSON.parse(response);
+                    for (var key in dictionary) {
 
-                        $('#fteil' + i).append($('<option></option>').text(item)); //append Fertigungsteil Dropdown to each fteil Element 
-                    });
+                        $('#fteil' + i).append($('<option value="' + key + '">' + dictionary[key] +'</option >')); //append Fertigungsteil Dropdown to each fteil Element 
+                    }
                 }
                 });
         });
-
+        // <option value="1">MFZ1</option>
 
 
     function AddRow() {

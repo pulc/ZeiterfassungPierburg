@@ -21,6 +21,40 @@ namespace ZeiterfassungPierburg.Data
         }
 
         // dictionary methods for dropdown lists and productivity calculation
+        public Dictionary<int,string> GetFertigungsteilDictionary(int ProduktionsanlageID)
+        {
+            Dictionary<int, string> result = new Dictionary<int, string>();
+
+            using (SqlConnection conn = NewOpenConnection)
+            {
+                string sql = @"
+select  f.ID,f.Bezeichnung from 
+TeileInProduktionsanlage t
+LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
+LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
+where ProduktionsanlageID = 
+" + ProduktionsanlageID + " and f.Bezeichnung is not null ";
+
+                SqlDataReader r = ExecuteSelectStatement(conn, sql);
+                while (r.Read())
+                {
+                    try
+                    {
+                        result.Add(r.GetInt32(0), r.GetString(1));
+                    }
+                    // if there are doubled Fertigungsteile in the database, an error of doubled keys in the dictionary occurs
+                    // it just get's ignored
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            }
+            return result;
+        }
+
+
+
         public List<string> GetFertigungsteilList(int ProduktionsanlageID)
         {
             List<string> result = new List<string>();

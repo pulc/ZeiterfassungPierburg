@@ -255,18 +255,19 @@
 
             var $eles = $(":input[name^='fteil']"); //get all elements that start with fteil
 
-            $.getJSON(url, { produktionsanlageID: id }, function (response) { //call controller and fetch all Fertigungsteile assigned with the ID of the Produktionsanlage
+            $.getJSON(url, { produktionsanlageID: id }, function (response) { //pass Produktionsanlage ID to the Controller 
 
                 for (i = 0; i < $eles.length; i++) {
 
                     $('#fteil' + i).empty();
 
-                    $.each(response, function (index, item) {
+                    var dictionary = JSON.parse(response);
+                    for (var key in dictionary) {
 
-                        $('#fteil' + i).append($('<option></option>').text(item)); //append each Fertigungsteil to each dropdown
-                    });
+                        $('#fteil' + i).append($('<option value="' + key + '">' + dictionary[key] + '</option >')); //append Fertigungsteile to each fteil dropdown list 
+                    }
                 }
-                });
+            });
         });
 
         function RemoveRow(table) {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -72,11 +73,19 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
             return View(model);
         }
 
-        public JsonResult FetchFertigungsteile(int produktionsanlageID) // its a GET, not a POST
+        /* get Fertigungsteile depending on the ID of the Produktionsanlage
+         * it gets called each time the Produktionsanlage from the dropdown list is changed from the client side 
+         * the ID gets passed
+         */
+        public JsonResult FetchFertigungsteile(int produktionsanlageID)
         {
-            List<string> fteile = SQLServer.Instance.GetFertigungsteilList(produktionsanlageID);
+            //List<string> fteile = SQLServer.Instance.GetFertigungsteilList(produktionsanlageID);
+            Dictionary<int, string> fteileDictionary = SQLServer.Instance.GetFertigungsteilDictionary(produktionsanlageID);
+            string json = JsonConvert.SerializeObject(fteileDictionary, Formatting.Indented);
 
-            return Json(fteile, JsonRequestBehavior.AllowGet);
+
+
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -89,6 +98,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
 
             try
             {
+                // retrieve Datum and Schicht directly from the model and create a new SchichInfo model class
                 s.Datum = model.Datum;
                 s.Art = model.Schicht;
 
@@ -100,16 +110,15 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 // truncate seconds and miliseconds
                 date = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, 0, 0, date.Kind);
                 //string ErstelltVon = System.Web.HttpContext.Current.User.Identity.Name;
-
                 string ErstelltVon = "unbekannt";
-                if(Session["UserName"] != null)
+                if(Session["UserName"] != null) 
                 {
                     ErstelltVon = Session["UserName"].ToString();
                 }
-                
 
-                Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
+                Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]); // get the whole collection
                 List<string> keyList = new List<string>(form.Keys);
+
                 int TeileCount = 0; //how many Teile should get added
                 int MitarbeiterCount = 0; //how many Mitarbeiter should get added
                 foreach (string name in keyList)
@@ -123,7 +132,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 {
                     for (int i = 0; i < MitarbeiterCount; i++)
                     {
-                        //float auswertung = 0;
+                        // check if the there is an entry where dirzeit + indirzeit = 0
+                        // TODO: do this action in Javascript in the View
                         if ((float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i])) == 0)
                         {
                             foreach (var id in InsertedID)
@@ -138,13 +148,13 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         // TODO: berechnen Fertigungsteil ID 
                         for (int j = 0; j < TeileCount; j++)
                         {
-                            string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + j]}'";
-                            int FertigungsTeilID = SQLServer.Instance.GetInt(getNumber);
+                            //string cmd = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + j]}'"; 
+                            //int FertigungsTeilID = SQLServer.Instance.GetInt(cmd); //getFertigungsteilID
 
                             MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                             {
                                 SchichtInfoID = SchichtInfoID,
-                                FertigungsteilID = FertigungsTeilID,
+                                FertigungsteilID = Int32.Parse(Request.Form["fteil" + j]),
                                 MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
                                 DirStunden = float.Parse(Request.Form["dirzeit" + i]),
                                 InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
@@ -250,13 +260,13 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                     }
                     // float auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
 
-                    string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
-                    int FertigungsTeilID = SQLServer.Instance.GetInt(getNumber);
+                    //string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
+                    //int FertigungsTeilID = SQLServer.Instance.GetInt(getNumber);
 
                     MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                     {
                         SchichtInfoID = SchichtInfoID,
-                        FertigungsteilID = FertigungsTeilID,
+                        FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
                         MitarbeiterID = MitarbeiterID,
                         DirStunden = float.Parse(Request.Form["dirzeit" + i]),
                         InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
@@ -280,7 +290,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                 }
                 else
                 {
-                    ViewBag.Message = MitarbeiterInSchichtList.Count + "Produkte erfasst";
+                    ViewBag.Message = MitarbeiterInSchichtList.Count + " Produkte erfasst";
                 }
                 return CreateMEBA();
             }

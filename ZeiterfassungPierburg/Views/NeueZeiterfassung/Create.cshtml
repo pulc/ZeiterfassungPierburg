@@ -41,7 +41,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control", @id = "datum"} })
                                         @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
                                     </div>
                                 </td>
@@ -203,6 +203,20 @@
 
 
     <script>
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+        $('#datum').val(today); //set filter date to yesterday
+
+
+
+
+
+
+
         // set attributes for the elements that derived from the model
         var fteil = document.getElementById('fteil0');
         fteil.setAttribute("name", "fteil0");
@@ -279,7 +293,6 @@
         fteilNew.setAttribute("id", "fteil" + currentIndex);
         fteilNew.setAttribute("required", "true");
 
-
         var stNew = st.cloneNode(true);
         stNew.setAttribute("name", "st" + currentIndex);
         stNew.setAttribute("id", "st" + currentIndex);
@@ -316,7 +329,7 @@
         indirzeitNew.setAttribute("name", "indirzeit" + currentIndex);
         indirzeitNew.setAttribute("required", "true");
         indirzeitNew.setAttribute("type", "number");
-            indirzeitNew.setAttribute("max", "10");
+        indirzeitNew.setAttribute("max", "10");
         indirzeitNew.setAttribute("min", "0");
 
         var bemerkungNew = bemerkung.cloneNode(true);
@@ -334,7 +347,7 @@
         currentCell = currentRow.insertCell(-1);
         currentCell.appendChild(bemerkungNew);
 
-        var rowCount = myTable.rows.length;
+        //var rowCount = myTable.rows.length;
         //console.log(rowCount);
         }
 

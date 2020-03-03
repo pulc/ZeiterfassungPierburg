@@ -50,7 +50,7 @@
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { @class = "form-control", @id = "datum" } })
                                         @Html.ValidationMessageFor(model => model.Datum, "", new { @class = "text-danger" })
                                     </div>
                                 </td>
@@ -161,6 +161,16 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+        $('#datum').val(today); //set filter date to yesterday
+
+
         var fteil = document.getElementById('fteil0');
         fteil.setAttribute("name", "fteil0");
 
@@ -191,11 +201,10 @@
         var url = '@Url.Action("FetchFertigungsteile", "Neuezeiterfassung")'; // Don't hard code your url's!
 
         $("#panlage").change(function () {
-            var id = $(this).val(); // Use $(this) so you don't traverse the DOM again
+            var id = $(this).val(); // ProduktionanlageID
+            var $eles = $(":input[name^='fteil']"); //all elements start with the name 'fteil'
 
-            var $eles = $(":input[name^='fteil']");
-
-            $.getJSON(url, { produktionsanlageID: id }, function (response) {
+            $.getJSON(url, { produktionsanlageID: id }, function (response) { //pass Produktionsanlage ID to the Controller 
 
                 for (i = 0; i < $eles.length; i++) {
 
@@ -203,7 +212,7 @@
 
                     $.each(response, function (index, item) {
 
-                        $('#fteil' + i).append($('<option></option>').text(item));
+                        $('#fteil' + i).append($('<option></option>').text(item)); //append Fertigungsteil Dropdown to each fteil Element 
                     });
                 }
                 });

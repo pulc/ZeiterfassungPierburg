@@ -45,5 +45,6 @@ namespace ZeiterfassungPierburg.Models.ViewModels
 
         [Display(Name = "Produktionsanlage")]
         public string ProduktionsanlageBezeichner;
+
     }
 }

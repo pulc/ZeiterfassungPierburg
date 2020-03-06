@@ -26,18 +26,16 @@ namespace ZeiterfassungPierburg.Controllers
 
         public ActionResult Edit(int id)
         {
-            List<List<string>> results = SQLServer.Instance.GetDictionaryTeileInProduktionsanlageEdit(id);
-
+            List<string> results = SQLServer.Instance.GetListTeileInProduktionsanlageEdit(id);
             CreateTeileInProduktionsanlageViewModel m = new CreateTeileInProduktionsanlageViewModel();
-
-            List<string> temp = results[0];
-            m.ProduktionsanlageBezeichner = temp[0];
-            m.Produktionsanlage = Int32.Parse(temp[1]);
+            
+            m.ProduktionsanlageBezeichner = results[0];
+            m.Produktionsanlage = Int32.Parse(results[1]);
+            m.Fertigungsteil = Int32.Parse(results[2]);
             m.ID = id;
 
             return View(m);
         }
-
 
         // GET: Produktionsanlage/Create
         public ActionResult Create()
@@ -62,7 +60,7 @@ namespace ZeiterfassungPierburg.Controllers
                     {
                         List<TeileInProduktionsanlage> list = new List<TeileInProduktionsanlage>();
 
-                        // Create the first Mitarbeiter model
+                        // Create the first TeileInProduktionsanlage model
                         TeileInProduktionsanlage m = new TeileInProduktionsanlage() //first 
                         {
                             FertigungsteilID = Int32.Parse(Request.Form["Fertigungsteil"]),
@@ -72,7 +70,8 @@ namespace ZeiterfassungPierburg.Controllers
 
                         Dictionary<string, string> form = col.AllKeys.ToDictionary(k => k, v => col[v]);
 
-                        int TeileToAdd = (col.Count - 4) / 2; //Count how many additionaly entires there are
+                        int TeileToAdd = (col.Count - 4) / 2; //Count how many additionaly entires there are; 
+                        // 4 = number of entries in CollectionForm for the model
 
                         if (TeileToAdd != 0)
                         {
@@ -87,7 +86,6 @@ namespace ZeiterfassungPierburg.Controllers
                             }
                         }
                         // TODO: Bedingungen für keine doppelte Eingaben für Band  und Teile
-
 
                         // add all models into the DB
                         foreach (var n in list)
@@ -168,10 +166,8 @@ where Produktionsanlage.IstEineMaschine = 'false'");
         {
             try
             {
-
                 string fteil = Request.Form["Fertigungsteil"];
                 string id = Request.Form["ID"];
-
 
                 string sqlstring = @"
    UPDATE [dbo].[TeileInProduktionsanlage]
@@ -196,8 +192,11 @@ where Produktionsanlage.IstEineMaschine = 'false'");
             {
                 try
                 {
+                    SQLServer.Instance.RemoveItem<TeileInProduktionsanlage>(id);
+                    return RedirectToAction("Index");
 
-                    int fteileCount = SQLServer.Instance.GetInt(@"SELECT *
+                    /*
+                    int fteileCount = SQLServer.Instance.GetInt(@"SELECT COUNT(*)
   FROM[zeiterfassung].[dbo].[TeileInProduktionsanlage] left outer join Produktionsanlage on TeileInProduktionsanlage.ProduktionsanlageID = Produktionsanlage.ID
   where TeileInProduktionsanlage.ID = " + id);
 
@@ -212,10 +211,11 @@ where Produktionsanlage.IstEineMaschine = 'false'");
 
                         return RedirectToAction("Index");
                     }
+                    */
                 }
                 catch
                 {
-                    TempData["Message"] = "Der TeileInProduktionsanlage konnte nicht gelöscht werden.";
+                    TempData["Message"] = "Der Eintrag konnte nicht gelöscht werden.";
                     //return Index();
                     return RedirectToAction("Index");
                 }
@@ -223,7 +223,6 @@ where Produktionsanlage.IstEineMaschine = 'false'");
             else
             {
                 return RedirectToAction("Index");
-
             }
         }
     }

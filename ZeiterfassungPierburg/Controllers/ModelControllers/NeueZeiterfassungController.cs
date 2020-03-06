@@ -79,11 +79,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
          */
         public JsonResult FetchFertigungsteile(int produktionsanlageID)
         {
-            //List<string> fteile = SQLServer.Instance.GetFertigungsteilList(produktionsanlageID);
             Dictionary<int, string> fteileDictionary = SQLServer.Instance.GetFertigungsteilDictionary(produktionsanlageID);
             string json = JsonConvert.SerializeObject(fteileDictionary, Formatting.Indented);
-
-
 
             return Json(json, JsonRequestBehavior.AllowGet);
         }
@@ -259,10 +256,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         return View(model);
                     }
                     // float auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
-
-                    //string getNumber = $"select id from Fertigungsteil where Bezeichnung ='{Request.Form["fteil" + i]}'";
-                    //int FertigungsTeilID = SQLServer.Instance.GetInt(getNumber);
-
+                    
                     MitarbeiterInSchicht n = new MitarbeiterInSchicht()
                     {
                         SchichtInfoID = SchichtInfoID,

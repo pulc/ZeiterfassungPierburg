@@ -9,7 +9,6 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-
     <fieldset>
         @if (Session["UserName"] != null)
         {<text>
@@ -115,7 +114,6 @@
             </div>
         </div>
 
-
         <div class="col-lg-6 col-xs-6">
 
             <div class="box-footer text-black">
@@ -125,9 +123,6 @@
             </div>
         </div>
 
-
-
-
         <div class="col-lg-3 col-xs-6" id="stückFrame">
             <div class="box-footer text-black">
                 <h4>Statistik der Stücke:</h4>
@@ -135,7 +130,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="clearfix">
-                            <span>letzte Woche gesamt: <h3> @ViewBag.StückeWoche </h3></span>
+                            <span>letzte Woche gesamt: <span><big> @ViewBag.StückeWoche </big></span></span>
                             <hr />
                         </div>
                         <div class="col-sm-12">
@@ -186,7 +181,6 @@
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="~/Scripts/Chart.js"></script>
-
 
     <script>
 

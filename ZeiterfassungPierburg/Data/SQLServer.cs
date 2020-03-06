@@ -52,32 +52,6 @@ where ProduktionsanlageID =
             }
             return result;
         }
-
-
-
-        public List<string> GetFertigungsteilList(int ProduktionsanlageID)
-        {
-            List<string> result = new List<string>();
-
-            using (SqlConnection conn = NewOpenConnection)
-            {
-                string sql = @"
-select  f.Bezeichnung from 
-TeileInProduktionsanlage t
-LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
-LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
-where ProduktionsanlageID = 
-" + ProduktionsanlageID + " and f.Bezeichnung is not null ";
-
-                SqlDataReader r = ExecuteSelectStatement(conn, sql);
-                while (r.Read())
-                {
-                    result.Add(r.GetString(0));
-                }
-            }
-            return result;
-        }
-
         public Dictionary<int, string> GetDictionary(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
@@ -739,34 +713,29 @@ order by SchichtInfoID";
         }
 
         // dictionary methods for dropdown lists
-        public List<List<string>> GetDictionaryTeileInProduktionsanlageEdit(int ID)
+        public List<string> GetListTeileInProduktionsanlageEdit(int ID)
         {
-            List<List<string>>  result = new List<List<string>>();
+            List<string> result = new List<string>();
 
             using (SqlConnection conn = NewOpenConnection)
             {
                 string sql = @"
 select
-
 p.Bezeichner as Produktionsanlage,
 t.ProduktionsanlageID,
-f.Bezeichnung as Fertigungsteil
+t.FertigungsteilID
 
 from [zeiterfassung].[dbo].TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
  where t.ID = " + ID;
-
                 
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
                 {
-                    List<string> temp = new List<string>();
-                    temp.Add(r.GetString(0));
-                    temp.Add(r.GetInt32(1).ToString());
-                    temp.Add(r.GetString(2));
-
-                    result.Add(temp);
+                    result.Add(r.GetString(0)); 
+                    result.Add(r.GetInt32(1).ToString());
+                    result.Add(r.GetInt32(2).ToString());
                 }
             }
             return result;
@@ -1085,7 +1054,6 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
  where p.Bezeichner is not null and f.Bezeichnung is not null"
 ;
                 return c.Query<T>(sql).ToList();
-
             }
         }
         public IEnumerable<T> GetMitarbeiterInSchichtModel<T>(string where = null)

@@ -20,7 +20,6 @@
                         @Html.LabelFor(model => model.Produktionsanlage, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-8">
                             @Html.DisplayFor(model => model.ProduktionsanlageBezeichner, new { htmlAttributes = new { @class = "form-control" } })
-
                         </div>
                     </div>
 
@@ -29,7 +28,6 @@
                         <div class="col-md-8">
                             @Html.DropDownListFor(m => m.Fertigungsteil, Model.FertigungteilList, "- Wähle einen Fertigungsteil aus -", new { @id = "fteil", @name = "fteil0", @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Fertigungsteil, "", new { @class = "text-danger" })
-
                         </div>
                     </div>
 
@@ -49,4 +47,13 @@
 </section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+    // on load select the dropdown option with the value of the edited item
+    $(document).ready(function () {
+        $("#fteil").val('@Model.Fertigungsteil');
+    });
+    </script>
 }
+
+

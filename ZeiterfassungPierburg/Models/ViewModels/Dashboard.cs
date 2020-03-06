@@ -62,17 +62,14 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -6, GETDATE())"
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())";
 
-
-        [Display(Name = "Produktionsanlage")]
-        public int MitarbeiterAnzahl
-        {
-            get => SQLServer.Instance.GetInt(SelectMitarbiter);
-
-        }
+        // Tables to count the number of queries for each table
+        public int MitarbeiterAnzahl{ get => SQLServer.Instance.GetInt(SelectMitarbiter); }
         public int Produktionsanlagen { get => SQLServer.Instance.GetInt(SelectProduktionsanlagen); }
-
+        public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetInt(SelectZeiterfassungen); }
         public int Fertigungsteile { get => SQLServer.Instance.GetInt(SelectFertigungsteile); }
 
+
+        // Calculate count of Stücke
         public int StückeToday { get => SQLServer.Instance.GetInt(selectStückeToday); }
 
         public int StückeMinusOneDay { get => SQLServer.Instance.GetInt(selectStückeMinusOneDay); }
@@ -89,27 +86,23 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
 
         public int StückeWoche { get => SQLServer.Instance.GetInt(selectStückepastWeek); }
 
-        public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetInt(SelectZeiterfassungen); }
 
-        /*
-        public Dictionary<string, float> Produktivität
-        {
-            get => SQLServer.Instance.GetProduktivität();
-        }
-        */
-        public Dictionary<string, float> ProduktivitätBerechnungProBandLastMonth
-        {
-            get => SQLServer.Instance.CalculateProductivityLastMonthAlleBänder();
-        }
-
+        // Productivity for all Produktionsanlagen, ready to get transformed into a chart 
         public Dictionary<string, float> ProduktivitätLast12Months
         {
             get => SQLServer.Instance.GetProduktivitätLast12Months();
         }
 
+        // Calculate Productivity for each month for each Maschine
         public Dictionary<string, float> ProduktivitätBerechnungProMaschineLastMonth
         {
             get => SQLServer.Instance.CalculateProductivityLastMonthAlleMaschinen();
         }
+        // Calculate Productivity for each month for each Band
+        public Dictionary<string, float> ProduktivitätBerechnungProBandLastMonth
+        {
+            get => SQLServer.Instance.CalculateProductivityLastMonthAlleBänder();
+        }
+
     }
 }

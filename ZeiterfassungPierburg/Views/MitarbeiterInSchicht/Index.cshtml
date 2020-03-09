@@ -141,7 +141,6 @@
                                     @Html.DisplayFor(modelItem => item.Bemerkung)
                                 </td>
                                 <td>
-
                                     <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
                                 </td>
                                 <!--
@@ -184,56 +183,53 @@
 
     <script>
 
+
         var now = new Date();
+        //now.setDate(now.getDate() - 1);
 
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
-        var today = now.getFullYear() + "-" + (month) + "-" + (day - 1);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        console.log(today);
+        $('#max').val(today); //set filter date to today
 
-        $('#min').val(today); //set filter date to yesterday
-        $('#max').val(today); //set filter date to yesterday
 
-
-            function addDays(date, days) {
-                var result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result;
-            }
-            var today = new Date();
+        now.setMonth(now.getMonth() - 1);
+        day = ("0" + now.getDate()).slice(-2);
+        month = ("0" + (now.getMonth() + 1)).slice(-2);
+        today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $('#min').val(today); //set filter date to one month prior
 
        
             jQuery.fn.dataTableExt.afnFiltering.push(
                 function (oSettings, aData, iDataIndex) {
-                    var iColumn = 0;
-                    var schichtColumn = 1;
-                    var anlageColumn = 2; //which column
+                    var iColumn = 0; //first column
+                    var schichtColumn = 1; //second column
+                    var anlageColumn = 2; //third column
 
                     var iMin = Date.parse(document.getElementById('min').value);
                     var iMax = Date.parse(document.getElementById('max').value);
 
                     var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
-                    iVersion = Date.parse(iVersion);
+                    iVersion = Date.parse(iVersion); //date
 
                     var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
-                    var schicht = $(document.getElementById('schicht')).children("option:selected").val();
+                    var schicht = $(document.getElementById('schicht')).children("option:selected").val(); //selected schicht
 
 
                     var anlageColumn = (aData[anlageColumn] ==    "-" ? 0 : aData[anlageColumn]);
-                    var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val();
+                    var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val(); //selected Band/Maschine
 
                     if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
 
-                        return false;
+                        return false; //don't render these rows if selected and now meeting the criteriea
                     }
                     else return true;
                 }
             )
 
         var table = document.getElementById('myTable');
-
-
-        
 
             var rowLength = table.rows.length;
             for (var i = 0; i < rowLength; i += 1) {
@@ -252,9 +248,7 @@
                 }
             }
 
-
             $(document).ready(function () {
-
 
                 var table = $('#myTable').DataTable(
                     {
@@ -263,30 +257,30 @@
                             {
                                 extend: 'copyHtml5',
                                 text: '<i class="fa fa-files-o"></i>',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_copy.png"/></span>',
+                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_copy.png"/></span>', //set the Icon
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //set columns for export
                                 }
                             },
                             {
                                 extend: 'excelHtml5',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_excel.png"/></span>',
+                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_excel.png"/></span>', //set the Icon
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //set columns for export
                                 }
                             },
                             {
                                 extend: 'pdfHtml5',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_pdf.png"/></span>',
+                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_pdf.png"/></span>', //set the Icon
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4,5,6,7,8,9,10,11]
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]//set columns for export
                                 }
                             },
                             {
                                 extend: 'print',
                                 text: '<span><img height="40" width="40" src="Content/dist/img/icon_print.png"/></span>',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //set columns for export
                                 }
                             }
 

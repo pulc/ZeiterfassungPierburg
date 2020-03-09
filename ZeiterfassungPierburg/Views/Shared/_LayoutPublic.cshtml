@@ -14,9 +14,9 @@
 </head>
 <body>
         <div class="wrapper">
-            <div class="hold-transition skin-blue sidebar-mini">
+            <div id="skinn" class="hold-transition skin-blue sidebar-mini">
                 <!-- Main Header -->
-                <header class="main-header" >
+                <header class="main-header">
 
                     <!-- Logo -->
                     <a href="~/" class="logo">
@@ -83,7 +83,7 @@
                     <!-- /.sidebar -->
                 </aside>
                 <!-- Content Wrapper. Contains page content -->
-                <div class="content-wrapper">
+                <div id="cw" class="content-wrapper">
 
                     @RenderBody()
 
@@ -95,7 +95,35 @@
 
                 @RenderSection("scripts", required: false)
 
+                <script>
+                       /*
+                    //For fun: generate random background color and skins
+                    
+                    var arr = ['skin-blue', 'skin-blue-light', 'skin-yellow', 'skin-yellow-light', 'skin-green',
+                        'skin-green-light', 'skin-purple', 'skin-purple-light', 'skin-red', 'skin-red-light',
+                        'skin-black', 'skin-black-light'];
 
+                    var idx = Math.floor(Math.random() * arr.length);
+
+                    function getRandomColor() {
+                        var letters = '0123456789ABCDEF';
+                        var color = '#';
+                        for (var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)];
+                        }
+                        return color;
+                    }
+                    
+
+                    $(document).ready(function () {
+
+                       $("#skinn").addClass((arr[idx]));
+                       $("#cw").css("background-image", "linear-gradient(45deg, " + getRandomColor() +" ,  " + getRandomColor() +"," + getRandomColor()+")");
+
+
+                    });         */
+                    
+                </script>
             </div>
             <!-- Main Footer -->
             <footer class="main-footer">

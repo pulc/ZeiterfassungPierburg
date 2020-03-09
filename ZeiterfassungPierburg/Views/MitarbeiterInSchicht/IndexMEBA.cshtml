@@ -188,24 +188,25 @@
     <script>
 
         var now = new Date();
+        //now.setDate(now.getDate() - 1);
 
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
-        var today = now.getFullYear() + "-" + (month) + "-" + (day - 1);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        console.log(today);
+        $('#max').val(today); //set filter date to today
 
-        $('#min').val(today);
-        $('#max').val(today);
+ 
+
+        now.setMonth(now.getMonth() - 1);
+        day = ("0" + now.getDate()).slice(-2);
+        month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $('#min').val(today); //set filter date to one month prior
 
 
-
-
-            function addDays(date, days) {
-                var result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result;
-            }
-            var today = new Date();
 
         jQuery.fn.dataTableExt.afnFiltering.push(
             function (oSettings, aData, iDataIndex) {

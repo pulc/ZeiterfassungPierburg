@@ -296,7 +296,8 @@
             // Maschinen Produktivität Berechnung
 
             var htmlMaschinen = '';
-                            var dictionaryMaschinen = @Html.Raw(Json.Encode(ViewBag.ProduktivitätBerechnungProMaschineLastMonth));
+            var dictionaryMaschinen = @Html.Raw(Json.Encode(ViewBag.ProduktivitätBerechnungProMaschineLastMonth));
+
             for (var key in dictionaryMaschinen ){
                 var value = dictionaryMaschinen[key];
 

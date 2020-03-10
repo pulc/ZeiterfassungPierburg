@@ -119,7 +119,7 @@ select  SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
-where p.ID = " + BandID + "and (MONTH(i.Datum) = MONTH(DATEADD(MONTH, -" + i + @", GETDATE())));";
+where p.ID = " + BandID + "and (MONTH(i.Datum) = MONTH(DATEADD(MONTH, -" + i + @", GETDATE()))) and (YEAR(i.Datum) = YEAR(DATEADD(MONTH, -" + i + @", GETDATE())))";
 
                             SqlDataReader r = ExecuteSelectStatement(conn, sql);
                             while (r.Read())
@@ -179,8 +179,8 @@ select  SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
-where p.ID = " + BandID + "and (MONTH(i.Datum) = MONTH(DATEADD(MONTH, -" + i + @", GETDATE())));";
-                            
+where p.ID = " + BandID + "and (MONTH(i.Datum) = MONTH(DATEADD(MONTH, -" + i + @", GETDATE()))) and (YEAR(i.Datum) = YEAR(DATEADD(MONTH, -" + i + @", GETDATE())))";
+
                             SqlDataReader r = ExecuteSelectStatement(conn, sql);
                             while (r.Read())
                             {

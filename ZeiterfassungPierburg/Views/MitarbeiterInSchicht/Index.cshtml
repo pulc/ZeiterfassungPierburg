@@ -6,12 +6,12 @@
     @ViewBag.Title
 </title>
 <section class="content container-fluid">
-    <div class="box-header with-border ">
-        <div class="box box-info ">
-            <div class="box-header with-border ">
+    <div class="box-header with-border">
+        <div class="box box-info">
+            <div class="box-header with-border">
                 <h3>Übersicht der Mitarbeiter in Schichten in der Montage im letzten Monat</h3>
                 <h4>
-                    Für ältere Einträge besuche das @Html.ActionLink("Archiv", "ArchivMontage", "MitarbeiterInSchicht").                    
+                    Für ältere Einträge besuche das @Html.ActionLink("Archiv", "ArchivMontage", "MitarbeiterInSchicht").
                 </h4>
 
                 <div class="row row-list" style="padding-bottom: 25px; padding-top: 15px">
@@ -29,19 +29,15 @@
 
                         <select class="form-control text-box single-line" id="schicht">
                             <option value="">alle Schichten</option>
-                            <option value="1">Früh</option>1
+                            <option value="1">Früh</option>
                             <option value="2">Spät</option>
                             <option value="3">Nacht</option>
                         </select>
                     </div>
-
                     <div class="col-xs-2">
-
                         <label>Wähle das Band aus:</label>
                         @Html.Raw((String)ViewBag.AnlageFilter)
                     </div>
-
-
                 </div>
 
                 <table id="myTable" class="table table-striped table-bordered" style="text-align:center">
@@ -84,13 +80,12 @@
                                 @Html.DisplayNameFor(model => model.Bemerkung)
                             </th>
                             <!--
-                <th>
-                    @Html.DisplayNameFor(model => model.Auswertung)
-                </th>
-                    -->
+                            <th>
+                                @Html.DisplayNameFor(model => model.Auswertung)
+                            </th>
+                             -->
 
                             <th>
-
                                 @Html.DisplayNameFor(model => model.IstInSAPEingetragen)
                             </th>
 
@@ -102,7 +97,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr value="@item.ID" , id="row+@item.ID">
+                            <tr value="@item.ID">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Datum)
                                 </td>
@@ -115,6 +110,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Personalnummer)
                                 </td>
@@ -130,7 +126,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Stück)
                                 </td>
-                                <td name="dst">
+                                <td>
                                     @Html.DisplayFor(modelItem => item.DirStunden)
                                 </td>
                                 <td>
@@ -141,22 +137,23 @@
                                     @Html.DisplayFor(modelItem => item.Bemerkung)
                                 </td>
                                 <td>
+
                                     <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
                                 </td>
                                 <!--
-                        <td>
-                        @Html.DisplayFor(modelItem => item.Auswertung)%
-                    </td>
-                        -->
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Auswertung)%
+                                </td>
+                                -->
                                 <td>
 
-                                    <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
+                                    <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
 
                                     |
                                     <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                    <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
+                                    <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
 
-                                    <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
+                                    <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen because the boolen value can't be passed as attribute (dunno why)-->
                                 </td>
                             </tr>
                         }
@@ -165,24 +162,19 @@
                 @ViewBag.Message
 
                 <!--
-         @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
-    -->
+                     @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
+                -->
             </div>
         </div>
     </div>
 </section>
-<iframe id="txtArea1" style="display: none"></iframe>
-
 
 @section scripts{
-
-
 
     @Scripts.Render("~/bundles/tableScriptBundle")
     @Scripts.Render("~/bundles/dataTablesPlugins")
 
     <script>
-
 
         var now = new Date();
         //now.setDate(now.getDate() - 1);
@@ -194,42 +186,40 @@
         console.log(today);
         $('#max').val(today); //set filter date to today
 
-
         now.setMonth(now.getMonth() - 1);
         day = ("0" + now.getDate()).slice(-2);
         month = ("0" + (now.getMonth() + 1)).slice(-2);
+
         today = now.getFullYear() + "-" + (month) + "-" + (day);
         $('#min').val(today); //set filter date to one month prior
 
-       
-            jQuery.fn.dataTableExt.afnFiltering.push(
-                function (oSettings, aData, iDataIndex) {
-                    var iColumn = 0; //first column
-                    var schichtColumn = 1; //second column
-                    var anlageColumn = 2; //third column
+        jQuery.fn.dataTableExt.afnFiltering.push(
+            function (oSettings, aData, iDataIndex) {
+                var dateColumn = 0;
+                var schichtColumn = 1;
+                var anlageColumn = 2; //which column
 
-                    var iMin = Date.parse(document.getElementById('min').value);
-                    var iMax = Date.parse(document.getElementById('max').value);
+                var iMin = Date.parse(document.getElementById('min').value);
+                var iMax = Date.parse(document.getElementById('max').value);
 
-                    var iVersion = (aData[iColumn] == "-" ? 0 : aData[iColumn]);
-                    iVersion = Date.parse(iVersion); //date
+                var iDate = (aData[dateColumn] == "-" ? 0 : aData[dateColumn]);
+                iDate = Date.parse(iDate); //date
 
-                    var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
-                    var schicht = $(document.getElementById('schicht')).children("option:selected").val(); //selected schicht
+                var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
+                var schicht = $(document.getElementById('schicht')).children("option:selected").val(); //selected schicht
 
+                var anlageColumn = (aData[anlageColumn] == "-" ? 0 : aData[anlageColumn]);
+                var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val(); // selected Machine/Band
 
-                    var anlageColumn = (aData[anlageColumn] ==    "-" ? 0 : aData[anlageColumn]);
-                    var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val(); //selected Band/Maschine
+                if ((iMin > iDate || iDate > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
 
-                    if ((iMin > iVersion || iVersion > iMax) || (schicht != schichtColumn && schicht != "") || (anlage != anlageColumn && anlage != "")) {
-
-                        return false; //don't render these rows if selected and now meeting the criteriea
-                    }
-                    else return true;
+                    return false; //don't render these rows if selected and now meeting the criteriea
                 }
-            )
+                else return true;
+            }
+        )
 
-        var table = document.getElementById('myTable');
+            var table = document.getElementById('myTable');
 
             var rowLength = table.rows.length;
             for (var i = 0; i < rowLength; i += 1) {
@@ -240,11 +230,12 @@
 
                 if (boolValue == 'True') {
                     $("#eintragen_" + id).prop("checked", true);
-                    $(row).css("background-color", "#90ee90");
+                    $(row).css("background-color", "#90ee90"); //green
                 }
                 if (boolValue == 'False') {
                     $("#eintragen_" + id).prop("checked", false)
-                    $(row).css("background-color", "#ffcccb");
+
+                    $(row).css("background-color", "#ffcccb"); //red
                 }
             }
 
@@ -252,38 +243,36 @@
 
                 var table = $('#myTable').DataTable(
                     {
-                        dom: 'Bfrtip',
+                        dom: 'Bfrtlip',
                         buttons: [
                             {
                                 extend: 'copyHtml5',
-                                text: '<i class="fa fa-files-o"></i>',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_copy.png"/></span>', //set the Icon
+                                text: '<span><img height="40" width="40" src="../Content/dist/img/icon_copy.png"/></span>', //load image
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //set columns for export
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //columns to be exported
                                 }
                             },
                             {
                                 extend: 'excelHtml5',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_excel.png"/></span>', //set the Icon
+                                text: '<span><img height="40" width="40" src="../Content/dist/img/icon_excel.png"/></span>',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //set columns for export
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
                                 }
                             },
                             {
                                 extend: 'pdfHtml5',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_pdf.png"/></span>', //set the Icon
+                                text: '<span><img height="40" width="40" src="../Content/dist/img/icon_pdf.png"/></span>',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]//set columns for export
+                                    columns: [0, 1, 2, 4,5,6,7,8,9,10,11]
                                 }
                             },
                             {
                                 extend: 'print',
-                                text: '<span><img height="40" width="40" src="Content/dist/img/icon_print.png"/></span>',
+                                text: '<span><img height="40" width="40" src="../Content/dist/img/icon_print.png"/></span>',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11] //set columns for export
+                                    columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
                                 }
                             }
-
                         ]
                     });
 
@@ -292,15 +281,15 @@
                 });
         });
 
-
              var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
 
                 $('[id^=eintragen_]').click(function () {
 
                     var id = $(this).attr('value'); // get ID
                     var boolValue = $('#' + id).text(); //get bool value
-
                     var row = $(this).closest("tr");
+
+                    //console.log(boolValue);
 
                     $.getJSON(url, { istEingetragen: boolValue, id: id }, function (response) {
 
@@ -308,7 +297,7 @@
                             alert('Das lief schief. Aktualisiere die Seite und versuche es erneut.')
                         }
                     });
-                    //change colors if clicked
+
                     if (boolValue == 'True') {
                         $(row).css("background-color", "#ffcccb");
                         $('#' + id).text('False');
@@ -321,4 +310,3 @@
     </script>
 
 }
-

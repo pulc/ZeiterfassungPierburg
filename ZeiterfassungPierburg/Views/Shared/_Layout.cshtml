@@ -68,7 +68,6 @@
                     </nav>
                 </header>
                 <aside class="main-sidebar">
-
                     <section class="sidebar">
 
                         <ul class="sidebar-menu" data-widget="tree">
@@ -164,6 +163,12 @@
                                             <span>MeBa</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="@Url.Action("Archiv", "MitarbeiterInSchicht")">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <span>Alles</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -184,8 +189,6 @@
 
                 @RenderSection("scripts", required: false)
                 <script>
-
-
                     $("#logout").click(function () {
                     window.location.href = '@Url.Action("DeleteSession", "HomeController")';
                     });
@@ -204,13 +207,10 @@
     }
     else if (Convert.ToInt32(Session["AccessLayer"]) == 1)
     {
-
         <div class="wrapper">
-
             <div class="hold-transition skin-yellow sidebar-mini">
                 <!-- Main Header -->
                 <header class="main-header">
-
                     <!-- Logo -->
                     <a href="~/" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -338,6 +338,12 @@
                                         <a href="@Url.Action("ArchivMeBa", "MitarbeiterInSchicht")">
                                             <i class="fa fa-user-circle" aria-hidden="true"></i>
                                             <span>MeBa</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Archiv", "MitarbeiterInSchicht")">
+                                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                            <span>Alles</span>
                                         </a>
                                     </li>
                                 </ul>

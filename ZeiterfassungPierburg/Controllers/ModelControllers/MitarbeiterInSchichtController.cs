@@ -19,11 +19,10 @@ namespace ZeiterfassungPierburg.Controllers
             ViewBag.Title = "Übersicht der Schichten in Montage";
             ViewBag.Message = TempData["Message"];
 
-
             ViewBag.AnlageFilter = SQLServer.Instance.generateHtmlProduktionsanlagen("istEineMaschine = 'false'");
 
-
-            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'False' and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND getdate())");
+            var results = SQLServer.Instance.GetMitarbeiterInSchichtModel<MitarbeiterInschichtViewModel>("p.IstEineMaschine = 'False' " +
+                "and (Datum BETWEEN  DATEADD(m, -1, getdate()) AND getdate())");
             return View(results);
         }
         public ActionResult IndexMEBA()

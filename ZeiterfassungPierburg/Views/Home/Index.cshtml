@@ -6,174 +6,187 @@
 }
 
 <link href="~/Content/Chart.css" rel="stylesheet" />
+<link href="~/Content/TextAnimation.css" rel="stylesheet" />
+
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <fieldset>
+
+
         @if (Session["UserName"] != null)
         {<text>
-                <h4>  Herzlich willkommen @Session["UserName"].ToString()!</h4></text>
+                <div class="typewriter">
+                    <div class="typewriter-text">Herzlich willkommen, @Session["UserName"].ToString()!</div>
+                </div>
+        </text>
+
     }
     </fieldset>
 
 </section>
 <section class="content">
 
-    <!-- Small boxes (Stat box) -->
-    <div class="row">
+    @if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
+    {<text>
 
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3>
-                        @ViewBag.MitarbeiterAnzahl
-                    </h3>
-                    <p>Mitarbeiter</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="~/Mitarbeiter/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-green">
-                <div class="inner">
-                    <h3>
-                        @ViewBag.Produktionsanlagen
-                    </h3>
-                    <p>Produktionsanlagen</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="~/Produktionsanlage/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
 
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <h3>
-                        @ViewBag.Fertigungsteile
-                    </h3>
-
-                    <p>Fertigungsteile</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="~/Fertigungsteil/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="inner">
-                    <h3> @ViewBag.Zeiterfassungen</h3>
-
-                    <p>Zeiterfassungen</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="~/MitarbeiterInSchicht" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-6">
-            <div class="box-footer text-black">
-                <h4 style="padding-bottom: 20px;">Produktivität im letzten Monat - Bänder</h4>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <!-- Progress bars -->
-                        <div class="clearfix">
-                            <div id="productivity"></div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>
+                                @ViewBag.MitarbeiterAnzahl
+                            </h3>
+                            <p>Mitarbeiter</p>
                         </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="~/Mitarbeiter/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="box-footer text-black">
-
-                <h4 style="padding-bottom: 20px;">Produktivität im letzten Monat - Maschinen</h4>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <!-- Progress bars -->
-                        <div class="clearfix">
-                            <div id="productivityMaschinen"></div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>
+                                @ViewBag.Produktionsanlagen
+                            </h3>
+                            <p>Produktionsanlagen</p>
                         </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="~/Produktionsanlage/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>
+                                @ViewBag.Fertigungsteile
+                            </h3>
+
+                            <p>Fertigungsteile</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="~/Fertigungsteil/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3> @ViewBag.Zeiterfassungen</h3>
+
+                            <p>Zeiterfassungen</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="~/MitarbeiterInSchicht" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+    </text>
+}
+    <div class="col-lg-3 col-xs-6">
+        <div class="box-footer text-black">
+            <h4 style="padding-bottom: 20px;">Produktivität im letzten Monat - Bänder</h4>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Progress bars -->
+                    <div class="clearfix">
+                        <div id="productivity"></div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="box-footer text-black">
 
-        <div class="col-lg-6 col-xs-6">
+            <h4 style="padding-bottom: 20px;">Produktivität im letzten Monat - Maschinen</h4>
 
-            <div class="box-footer text-black">
-                <h4>Produktivität der letzten 12 Monate</h4>
-
-                <canvas id="bar-chart" width="700" height="330"></canvas>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-xs-6" id="stückFrame">
-            <div class="box-footer text-black">
-                <h4>Statistik der Stücke:</h4>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="clearfix">
-                            <span>letzte Woche gesamt: <span><big> @ViewBag.StückeWoche </big></span></span>
-                            <hr />
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="clearfix">
-                                <h5><span id="day0"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeToday </span></span></h5>
-                            </div>
-                            <div class="clearfix">
-                                <h5><span id="day1"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusOneDay </span></span></h5>
-                            </div>
-                            <div class="clearfix">
-                                <h5><span id="day2"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusTwoDays </span></span></h5>
-                            </div>
-                            <div class="clearfix">
-                                <h5><span id="day3"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusThreeDays</span> </span></h5>
-                            </div>
-                            <div class="clearfix">
-                                <h5><span id="day4"></span> <span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusFourDays </span></span></h5>
-                            </div>
-                            <div class="clearfix">
-                                <h5><span id="day5"></span><span class="pull-right"> <span class="label label-warning"> @ViewBag.StückeMinusFiveDays </span></span></h5>
-                            </div>
-                            <div class="clearfix">
-                                <h5><span id="day6"></span><span class="pull-right"> <span class="label label-warning"> @ViewBag.StückeMinusSixDays</span> </span></h5>
-                            </div>
-
-                        </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <!-- Progress bars -->
+                    <div class="clearfix">
+                        <div id="productivityMaschinen"></div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-xs-12">
-
-
-            <div class="box-footer text-black">
-                <h4>Placeholder for Pronom</h4>
-
-                <div class="row">
-                    <iframe src="https://de.wikipedia.org/wiki/Rheinmetall_Automotive" width="100%" height="400" name="SELFHTML_in_a_box"></iframe>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="col-lg-6 col-xs-6">
+
+        <div class="box-footer text-black">
+            <h4>Produktivität der letzten 12 Monate</h4>
+
+            <canvas id="bar-chart" width="700" height="330"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6" id="stückFrame">
+        <div class="box-footer text-black">
+            <h4>Statistik der Stücke:</h4>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="clearfix">
+                        <span>letzte Woche gesamt: <span><big> @ViewBag.StückeWoche </big></span></span>
+                        <hr />
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="clearfix">
+                            <h5><span id="day0"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeToday </span></span></h5>
+                        </div>
+                        <div class="clearfix">
+                            <h5><span id="day1"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusOneDay </span></span></h5>
+                        </div>
+                        <div class="clearfix">
+                            <h5><span id="day2"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusTwoDays </span></span></h5>
+                        </div>
+                        <div class="clearfix">
+                            <h5><span id="day3"></span><span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusThreeDays</span> </span></h5>
+                        </div>
+                        <div class="clearfix">
+                            <h5><span id="day4"></span> <span class="pull-right"><span class="label label-warning"> @ViewBag.StückeMinusFourDays </span></span></h5>
+                        </div>
+                        <div class="clearfix">
+                            <h5><span id="day5"></span><span class="pull-right"> <span class="label label-warning"> @ViewBag.StückeMinusFiveDays </span></span></h5>
+                        </div>
+                        <div class="clearfix">
+                            <h5><span id="day6"></span><span class="pull-right"> <span class="label label-warning"> @ViewBag.StückeMinusSixDays</span> </span></h5>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-xs-12">
+
+
+        <div class="box-footer text-black">
+            <h4>Placeholder for Pronom</h4>
+
+            <div class="row">
+                <iframe src="https://de.wikipedia.org/wiki/Rheinmetall_Automotive" width="100%" height="400" name="SELFHTML_in_a_box"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 
 </section>
 

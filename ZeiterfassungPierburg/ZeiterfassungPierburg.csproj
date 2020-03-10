@@ -291,6 +291,7 @@
     <Content Include="Content\dist\js\demo.js" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\TextAnimation.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

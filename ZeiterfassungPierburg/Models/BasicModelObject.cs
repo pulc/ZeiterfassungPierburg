@@ -84,9 +84,9 @@ namespace ZeiterfassungPierburg.Data
         }
 
         [Key]
-        public int ID
+        public double ID
         {
-            get => GetValue<int>();
+            get => GetValue<double>();
             set => SetValue(value);
         }
         public override string ToString()

@@ -6,6 +6,9 @@
 }
 
 <link href="~/Content/Chart.css" rel="stylesheet" />
+
+
+<!-- Typewriter for fun only -->
 <link href="~/Content/TextAnimation.css" rel="stylesheet" />
 
 
@@ -13,26 +16,29 @@
 <section class="content-header">
     <fieldset>
 
-
+        <!-- Display name only if logged in -->
         @if (Session["UserName"] != null)
         {<text>
                 <div class="typewriter">
-                    <div class="typewriter-text">Herzlich willkommen, @Session["UserName"].ToString()!</div>
+                    <div class="typewriter-text">
+                        <p id='datumsausgabe'>
+                            Herzlich willkommen, @Session["UserName"].ToString()!        <br />
+                        </p>
+                    </div>
                 </div>
         </text>
-
     }
     </fieldset>
 
 </section>
 <section class="content">
 
+    <!-- Display boxes only if logged in -->
     @if (Convert.ToInt32(Session["AccessLayer"]) == 1 || Convert.ToInt32(Session["AccessLayer"]) == 2)
     {<text>
 
             <!-- Small boxes (Stat box) -->
             <div class="row">
-
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-aqua">
@@ -41,9 +47,6 @@
                                 @ViewBag.MitarbeiterAnzahl
                             </h3>
                             <p>Mitarbeiter</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
                         </div>
                         <a href="~/Mitarbeiter/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -58,9 +61,7 @@
                             </h3>
                             <p>Produktionsanlagen</p>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
+
                         <a href="~/Produktionsanlage/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -76,30 +77,24 @@
 
                             <p>Fertigungsteile</p>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
-                        </div>
-                        <a href="~/Fertigungsteil/Index" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
+
+                        <a href="~/Fertigungsteil/Index" class="small-box-footer" >zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-
-                <!-- ./col -->
+                    <!-- ./col -->
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h3> @ViewBag.Zeiterfassungen</h3>
-
                             <p>Zeiterfassungen</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-pie-graph"></i>
                         </div>
                         <a href="~/MitarbeiterInSchicht" class="small-box-footer">zur Tabelle gehen <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
     </text>
 }
+
     <div class="col-lg-3 col-xs-6">
         <div class="box-footer text-black">
             <h4 style="padding-bottom: 20px;">Produktivität im letzten Monat - Bänder</h4>
@@ -129,10 +124,20 @@
 
     <div class="col-lg-6 col-xs-6">
 
+
         <div class="box-footer text-black">
             <h4>Produktivität der letzten 12 Monate</h4>
 
             <canvas id="bar-chart" width="700" height="330"></canvas>
+        </div>
+
+
+        <div class="box-footer text-black">
+            <h4>Placeholder for Pronom</h4>
+
+            <div class="row">
+                <iframe src="https://de.wikipedia.org/wiki/Rheinmetall_Automotive" width="100%" height="400" name="SELFHTML_in_a_box"></iframe>
+            </div>
         </div>
     </div>
 
@@ -175,17 +180,6 @@
         </div>
     </div>
 
-    <div class="col-lg-6 col-xs-12">
-
-
-        <div class="box-footer text-black">
-            <h4>Placeholder for Pronom</h4>
-
-            <div class="row">
-                <iframe src="https://de.wikipedia.org/wiki/Rheinmetall_Automotive" width="100%" height="400" name="SELFHTML_in_a_box"></iframe>
-            </div>
-        </div>
-    </div>
 </div>
 
 </section>
@@ -333,14 +327,27 @@
                         <div class="progress xs">
                             <div class="progress-bar progress-bar-green" style="width: `+ value + `%;"></div>
                         </div>`;
-
                 }
             }
             var r = document.getElementById("productivityMaschinen");
             r.innerHTML = htmlMaschinen;
-
-
     });
 
+        // display German date - just for fun
+        function getDate() {
+            var jetzt = new Date(),
+                tag = jetzt.getDate(),
+                tagZahl = jetzt.getDay(),
+                wochentag = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+                monatZahl = jetzt.getMonth(),
+                monat = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September',
+                    'Oktober', 'November', 'Dezember'],
+                text;
+            text = 'Heute ist ' + wochentag[tagZahl] + ', der ' + tag + '. ' + monat[monatZahl] + '.';
+
+            document.getElementById('datumsausgabe').textContent += text;
+
+        }
+        getDate();
     </script>
 }

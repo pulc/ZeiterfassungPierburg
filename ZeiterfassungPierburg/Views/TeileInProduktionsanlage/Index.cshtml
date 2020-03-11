@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<ZeiterfassungPierburg.Models.ViewModels.TeileInProduktionsanlageViewModel>
 
-
 <section class="content container-fluid">
     <div class="box-header with-border">
         <div class="box">
@@ -16,26 +15,31 @@
                                 @Html.DisplayNameFor(model => model.Fertigungsteil)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.ZeichenNr)
+                            </th>
+                            <th>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Produktionsanlage)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Fertigungsteil)
-                                </td>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Produktionsanlage)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fertigungsteil)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ZeichenNr)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Bearbeitern", "Edit", new { id = item.ID }) |
 
-                                <td>
-                                    @Html.ActionLink("Bearbeitern", "Edit", new { id = item.ID }) |
-
-                                    @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
-                                </td>
-                            </tr>   
+                                @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
+                            </td>
+                        </tr>   
                         }
                     </tbody>
                 </table>

@@ -99,7 +99,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr value="@item.ID" , id="row+@item.ID">
+                            <tr value="@item.ID">
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Datum)
                                 </td>
@@ -230,24 +230,24 @@
         var table = document.getElementById('myTable');
 
 
+        var rowLength = table.rows.length;
+        for (var i = 0; i < rowLength; i += 1) {
 
 
-            var rowLength = table.rows.length;
-            for (var i = 0; i < rowLength; i += 1) {
+            var row = table.rows[i];
+            var id = row.getAttribute('value'); //id
+            var boolValue = $('#' + id).text(); //get bool value
+            var checkbox = $("#eintragen_" + id);
 
-                var row = table.rows[i];
-                var id = row.getAttribute('value'); //id
-                var boolValue = $('#' + id).text(); //get bool value
-
-                if (boolValue == 'True') {
-                    $("#eintragen_" + id).prop("checked", true);
-                    $(row).css("background-color", "#90ee90");
-                }
-                if (boolValue == 'False') {
-                    $("#eintragen_" + id).prop("checked", false)
-                    $(row).css("background-color", "#ffcccb");
-                }
+            if (boolValue == 'True') {
+                checkbox.prop("checked", true);
+                $(row).css("background-color", "#90ee90"); //green
             }
+            else if (boolValue == 'False') {
+                checkbox.prop("checked", false)
+                $(row).css("background-color", "#ffcccb"); //red
+            }
+
 
 
             $(document).ready(function () {
@@ -256,6 +256,8 @@
                 var table = $('#myTable').DataTable(
                     {
                         dom: 'Bfrtlip',
+                        scrollX: true, // make responsive
+
                         buttons: [
                             {
                                 extend: 'copyHtml5',

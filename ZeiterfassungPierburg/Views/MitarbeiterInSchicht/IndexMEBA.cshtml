@@ -13,18 +13,18 @@
                 <h4>
                     Für ältere Einträge besuche das @Html.ActionLink("Archiv", "ArchivMeBa", "MitarbeiterInSchicht").
                 </h4>
-                
+
                 <div class="row row-list" style="padding-bottom: 25px; padding-top: 15px">
-                    <div class="col-xs-2">
+                    <div class="col-lg-3 col-xs-12">
                         <label>Einträge von:</label>
                         <input class="form-control text-box single-line" id="min" name="Datum" type="date">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-lg-3 col-xs-12">
                         <label>Einträge bis:</label>
 
                         <input class="form-control text-box single-line" id="max" name="Datum" type="date">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-lg-3 col-xs-12">
                         <label>Wähle die Schicht aus:</label>
 
                         <select class="form-control text-box single-line" id="schicht">
@@ -34,136 +34,137 @@
                             <option value="3">Nacht</option>
                         </select>
                     </div>
-                    <div class="col-xs-2">
-                        <label>Wähle das Band aus:</label>
+                    <div class="col-lg-3 col-xs-12">
+                        <label>Wähle die Maschine aus:</label>
                         @Html.Raw((String)ViewBag.AnlageFilter)
                     </div>
                 </div>
-
-                <table id="myTable" class="table table-striped table-bordered" style="text-align:center">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Datum)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Art)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Anlage)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Personalnummer)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Kostenstelle)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.SAPAPNr)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ZeichenNr)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Stück)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DirStunden)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.InDirStunden)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Bemerkung)
-                            </th>
-                            <!--
-                            <th>
-                                @Html.DisplayNameFor(model => model.Auswertung)
-                            </th>
-                             -->
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.IstInSAPEingetragen)
-                            </th>
-
-                            <th>
-
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr value="@item.ID">
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Datum)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Art)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Anlage)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Personalnummer)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Kostenstelle)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SAPAPNr)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ZeichenNr)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Stück)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DirStunden)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.InDirStunden)
-                                </td>
-                                <td>
-
-                                    @Html.DisplayFor(modelItem => item.Bemerkung)
-                                </td>
-                                <td>
-
-                                    <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
-                                </td>
+                <div style="height:100%">
+                    <table id="myTable" class="table table-striped table-bordered" style="text-align:center; width:100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Datum)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Art)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Anlage)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Personalnummer)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Kostenstelle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SAPAPNr)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ZeichenNr)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Stück)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DirStunden)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InDirStunden)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Bemerkung)
+                                </th>
                                 <!--
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Auswertung)%
-                                </td>
-                                -->
-                                <td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Auswertung)
+                    </th>
+                     -->
 
-                                    <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
+                                <th>
 
-                                    |
-                                    <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                    <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
+                                    @Html.DisplayNameFor(model => model.IstInSAPEingetragen)
+                                </th>
 
-                                    <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen because the boolen value can't be passed as attribute (dunno why)-->
-                                </td>
+                                <th>
+
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr value="@item.ID" istEingetragen="@item.IstInSAPEingetragen">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Datum)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Art)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Anlage)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Personalnummer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Kostenstelle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SAPAPNr)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ZeichenNr)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Stück)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DirStunden)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InDirStunden)
+                                    </td>
+                                    <td>
+
+                                        @Html.DisplayFor(modelItem => item.Bemerkung)
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
+                                    </td>
+                                    <!--
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Auswertung)%
+                        </td>
+                        -->
+                                    <td>
+
+                                        <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
+
+                                        
+                                        <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
+                                        <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
+
+                                        <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen because the boolen value can't be passed as attribute (dunno why)-->
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
                 @ViewBag.Message
 
                 <!--
-                     @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
-                -->
+         @Html.ActionLink("Neue Zeiterfassung", "Create", "Neuezeiterfassung", null, new { @class = "pull-right btn btn-default", @type = "button", });
+    -->
             </div>
         </div>
     </div>
@@ -226,15 +227,16 @@
 
                 var row = table.rows[i];
                 var id = row.getAttribute('value'); //id
+                               
                 var boolValue = $('#' + id).text(); //get bool value
+                var checkbox = $("#eintragen_" + id);
 
                 if (boolValue == 'True') {
-                    $("#eintragen_" + id).prop("checked", true);
+                    checkbox.prop("checked", true);
                     $(row).css("background-color", "#90ee90"); //green
                 }
-                if (boolValue == 'False') {
-                    $("#eintragen_" + id).prop("checked", false)
-
+                else if (boolValue == 'False') {
+                    checkbox.prop("checked", false)
                     $(row).css("background-color", "#ffcccb"); //red
                 }
             }
@@ -273,17 +275,26 @@
                                     columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11]
                                 }
                             }
-                        ]
+                        ],
+
+                        "scrollX": true
+
+
                     });
 
                 $('#min, #max, #schicht, #anlageFilter').change(function () {
                     table.draw();
+
+                    table.draw();
+
                 });
         });
 
-             var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
 
-                $('[id^=eintragen_]').click(function () {
+        var url = '@Url.Action("Eintragen", "MitarbeiterInSchicht")';
+
+
+                $('[id^=eintragen_]').click(function () { //function for checkboxes, which ID start with eintragen_
 
                     var id = $(this).attr('value'); // get ID
                     var boolValue = $('#' + id).text(); //get bool value
@@ -306,7 +317,10 @@
                         $(row).css("background-color", "#90ee90");
                         $('#' + id).text('True');
                     }
-            });
+        });
+
+
+
     </script>
 
 }

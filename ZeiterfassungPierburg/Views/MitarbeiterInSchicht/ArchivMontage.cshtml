@@ -220,25 +220,22 @@
 
         var table = document.getElementById('myTable');
 
-
-
-
             var rowLength = table.rows.length;
             for (var i = 0; i < rowLength; i += 1) {
 
                 var row = table.rows[i];
                 var id = row.getAttribute('value'); //id
                 var boolValue = $('#' + id).text(); //get bool value
+                var checkbox = $("#eintragen_" + id);
 
                 if (boolValue == 'True') {
-                    $("#eintragen_" + id).prop("checked", true);
-                    $(row).css("background-color", "#90ee90");
+                    checkbox.prop("checked", true);
+                    $(row).css("background-color", "#90ee90"); //green
                 }
-                if (boolValue == 'False') {
-                    $("#eintragen_" + id).prop("checked", false)
-                    $(row).css("background-color", "#ffcccb");
+                else if (boolValue == 'False') {
+                    checkbox.prop("checked", false)
+                    $(row).css("background-color", "#ffcccb"); //red
                 }
-            }
 
 
             $(document).ready(function () {
@@ -247,6 +244,7 @@
                 var table = $('#myTable').DataTable(
                     {
                         dom: 'Bfrtlip',
+                        scrollX: true, // make responsive
                         buttons: [
                             {
                                 extend: 'copyHtml5',

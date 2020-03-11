@@ -821,18 +821,22 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
         {
             if (singleton == null)
             {
+                string con = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
                 // DEBUG switches for specific connection strings
                 // in RELEASE just use default connection string in web.config
-                string connectionString;
-#if DEBUG_PAVEL
-                connectionString = @"Server =.\MSSQLSERVER01; Database = zeiterfassung; Trusted_Connection = True";
-#elif DEBUG_MARTIN
-                connectionString = @"Server =.; Database = zeiterfassung; Trusted_Connection = True";
-#else
-                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-#endif
+                /*
+                                string connectionString;
+                #if DEBUG_PAVEL
+                                connectionString = @"Server =.\MSSQLSERVER01; Database = zeiterfassung; Trusted_Connection = True";
+                #elif DEBUG_MARTIN
+                                connectionString = @"Server =.; Database = zeiterfassung; Trusted_Connection = True";
+                #else
+                                connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                #endif
+                */
 
-                singleton = new SQLServer(connectionString);
+                singleton = new SQLServer(con);
             }
             return singleton;
         }
@@ -1046,7 +1050,8 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 select
 t.ID,
 p.Bezeichner as Produktionsanlage,
-f.Bezeichnung as Fertigungsteil
+f.Bezeichnung as Fertigungsteil,
+f.ZeichenNr as ZeichenNr
 
 from [zeiterfassung].[dbo].TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 

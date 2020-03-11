@@ -13,6 +13,8 @@ namespace ZeiterfassungPierburg.Models.ViewModels
         public string Produktionsanlage;
 
         public string Fertigungsteil;
+        [Display(Name="Zeich. Nr")]
+        public string ZeichenNr;
 
     }
 }

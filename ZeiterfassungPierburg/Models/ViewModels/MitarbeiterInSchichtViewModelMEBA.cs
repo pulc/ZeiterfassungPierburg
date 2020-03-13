@@ -48,6 +48,9 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
         [Display(Name = "In SAP")]
         public bool IstInSAPEingetragen { get; set; }
 
+        public int MitarbeiterID { get; set; }
+        public int ProduktionsanlageID { get; set; }
+        public int FertigungsteilID { get; set; }
     }
 }
 

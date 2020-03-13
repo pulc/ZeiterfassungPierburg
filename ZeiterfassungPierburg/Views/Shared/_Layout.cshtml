@@ -17,6 +17,54 @@
     <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- change the style of the scrollbar - only for fun; works only in Chrome -->
+    @if (Convert.ToInt32(Session["AccessLayer"]) == 1)
+    {
+        <style>
+            /* width */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #DA8B0C;
+            }
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+        </style>
+    }
+    else if (Convert.ToInt32(Session["AccessLayer"]) == 2)
+
+    {
+        <style>
+            /* width */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #008D4B;
+            }
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+        </style>
+
+    }
 </head>
 <body>
     @if (Convert.ToInt32(Session["AccessLayer"]) == 0)
@@ -27,183 +75,183 @@
     @if (Convert.ToInt32(Session["AccessLayer"]) == 2)
     {
 
-    <div class="wrapper">
+        <div class="wrapper">
 
-        <div class="hold-transition skin-green sidebar-mini">
-            <!-- Main Header -->
-            <header class="main-header">
+            <div class="hold-transition skin-green sidebar-mini">
+                <!-- Main Header -->
+                <header class="main-header">
 
-                <!-- Logo -->
-                <a href="~/" class="logo">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini"><b>P</b>BG</span>
-                    <!-- logo for regular state and mobile devices -->
+                    <!-- Logo -->
+                    <a href="~/" class="logo">
+                        <!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"><b>P</b>BG</span>
+                        <!-- logo for regular state and mobile devices -->
 
-                    <span class="logo-lg"><b><img height="150" width="150" src="~/Content/dist/img/pierburg_logo.png" /></b></span>
-                </a>
+                        <span class="logo-lg"><b><img height="150" width="150" src="~/Content/dist/img/pierburg_logo.png" /></b></span>
+                    </a>
 
-                <!-- Header Navbar -->
-                <nav class="navbar navbar-static-top" role="navigation">
-                    <!-- Sidebar toggle button-->
+                    <!-- Header Navbar -->
+                    <nav class="navbar navbar-static-top" role="navigation">
+                        <!-- Sidebar toggle button-->
 
-                    <div class="sidebar-toggle" data-toggle="push-menu"></div>
+                        <div class="sidebar-toggle" data-toggle="push-menu"></div>
 
 
-                    <!-- Navbar Right Menu -->
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown user user-menu">
-                                @{
-                                    <a>  @Session["UserName"].ToString() </a>;
-                                }
+                        <!-- Navbar Right Menu -->
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown user user-menu">
+                                    @{
+                                        <a>  @Session["UserName"].ToString() </a>;
+                                    }
+                                </li>
+                                <!-- User Account Menu -->
+                                <li class="dropdown user user-menu">
+                                    <a href="/Zugriffsrechte/DeleteSession"><span class="glyphicon">&#xe163;</span></a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+                <aside class="main-sidebar">
+                    <section class="sidebar">
+
+                        <ul class="sidebar-menu" data-widget="tree">
+                            <li class="active treeview menu-open">
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <span>Neue Zeiterfassung</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="@Url.Action("Create", "Neuezeiterfassung")">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                                            <span>Montage</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("CreateMEBA", "Neuezeiterfassung")">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                                            <span>MeBa</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <!-- User Account Menu -->
-                            <li class="dropdown user user-menu">
-                                <a href="/Zugriffsrechte/DeleteSession"><span class="glyphicon">&#xe163;</span></a>
+                            <li class="divider"> <br /></li>
+                            <li>
+                                <a href="@Url.Action("Index", "MitarbeiterInSchicht")">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    <span>Übersicht - Montage</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("IndexMEBA", "MitarbeiterInSchicht")">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    <span>Übersicht - MeBa</span>
+                                </a>
                             </li>
 
+                            <li class="divider"> <br /></li>
+                            <li>
+                                <a href="@Url.Action("Index", "Produktionsanlage")">
+                                    <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                                    <span>Produktionsanlagen</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Fertigungsteil")">
+                                    <i class="fa fa-car" aria-hidden="true"></i>
+                                    <span>Fertigungsteile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Mitarbeiter")">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span>Mitarbeiter</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "TeileInProduktionsanlage")">
+                                    <i class="fa fa-list-ul" aria-hidden="true"></i>
+                                    <span>Teile bei Anlagen</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Create", "Produktivität")">
+                                    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                                    <span>Produktivität</span>
+                                </a>
+                            </li>
 
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-archive" aria-hidden="true"></i>
+                                    <span>Archiv</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="@Url.Action("ArchivMontage", "MitarbeiterInSchicht")">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+
+                                            <span>Montage</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("ArchivMeBa", "MitarbeiterInSchicht")">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <span>MeBa</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Archiv", "MitarbeiterInSchicht")">
+                                            <i class="fa fa-circle" aria-hidden="true"></i>
+                                            <span>Alles</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
-                    </div>
-                </nav>
-            </header>
-            <aside class="main-sidebar">
-                <section class="sidebar">
+                        <!-- /.sidebar-menu -->
+                    </section>
+                    <!-- /.sidebar -->
+                </aside>
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
 
-                    <ul class="sidebar-menu" data-widget="tree">
-                        <li class="active treeview menu-open">
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-upload" aria-hidden="true"></i>
-                                <span>Neue Zeiterfassung</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="@Url.Action("Create", "Neuezeiterfassung")">
-                                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                                        <span>Montage</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("CreateMEBA", "Neuezeiterfassung")">
-                                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                                        <span>MeBa</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="divider"> <br /></li>
-                        <li>
-                            <a href="@Url.Action("Index", "MitarbeiterInSchicht")">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                                <span>Übersicht - Montage</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("IndexMEBA", "MitarbeiterInSchicht")">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                                <span>Übersicht - MeBa</span>
-                            </a>
-                        </li>
+                    @RenderBody()
 
-                        <li class="divider"> <br /></li>
-                        <li>
-                            <a href="@Url.Action("Index", "Produktionsanlage")">
-                                <i class="fa fa-product-hunt" aria-hidden="true"></i>
-                                <span>Produktionsanlagen</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Fertigungsteil")">
-                                <i class="fa fa-car" aria-hidden="true"></i>
-                                <span>Fertigungsteile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Mitarbeiter")">
-                                <i class="fa fa-users" aria-hidden="true"></i>
-                                <span>Mitarbeiter</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "TeileInProduktionsanlage")">
-                                <i class="fa fa-list-ul" aria-hidden="true"></i>
-                                <span>Teile bei Anlagen</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Create", "Produktivität")">
-                                <i class="fa fa-bar-chart" aria-hidden="true"></i>
-                                <span>Produktivität</span>
-                            </a>
-                        </li>
+                </div>
 
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-archive" aria-hidden="true"></i>
-                                <span>Archiv</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li>
-                                    <a href="@Url.Action("ArchivMontage", "MitarbeiterInSchicht")">
-                                        <i class="fa fa-circle" aria-hidden="true"></i>
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/bootstrap")
+                <script src="~/Scripts/adminlte.js"></script>
 
-                                        <span>Montage</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("ArchivMeBa", "MitarbeiterInSchicht")">
-                                        <i class="fa fa-circle" aria-hidden="true"></i>
-                                        <span>MeBa</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Archiv", "MitarbeiterInSchicht")">
-                                        <i class="fa fa-circle" aria-hidden="true"></i>
-                                        <span>Alles</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <!-- /.sidebar-menu -->
-                </section>
-                <!-- /.sidebar -->
-            </aside>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-
-                @RenderBody()
-
-            </div>
-
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")
-            <script src="~/Scripts/adminlte.js"></script>
-
-            @RenderSection("scripts", required: false)
-            <script>
+                @RenderSection("scripts", required: false)
+                <script>
                     $("#logout").click(function () {
                     window.location.href = '@Url.Action("DeleteSession", "HomeController")';
                     });
-            </script>
+                </script>
 
-        </div>
-        <!-- Main Footer -->
-        <footer class="box-footer bg-green ">
-            <div class="pull-right">
-                <!-- To the right -->
-                <strong> &copy; @DateTime.Now.Year <a style="color:aliceblue" href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
-                <!-- Default to the left -->
             </div>
-        </footer>
-    </div>
+            <!-- Main Footer -->
+            <footer class="box-footer bg-green ">
+                <div class="pull-right">
+                    <!-- To the right -->
+                    <strong> &copy; @DateTime.Now.Year <a style="color:aliceblue" href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
+                    <!-- Default to the left -->
+                </div>
+            </footer>
+        </div>
     }
     else if (Convert.ToInt32(Session["AccessLayer"]) == 1)
     {
@@ -358,8 +406,8 @@
                             </li>
                         </ul>
                         <!-- /.sidebar-menu>
-                </section>
-                <!-- /.sidebar -->
+                        </section>
+                        <!-- /.sidebar -->
                 </aside>
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper">
@@ -385,15 +433,15 @@
             </div>
             <!-- Main Footer -->
 
-                <footer class="box-footer bg-orange ">
-                    <div class="pull-right">
-                        <!-- To the right -->
-                        <strong> &copy; @DateTime.Now.Year <a style="color:aliceblue" href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
-                        <!-- Default to the left -->
-                    </div>
-                </footer>
-            </div>
-            }
+            <footer class="box-footer" style="background-color:#F39C11">
+                <div class="pull-right">
+                    <!-- To the right -->
+                    <strong> &copy; @DateTime.Now.Year <a style="color:aliceblue" href="https://www.rheinmetall-automotive.com/marken/pierburg/">Pierburg</a>.</strong> All rights reserved.
+                    <!-- Default to the left -->
+                </div>
+            </footer>
+        </div>
+    }
 
 </body>
 </html>

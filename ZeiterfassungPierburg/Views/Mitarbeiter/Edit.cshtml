@@ -1,7 +1,13 @@
-﻿    @model ZeiterfassungPierburg.Models.Mitarbeiter
+﻿@model ZeiterfassungPierburg.Models.Mitarbeiter
 
 <section class="content container-fluid">
     <h3>Mitarbeiter*In bearbeiten</h3>
+
+    Klicke @Html.ActionLink("hier", "Details", "Mitarbeiter", new { id = Model.ID }, null)
+    für die Übersicht der Schichten von @Model.Vorname @Model.Nachname:
+    <div class="col-md-offset-2 col-md-8">
+
+    </div>
 
     <div class="box box-info">
         <div class="box-body">
@@ -81,14 +87,18 @@
                             <input type="submit" value="Speichern" class="btn btn-default" />
                         </div>
                     </div>
+
                 }
 
                 <div>
-                    @Html.ActionLink("Zurück zur Übersicht", "Index")
+                </div>
+                <div class="col-md-offset-2 col-md-8">
+
                 </div>
             </div>
         </div>
     </div>
+
 </section>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

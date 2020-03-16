@@ -140,7 +140,7 @@ sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(M
 (sum(t.dirstunden)*60) as Anwesenheit	 
 
 
-FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+FROM [MitarbeiterInSchicht] t
 
 
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -200,7 +200,7 @@ sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(M
 (sum(t.dirstunden)*60) as Anwesenheit	 --I5
 
 
-FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+FROM [MitarbeiterInSchicht] t
 
 
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -270,7 +270,7 @@ order by SchichtInfoID";
 select   p.Bezeichner, f.Bezeichnung,((sum(Stück) / (sum(DirStunden) + sum(InDirStunden)))*100)/(f.teZEIT)
 
 
-  FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
 LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
 LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
@@ -390,7 +390,7 @@ sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(M
 (sum(t.dirstunden)*60) as Anwesenheit	 
 
 
-FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+FROM [MitarbeiterInSchicht] t
 
 
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -458,7 +458,7 @@ sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(M
 (sum(t.dirstunden)*60) as Anwesenheit	 --I5
 
 
-FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+FROM [MitarbeiterInSchicht] t
 
 
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -582,7 +582,7 @@ sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(M
 (sum(t.dirstunden)*60) as Anwesenheit	 --I5
 
 
-FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+FROM [MitarbeiterInSchicht] t
 
 
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -681,7 +681,7 @@ sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(M
 (sum(t.dirstunden)*60) as Anwesenheit	 
 
 
-FROM[zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+FROM [MitarbeiterInSchicht] t
 
 
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
@@ -725,7 +725,7 @@ p.Bezeichner as Produktionsanlage,
 t.ProduktionsanlageID,
 t.FertigungsteilID
 
-from [zeiterfassung].[dbo].TeileInProduktionsanlage t
+from  TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
  where t.ID = " + ID;
@@ -1053,7 +1053,7 @@ p.Bezeichner as Produktionsanlage,
 f.Bezeichnung as Fertigungsteil,
 f.ZeichenNr as ZeichenNr
 
-from [zeiterfassung].[dbo].TeileInProduktionsanlage t
+from  TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
  where p.Bezeichner is not null and f.Bezeichnung is not null"
@@ -1095,7 +1095,7 @@ f.ZeichenNr
 
 	  ,Bemerkung
       ,t.ErstelltAm
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID 
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID 
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 

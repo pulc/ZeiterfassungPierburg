@@ -115,7 +115,7 @@ from Produktionsanlage
                         {
                             string sql =
                                @"
-select  SchichtinfoID
+select distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
@@ -175,7 +175,7 @@ order by SchichtInfoID";
                         {
                             string sql =
                                @"
-select  SchichtinfoID
+select distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
@@ -364,7 +364,7 @@ from Produktionsanlage
                     {
                         sql =
                            @"
-select  SchichtinfoID
+select  distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
@@ -430,7 +430,7 @@ order by SchichtInfoID";
                     {
                         sql =
                            @"
-select  SchichtinfoID
+select distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
@@ -554,7 +554,7 @@ where IstEineMaschine = 'false' and istAktiv = 'true'";
                 {
                     string sql =
                         @"
-select  SchichtinfoID
+select distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
@@ -656,7 +656,7 @@ where IstEineMaschine = 'true' and istAktiv = 'true'";
                 {
                     string sql =
                         @"
-select  SchichtinfoID
+select distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID

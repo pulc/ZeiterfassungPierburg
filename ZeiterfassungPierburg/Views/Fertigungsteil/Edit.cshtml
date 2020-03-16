@@ -16,7 +16,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.ZeichenNr, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             @Html.EditorFor(model => model.ZeichenNr, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.ZeichenNr, "", new { @class = "text-danger" })
                         </div>
@@ -24,7 +24,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Bezeichnung, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             @Html.EditorFor(model => model.Bezeichnung, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Bezeichnung, "", new { @class = "text-danger" })
                         </div>
@@ -32,7 +32,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.teZEIT, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             @Html.EditorFor(model => model.teZEIT, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.teZEIT, "", new { @class = "text-danger" })
                         </div>
@@ -40,7 +40,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.AnzahlMA, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             @Html.EditorFor(model => model.AnzahlMA, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.AnzahlMA, "", new { @class = "text-danger" })
                         </div>
@@ -65,7 +65,6 @@
                 }
 
                 <div>
-                    @Html.ActionLink("Zurück zur Übersicht", "Index")
                 </div>
             </div>
         </div>

@@ -220,7 +220,7 @@
     <Compile Include="Models\SchichtInfo.cs" />
     <Compile Include="Models\ViewModels\CreateTeileInProduktionsanlageViewModel.cs" />
     <Compile Include="Models\ViewModels\Dashboard.cs" />
-    <Compile Include="Models\ViewModels\MitarbeiterInSchichtViewModelMEBA.cs" />
+    <Compile Include="Models\ViewModels\MitarbeiterInSchichtViewModel.cs" />
     <Compile Include="Models\ViewModels\ProduktivitätViewModel.cs" />
     <Compile Include="Models\ViewModels\TeileInProduktionsanlageViewModel.cs" />
     <Compile Include="Models\Zugriffsrechte.cs" />

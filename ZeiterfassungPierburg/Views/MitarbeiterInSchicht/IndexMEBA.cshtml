@@ -98,64 +98,63 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr value="@item.ID" istEingetragen="@item.IstInSAPEingetragen">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Datum)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Art)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Anlage)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
+                            <tr value="@item.ID" istEingetragen="@item.IstInSAPEingetragen">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Datum)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Art)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.Anlage, "Edit", "Produktionsanlage", new { id = item.ProduktionsanlageID }, new { @style = "color:black" })
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.Name, "Edit", "Mitarbeiter", new { id = item.MitarbeiterID }, new { @style = "color:black" })
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Personalnummer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Kostenstelle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SAPAPNr)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.ZeichenNr, "Edit", "Fertigungsteil", new { id = item.FertigungsteilID }, new { @style = "color:black" })
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stück)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DirStunden)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InDirStunden)
+                                </td>
+                                <td>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Personalnummer)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Kostenstelle)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SAPAPNr)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ZeichenNr)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Stück)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DirStunden)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InDirStunden)
-                                    </td>
-                                    <td>
+                                    @Html.DisplayFor(modelItem => item.Bemerkung)
+                                </td>
+                                <td>
+                                    <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
+                                </td>
+                                <!--
+    <td>
+        @Html.DisplayFor(modelItem => item.Auswertung)%
+    </td>
+    -->
+                                <td>
 
-                                        @Html.DisplayFor(modelItem => item.Bemerkung)
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
-                                    </td>
-                                    <!--
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Auswertung)%
-                        </td>
-                        -->
-                                    <td>
+                                    <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
 
-                                        <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
 
-                                        
-                                        <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
-                                        <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
+                                    <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
+                                    <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
 
-                                        <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen because the boolen value can't be passed as attribute (dunno why)-->
-                                    </td>
-                                </tr>
+                                    <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen because the boolen value can't be passed as attribute (dunno why)-->
+                                </td>
+                            </tr>
                             }
                         </tbody>
                     </table>

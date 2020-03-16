@@ -175,7 +175,7 @@ order by SchichtInfoID";
                         {
                             string sql =
                                @"
-select distinct SchichtinfoID
+select SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID

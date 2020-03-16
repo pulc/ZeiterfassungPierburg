@@ -30,7 +30,7 @@
 
                         <select class="form-control text-box single-line" id="schicht">
                             <option value="">alle Schichten</option>
-                            <option value="1">Früh</option>1
+                            <option value="1">Früh</option>
                             <option value="2">Spät</option>
                             <option value="3">Nacht</option>
                         </select>
@@ -185,18 +185,11 @@
         var day = ("0" + now.getDate()).slice(-2);
         var month = ("0" + (now.getMonth() + 1)).slice(-2);
 
-        var today = now.getFullYear() + "-" + (month) + "-" + (day - 1);
+        var yesterday = now.getFullYear() + "-" + (month) + "-" + (day - 1);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
 
-        $('#min').val(today); //set filter date to yesterday
+        $('#min').val(yesterday); //set filter date to yesterday
         $('#max').val(today); //set filter date to yesterday
-
-
-            function addDays(date, days) {
-                var result = new Date(date);
-                result.setDate(result.getDate() + days);
-                return result;
-            }
-            var today = new Date();
 
 
             jQuery.fn.dataTableExt.afnFiltering.push(

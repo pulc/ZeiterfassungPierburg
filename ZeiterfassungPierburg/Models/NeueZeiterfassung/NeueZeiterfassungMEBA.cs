@@ -55,7 +55,7 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
         {
             get => SQLServer.Instance.GetDictionary("Fertigungsteil", "Bezeichnung", null)
                 .Select(s => new SelectListItem()
-                {
+                {   
                     Text = s.Value,
                     Value = s.Key.ToString()
                 });
@@ -71,17 +71,17 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
         [Range(0, 9999)]
         [RegularExpression(@"^\d+$", ErrorMessage = "Stückzahl muss eine ganze Zahl sein.")]
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
-        public int Stückzahl { get; set; }
+        public int? Stückzahl { get; set; }
 
         [Display(Name = "Dir. Stunden")]
         [Range(0, 10)]
         [Required(ErrorMessage = "Du musst noch die direkte Zeit eingeben.")]
-        public float DirZeit { get; set; }
+        public float? DirZeit { get; set; }
 
         [Display(Name = "Indir. Stunden")]
         [Range(0, 10)]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
-        public float InDirZeit { get; set; }
+        public float? InDirZeit { get; set; }
 
         [Display(Name = "Maschine")]
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]

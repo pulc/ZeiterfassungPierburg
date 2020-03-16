@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using ZeiterfassungPierburg.Data;
 using Dapper.Contrib.Extensions;
+using System.ComponentModel;
 
 namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
 {
@@ -64,20 +65,21 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Required(ErrorMessage = "Du musst noch den Fertigungsteil auswählen.")]
         public int Fertigungsteil { get; set; }
 
+        [DefaultValue(false)]
         [Range(0, 9999)]
         [RegularExpression(@"^\d+$", ErrorMessage = "Stückzahl muss eine ganze Zahl sein.")]
         [Required(ErrorMessage = "Du musst noch die Stückzahl auswählen.")]
-        public int Stückzahl { get; set; }
+        public int? Stückzahl { get; set; }
 
         [Display(Name = "Dir. Stunden")]
         [Range(0, 10, ErrorMessage = "Die Anzahl muss zwischen 0 und 10 liegen")]
         [Required(ErrorMessage = "Du musst noch die direkte Zeit eingeben.")]
-        public float DirZeit { get; set; }
+        public float? DirZeit { get; set; }
 
         [Display(Name = "Indir. Stunden")]
         [Range(0, 10, ErrorMessage = "Die Anzahl muss zwischen 0 und 10 liegen")]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
-        public float InDirZeit { get; set; }
+        public float? InDirZeit { get; set; }
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage { get; set; }

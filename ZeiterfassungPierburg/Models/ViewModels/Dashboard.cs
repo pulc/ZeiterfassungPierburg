@@ -23,42 +23,42 @@ from MitArbeiterinschicht";
 
 
         string selectStückeToday = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, -0, GETDATE())";
 
         string selectStückeMinusOneDay = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -2, GETDATE()) AND DATEADD(day, -1, GETDATE())";
 
         string selectStückeMinusTwoDays = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -3, GETDATE()) AND DATEADD(day, -2, GETDATE())";
 
         string selectStückeMinusThreeDays = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -4, GETDATE()) AND DATEADD(day, -3, GETDATE())";
 
         string selectStückeMinusFourDays = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -5, GETDATE()) AND DATEADD(day, -4, GETDATE())";
 
         string selectStückeMinusFiveDays = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -6, GETDATE()) AND DATEADD(day, -5, GETDATE())";
 
         string selectStückeMinusSixDays = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -6, GETDATE())";
 
         string selectStückepastWeek = @"select sum(Stück) 
-  FROM [zeiterfassung].[dbo].[MitarbeiterInSchicht] t
+  FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
 where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())";
 

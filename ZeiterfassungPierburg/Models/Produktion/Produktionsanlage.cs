@@ -12,12 +12,7 @@ namespace ZeiterfassungPierburg.Models
     [Table("Produktionsanlage")]
     public class Produktionsanlage : BasicModelObject
     {
-        // Arbeitsplatznummer
-        public int APNr
-        {
-            get => GetValue<int>();
-            set => SetValue(value);
-        }
+        
         // Kostenstelle
         public int Kostenstelle
         {

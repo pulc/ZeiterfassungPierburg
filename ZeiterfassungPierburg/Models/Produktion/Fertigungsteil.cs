@@ -11,7 +11,8 @@ namespace ZeiterfassungPierburg.Models
     [Table("Fertigungsteil")]
     public class Fertigungsteil : BasicModelObject
     {
-        [Required(ErrorMessage = "Du musst noch die ZeichenNr eingeben.")]
+        [Display(Name = "ZeichnungsNr")]
+        [Required(ErrorMessage = "Du musst noch die Zeichnungsnummer eingeben.")]
         public string ZeichenNr
         {
             get => GetValue<string>();
@@ -25,7 +26,7 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
         [Range(0.01, 10000)]
-        [Required(ErrorMessage = "Du musst noch die Bezeichnung eingeben.")]
+        [Required(ErrorMessage = "Du musst noch die teZEIT eingeben.")]
         public float teZEIT
         {
             get => GetValue<float>();

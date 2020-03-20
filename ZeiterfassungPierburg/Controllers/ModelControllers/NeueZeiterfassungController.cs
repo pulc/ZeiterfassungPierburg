@@ -137,7 +137,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                             {
                                 SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                             }
-                            ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf bei keinem Mitarbeiter nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
+                            ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf bei keinem Mitarbeiter 0 sein. Keine Mitarbeiter wurden erfasst.";
                             return View(model);
                         }
                         // auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;
@@ -252,7 +252,7 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         {
                             SQLServer.Instance.RemoveItem<MitarbeiterInSchicht>(id);
                         }
-                        ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf  bei keinem Mitarbeiter nicht 0 sein. Keine Mitarbeiter wurden erfasst.";
+                        ViewBag.Message = "Die Summe von direkten und indirekten Stunden darf  bei keinem Mitarbeiter 0 sein. Keine Mitarbeiter wurden erfasst.";
                         return View(model);
                     }
                     // float auswertung = ((Int32.Parse(Request.Form["st" + i]) / (float.Parse(Request.Form["dirzeit" + i]) + float.Parse(Request.Form["indirzeit" + i]))) * 100) / teZeit;

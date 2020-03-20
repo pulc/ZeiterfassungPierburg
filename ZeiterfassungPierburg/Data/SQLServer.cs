@@ -368,7 +368,8 @@ select  distinct SchichtinfoID
 from MitarbeiterInSchicht m
 left outer join Schichtinfo i on m.SchichtInfoID = i.ID
 left outer join Produktionsanlage p on m.ProduktionsanlageID = p.ID
-where p.ID = " + BandID + " and " + dayCondition + " and " + monthCondition + " and " + yearCondition + " and " + teilCondition + " and " + mitarbeiterCondition + " and " + schichtCondition;
+where p.ID = " + BandID + " and " + dayCondition + " and " + monthCondition +
+" and " + yearCondition + " and " + teilCondition + " and " + mitarbeiterCondition + " and " + schichtCondition;
                         ;
 
                         SqlDataReader r = ExecuteSelectStatement(conn, sql);
@@ -386,7 +387,7 @@ where p.ID = " + BandID + " and " + dayCondition + " and " + monthCondition + " 
                             sql =
                                @"
 select   
-sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(MitarbeiterID)/COUNT(MitarbeiterID) as ProduktivZeit, --H5
+sum(t.Stück) * sum(f.Tezeit) * sum(f.AnzahlMA)/100/count(MitarbeiterID)/COUNT(MitarbeiterID)/COUNT(MitarbeiterID) as ProduktivZeit, 
 (sum(t.dirstunden)*60) as Anwesenheit	 
 
 

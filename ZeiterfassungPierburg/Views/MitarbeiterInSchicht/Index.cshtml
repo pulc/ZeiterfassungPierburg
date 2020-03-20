@@ -15,9 +15,6 @@
                 <h4>
                     Für ältere Einträge besuche das @Html.ActionLink("Archiv", "ArchivMontage", "MitarbeiterInSchicht").
                 </h4>
-
-
-
                 <div class="row row-list" style="padding-bottom: 25px; padding-top: 15px">
                     <div class="col-lg-3 col-xs-12">
                         <label>Einträge von:</label>
@@ -25,7 +22,6 @@
                     </div>
                     <div class="col-lg-3 col-xs-12">
                         <label>Einträge bis:</label>
-
                         <input class="form-control text-box single-line" id="max" name="Datum" type="date">
                     </div>
                     <div class="col-lg-3 col-xs-12">
@@ -158,7 +154,6 @@
 
                                         <a href="~/MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
 
-
                                         <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
                                         <a href="~/MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
 
@@ -254,9 +249,6 @@
             */
              // render the Table
         $(document).ready(function () {
-
-
-
 
             $('#LoadingImage').show();
             $('#myTable').hide();

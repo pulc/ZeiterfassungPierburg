@@ -9,11 +9,9 @@
 </title>
 <section class="content container-fluid">
     <div class="box-header with-border ">
-        <div class="box box-info ">
+        <div class="box">
             <div class="box-header with-border ">
                 <h3>Übersicht aller Schichten von @ViewBag.Name </h3>
-                
-
 
                 <div class="row row-list" style="padding-bottom: 25px; padding-top: 15px">
                     <div class="col-xs-2">
@@ -37,11 +35,9 @@
                     </div>
 
                     <div class="col-xs-2">
-
                         <label>Wähle das Band aus:</label>
                         @Html.Raw((String)ViewBag.AnlageFilter)
                     </div>
-
 
                 </div>
 
@@ -141,22 +137,18 @@
                                     @Html.DisplayFor(modelItem => item.Bemerkung)
                                 </td>
                                 <td>
-
                                     <input type="checkbox" href="#" id="eintragen_@item.ID" name="eintragen" value="@item.ID" style="height: 15px; width: 100%; margin: auto;">
                                 </td>
                                 <!--
-                                    <td>
+                                 <td>
                                     @Html.DisplayFor(modelItem => item.Auswertung)%
                                 </td>
                                     -->
                                 <td>
-
-                                    <a href="MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
-
+                                    <a href="/../MitarbeiterInSchicht/Edit/@item.ID"><span style="color:dimgrey" class="glyphicon glyphicon-edit"></span></a>
                                     |
                                     <!--   @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })-->
                                     <a href="MitarbeiterInSchicht/Delete/@item.ID" onclick="return confirm('Wirklich löschen?'); "><span style="color:dimgrey" class="glyphicon glyphicon-remove"></span></a>
-
                                     <a id="@item.ID" hidden>@item.IstInSAPEingetragen</a> <!-- keep value of istINSAPEingetragen becaue the boolen value can't be passed as attribute (dunno why)-->
                                 </td>
                             </tr>
@@ -170,10 +162,7 @@
 </section>
 <iframe id="txtArea1" style="display: none"></iframe>
 
-
 @section scripts{
-
-
 
     @Scripts.Render("~/bundles/tableScriptBundle")
     @Scripts.Render("~/bundles/dataTablesPlugins")
@@ -189,7 +178,7 @@
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
 
         $('#min').val(yesterday); //set filter date to yesterday
-        $('#max').val(today); //set filter date to yesterday
+        $('#max').val(today); //set filter date to today
 
 
             jQuery.fn.dataTableExt.afnFiltering.push(
@@ -207,7 +196,6 @@
                     var schichtColumn = (aData[schichtColumn] == "-" ? 0 : aData[schichtColumn]) * 1;
                     var schicht = $(document.getElementById('schicht')).children("option:selected").val();
 
-
                     var anlageColumn = (aData[anlageColumn] ==    "-" ? 0 : aData[anlageColumn]);
                     var anlage = $(document.getElementById('anlageFilter')).children("option:selected").val();
 
@@ -220,9 +208,6 @@
             )
 
         var table = document.getElementById('myTable');
-
-
-
 
             var rowLength = table.rows.length;
             for (var i = 0; i < rowLength; i += 1) {
@@ -241,9 +226,7 @@
                 }
             }
 
-
             $(document).ready(function () {
-
 
                 var table = $('#myTable').DataTable(
                     {

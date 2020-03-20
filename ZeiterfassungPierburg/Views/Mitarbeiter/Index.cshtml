@@ -1,8 +1,4 @@
-﻿
-
-
-@model IEnumerable<ZeiterfassungPierburg.Models.Mitarbeiter>
-
+﻿@model IEnumerable<ZeiterfassungPierburg.Models.Mitarbeiter>
 
 <section class="content container-fluid">
     <div class="box-header with-border">
@@ -27,7 +23,6 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Persongruppe)
                             </th>
-
                             <th>
                                 @Html.DisplayNameFor(model => model.Beschäftigungsart)
                             </th>
@@ -61,7 +56,6 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Persongruppe)
                                 </td>
-;
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Beschäftigungsart)
                                 </td>
@@ -70,16 +64,15 @@
                                 </td>
                                 <td style="text-align:center">
                                     @Html.ActionLink("Einträge", "Details", new { id = item.ID })
-
                                 </td>
                                 <td>
                                     @Html.ActionLink("Bearbeiten", "Edit", new { id = item.ID })
-
+                                    <!-- Show productivity calculation for the Mitarbeiter - disabled-->
                                     @if (Convert.ToInt32(Session["AccessLayer"]) == 3)
                                     {<text>
                                             | <a href="~/Produktivität?ProduktionsanlageID=0&FertigungsteilID=0&MitarbeiterID=@item.ID&Art=0&Produktivität=0&Day=0&Month=0&Year=0&FertigungteilList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MitarbeiterList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&ProduktionsanlageList=System.Linq.Enumerable%2BWhereSelectEnumerableIterator%602%5BSystem.Collections.Generic.KeyValuePair%602%5BSystem.Int32%2CSystem.String%5D%2CSystem.Web.Mvc.SelectListItem%5D&MonthList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&DayList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D&ArtList=System.Collections.Generic.List%601%5BSystem.Web.Mvc.SelectListItem%5D">Produktivität</a>
                                     </text>
-                                }
+                                    }
                                     | @Html.ActionLink("Löschen", "Delete", new { id = item.ID }, new { onclick = "return confirm('Wirklich löschen?');" })
 
                                 </td>
@@ -99,7 +92,11 @@
 
     <script>
         $(document).ready(function () {
-            $('#example').DataTable();
+            var table = $('#example').DataTable({
+                "columnDefs": [
+                    { "className": "dt-center", "targets": "_all" }
+                ]
+            });
         });
     </script>
 }

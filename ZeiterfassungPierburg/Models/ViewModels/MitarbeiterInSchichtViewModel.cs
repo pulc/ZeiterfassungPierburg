@@ -10,7 +10,7 @@ namespace ZeiterfassungPierburg.Models.ViewModel.MitarbeiterInschichtViewModel
 {
     public class MitarbeiterInschichtViewModel
     {
-        public int ID { get; set; }
+        public double ID { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Datum { get; set; }

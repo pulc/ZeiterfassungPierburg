@@ -11,9 +11,9 @@ namespace ZeiterfassungPierburg.Models
     [Table("MitarbeiterInSchicht")]
     public class MitarbeiterInSchicht : BasicModelObject
     {
-        public int SchichtInfoID
+        public double SchichtInfoID
         {
-            get => GetValue<int>();
+            get => GetValue<double>();
             set => SetValue(value);
         }
 
@@ -73,24 +73,13 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<DateTime>();
             set => SetValue(value);
         }
-
-        public float Auswertung
-        {
-            get => GetValue<float>();
-            set => SetValue(value);
-        }
+        
 
         public string EingetragenVon
         {
             get => GetValue<string>();
             set => SetValue(value);
         }
-        /*
-        public int AnlageInSchicht
-        {
-            get => GetValue<int>();
-            set => SetValue(value);
-        }
-        */
+        
     }
 }

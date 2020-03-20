@@ -68,7 +68,7 @@ namespace ZeiterfassungPierburg.Tests
                 Vorname = "Günther",
                 Kostenstelle = 23,
                 Mitarbeiterkreis = 565,
-                Abrechnungskreis = 2,
+                Persongruppe = 2,
                 Beschäftigungsart = "intern",
                 Personalnummer = 273
             };

@@ -42,20 +42,13 @@ namespace ZeiterfassungPierburg.Models
             set => SetValue(value);
         }
 
-        [Required(ErrorMessage = "Du musst noch den Abrechnungskreis eingeben.")]
-        public int Abrechnungskreis
+        [Required(ErrorMessage = "Du musst noch die Persongruppe eingeben.")]
+        public int Persongruppe
         {
             get => GetValue<int>();
             set => SetValue(value);
         }
-
-        [Required(ErrorMessage = "Du musst noch den Mitarbeiterkreis eingeben.")]
-        public int Mitarbeiterkreis
-        {
-            get => GetValue<int>();
-            set => SetValue(value);
-        }
-
+        
         [Required(ErrorMessage = "Du musst noch die Beschäftigungsart eingeben.")]
         public string Beschäftigungsart
         {

@@ -22,7 +22,6 @@ namespace ZeiterfassungPierburg.Models
             get => GetValue<int>();
             set => SetValue(value);
         }
-
         
         public int Stück
         {

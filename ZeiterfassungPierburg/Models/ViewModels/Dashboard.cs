@@ -12,6 +12,8 @@ namespace ZeiterfassungPierburg.Models.ViewModels
     [Table("Dashboard")]
     public class Dashboard: BasicModelObject
     {
+        /* Statitcs for tables. It only counts how many rows there are. Can be also possibly skipped
+         * as the purpose is only for the Dashboard to look prettier */
         string SelectMitarbiter = @"select count(ID) as MitarbeiterAnzahl
 from Mitarbeiter";
         string SelectProduktionsanlagen = @"select count(ID) as MitarbeiterAnzahl
@@ -21,7 +23,8 @@ from Fertigungsteil";
         string SelectZeiterfassungen = @"select count(ID) as MitArbeiterinschicht
 from MitArbeiterinschicht";
 
-
+        // Statistics for Stücke
+        // TODO: can be simplified with a loop or completely removed as it doesn't serve a real purpose 
         string selectStückeToday = @"select sum(Stück) 
   FROM  [MitarbeiterInSchicht] t
 LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID 
@@ -67,7 +70,7 @@ where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())"
         public int Produktionsanlagen { get => SQLServer.Instance.GetInt(SelectProduktionsanlagen); }
         public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetInt(SelectZeiterfassungen); }
         public int Fertigungsteile { get => SQLServer.Instance.GetInt(SelectFertigungsteile); }
-
+                 
 
         // Calculate count of Stücke
         public int StückeToday { get => SQLServer.Instance.GetInt(selectStückeToday); }

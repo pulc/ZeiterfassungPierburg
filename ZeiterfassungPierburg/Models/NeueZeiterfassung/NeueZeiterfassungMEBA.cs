@@ -81,7 +81,7 @@ namespace ZeiterfassungPierburg.Models.NeuezeiterfassungMEBA
         [Display(Name = "Indir. Stunden")]
         [Range(0, 10)]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
-        public float? InDirZeit { get; set; }
+        public float InDirZeit { get; set; }
 
         [Display(Name = "Maschine")]
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]

@@ -305,6 +305,7 @@ order by Bezeichner
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
 
+            // add conditions at the end of the sql statement; if the condition equals 0 (default value), the 
             string dayCondition = "'true'='true'";
             if (day != 0) dayCondition = "DAY(i.Datum) = " + day;
             string monthCondition = "'true'='true'";

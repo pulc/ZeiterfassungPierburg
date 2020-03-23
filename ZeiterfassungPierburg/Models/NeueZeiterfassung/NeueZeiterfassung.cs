@@ -79,7 +79,7 @@ namespace ZeiterfassungPierburg.Models.NeueZeiterfassung
         [Display(Name = "Indir. Stunden")]
         [Range(0, 10, ErrorMessage = "Die Anzahl muss zwischen 0 und 10 liegen")]
         [Required(ErrorMessage = "Du musst noch die indirekte Zeit eingeben.")]
-        public float? InDirZeit { get; set; }
+        public float InDirZeit { get; set; }
 
         [Required(ErrorMessage = "Du musst noch die Produktionsanlage auswählen.")]
         public int Produktionsanlage { get; set; }

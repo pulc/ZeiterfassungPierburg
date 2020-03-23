@@ -21,7 +21,7 @@ namespace ZeiterfassungPierburg.Data
         }
 
         // dictionary methods for dropdown lists and productivity calculation
-        public Dictionary<int,string> GetFertigungsteilDictionary(int ProduktionsanlageID)
+        public Dictionary<int, string> GetFertigungsteilDictionary(int ProduktionsanlageID)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
 
@@ -52,6 +52,7 @@ where ProduktionsanlageID =
             }
             return result;
         }
+        // dictionary general
         public Dictionary<int, string> GetDictionary(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
@@ -74,6 +75,7 @@ where ProduktionsanlageID =
             }
             return result;
         }
+        // calculate productivity in the past 12 months 
         public Dictionary<string, float> GetProduktivitätLast12Months()
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
@@ -258,49 +260,8 @@ order by SchichtInfoID";
             }
             return result;
         }
-        public Dictionary<string, float> GetProduktivitätMaschinenGesamt()
-        {
-            Dictionary<string, float> result = new Dictionary<string, float>();
-
-            using (SqlConnection conn = NewOpenConnection)
-            {
-                string sql;
-
-                sql = @"
-select   p.Bezeichner, f.Bezeichnung,((sum(Stück) / (sum(DirStunden) + sum(InDirStunden)))*100)/(f.teZEIT)
 
 
-  FROM [MitarbeiterInSchicht] t
-LEFT OUTER JOIN Mitarbeiter m  ON t.MitarbeiterID = m.ID
-LEFT OUTER JOIN Produktionsanlage p ON t.ProduktionsanlageID = p.ID
-LEFT OUTER JOIN Fertigungsteil f ON t.FertigungsteilID = f.ID
-Left Outer Join TeileInProduktionsanlage i ON f.ID = i.FertigungsteilID
-
---LEFT OUTER JOIN TeileInProduktionsanlage i ON p.ID = i.ProduktionsanlageID
-
-where p.IstEineMaschine = 'true'
-
-group by p.Bezeichner, f.teZEIT, f.Bezeichnung
-order by Bezeichner
-";
-
-                // select ID from Produktionsanlage where IstEineMaschine = 'false'
-                SqlDataReader r = ExecuteSelectStatement(conn, sql);
-
-                while (r.Read())
-                {
-                    try
-                    {
-                        result.Add(r.GetString(0) + "_" + r.GetString(1), (float)r.GetDecimal(2));
-                    }
-                    catch
-                    {
-                        result.Add("", 0);
-                    }
-                }
-            }
-            return result;
-        }
         public Dictionary<string, float> GetProduktivitätCustomDictionary(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID, int MitarbeiterID, int Art)
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
@@ -523,6 +484,7 @@ order by SchichtInfoID";
             }
             return result;
         }
+
         public Dictionary<string, float> CalculateProductivityLastMonthAlleBänder()
         {
 
@@ -731,11 +693,11 @@ from  TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID= p.ID 
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
  where t.ID = " + ID;
-                
+
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
                 {
-                    result.Add(r.GetString(0)); 
+                    result.Add(r.GetString(0));
                     result.Add(r.GetInt32(1).ToString());
                     result.Add(r.GetInt32(2).ToString());
                 }
@@ -855,7 +817,7 @@ LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
             Decimal result = (Decimal)c.ExecuteScalar();
             return Convert.ToInt32(result);
         }
-        public int CountResults (string cmd)
+        public int CountResults(string cmd)
         {
             using (SqlConnection conn = NewOpenConnection)
             {
@@ -1107,7 +1069,7 @@ where
                 return c.Query<T>(sql).ToList();
             }
         }
-                          
+
         // Methods for generating HTML code 
         // TODO: refactoring of the method 
         public string generateHtmlProduktionsanlagen(string condition)
@@ -1117,29 +1079,29 @@ where
             <select class=""form-control text-box single-line"" id=""anlageFilter"">
                             <option value = """"> alle Anlagen </option>";
 
-            
+
 
             using (SqlConnection conn = NewOpenConnection)
             {
                 string sql = "";
 
-                if(condition == null)
+                if (condition == null)
                 {
                     return null;
                 }
                 else
                 {
-                     sql =
-                    @"select Bezeichner
+                    sql =
+                   @"select Bezeichner
 from Produktionsanlage
-where "+condition;
+where " + condition;
 
                 }
-                
+
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())
                 {
-                    result = result +   @"<option value =  """+ r.GetString(0)+ @""" > " + r.GetString(0) + "</option>";
+                    result = result + @"<option value =  """ + r.GetString(0) + @""" > " + r.GetString(0) + "</option>";
                 }
             }
 

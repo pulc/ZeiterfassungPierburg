@@ -10,7 +10,7 @@ using Dapper.Contrib.Extensions;
 namespace ZeiterfassungPierburg.Models.ViewModels
 {
     [Table("Dashboard")]
-    public class Dashboard: BasicModelObject
+    public class Dashboard : BasicModelObject
     {
         /* Statitcs for tables. It only counts how many rows there are. Can be also possibly skipped
          * as the purpose is only for the Dashboard to look prettier */
@@ -22,6 +22,11 @@ from Produktionsanlage";
 from Fertigungsteil";
         string SelectZeiterfassungen = @"select count(ID) as MitArbeiterinschicht
 from MitArbeiterinschicht";
+
+        string SelectZeiterfassungenLastYear = @"select count(MitarbeiterInSchicht.SchichtInfoID) as MitArbeiterinschicht
+from MitArbeiterinschicht left outer  join Schichtinfo
+on MitarbeiterInSchicht.SchichtInfoID = SchichtInfo.ID
+where Schichtinfo.Datum > DATEADD(year,-1,GETDATE())";
 
         // Statistics for Stücke
         // TODO: can be simplified with a loop or completely removed as it doesn't serve a real purpose 
@@ -66,27 +71,22 @@ LEFT OUTER JOIN Schichtinfo s  ON t.SchichtInfoID = s.ID
 where Datum BETWEEN DATEADD(day, -7, GETDATE()) AND DATEADD(day, -0, GETDATE())";
 
         // Tables to count the number of queries for each table
-        public int MitarbeiterAnzahl{ get => SQLServer.Instance.GetInt(SelectMitarbiter); }
+        public int MitarbeiterAnzahl { get => SQLServer.Instance.GetInt(SelectMitarbiter); }
         public int Produktionsanlagen { get => SQLServer.Instance.GetInt(SelectProduktionsanlagen); }
         public int ZeiterfassungenAnzahl { get => SQLServer.Instance.GetInt(SelectZeiterfassungen); }
         public int Fertigungsteile { get => SQLServer.Instance.GetInt(SelectFertigungsteile); }
-                 
+
+        // Count how many Zeiterfassungen in the last year - for the chart display
+        public int ZeiterfassungenAnzahlLastYear { get => SQLServer.Instance.GetInt(SelectZeiterfassungenLastYear); }
 
         // Calculate count of Stücke
         public int StückeToday { get => SQLServer.Instance.GetInt(selectStückeToday); }
-
         public int StückeMinusOneDay { get => SQLServer.Instance.GetInt(selectStückeMinusOneDay); }
-
-        public int StückeMinusTwoDays { get => SQLServer.Instance.GetInt(selectStückeMinusTwoDays);  }
-
+        public int StückeMinusTwoDays { get => SQLServer.Instance.GetInt(selectStückeMinusTwoDays); }
         public int StückeMinusThreeDays { get => SQLServer.Instance.GetInt(selectStückeMinusThreeDays); }
-
         public int StückeMinusFourDays { get => SQLServer.Instance.GetInt(selectStückeMinusFourDays); }
-
         public int StückeMinusFiveDays { get => SQLServer.Instance.GetInt(selectStückeMinusFiveDays); }
-
         public int StückeMinusSixDays { get => SQLServer.Instance.GetInt(selectStückeMinusSixDays); }
-
         public int StückeWoche { get => SQLServer.Instance.GetInt(selectStückepastWeek); }
 
 

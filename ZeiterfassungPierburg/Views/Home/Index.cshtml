@@ -124,18 +124,24 @@
     </div>
 
     <div class="col-lg-6 col-xs-6">
+        <!-- For performance reasons - show the chart only if the loading doesn't take too much
+             The number 15000 is arbitrary - may be adjused       -->
 
+        @if (d.ZeiterfassungenAnzahlLastYear < 15000)
+        {
         <div class="box-footer text-black">
             <h4>Produktivität der letzten 12 Monate</h4>
+            <h6><small>berechnet von insgesamt @d.ZeiterfassungenAnzahlLastYear Einträgen</small> </h6>
+
             <canvas id="bar-chart" width="700" height="330"></canvas>
         </div>
-
+        }
         <!-- Here should come the Promon app - not sure if it will work -->
         <div class="box-footer text-black">
             <h4>Placeholder for Pronom</h4>
 
             <div class="row">
-                <iframe src="https://de.wikipedia.org/wiki/Rheinmetall_Automotive" width="100%" height="400"></iframe>
+                <iframe src="https://de.wikipedia.org/wiki/Rheinmetall_Automotive" width="100%" height="700"></iframe>
             </div>
         </div>
     </div>
@@ -147,7 +153,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="clearfix">
-                        <span>letzte Woche gesamt: <span><big> @ViewBag.StückeWoche </big></span></span>
+                        <span>letzte Woche gesamt: <span><big> @d.StückeWoche </big></span></span>
                         <hr />
                     </div>
                     <div class="col-sm-12">
@@ -159,7 +165,8 @@
                         </div>
                         <div class="clearfix">
                             <h5>
-                                <span id="day2"></span><span class="pull-right"><span class="label label-warning">@d.StückeMinusTwoDays</span></span></h5>
+                                <span id="day2"></span><span class="pull-right"><span class="label label-warning">@d.StückeMinusTwoDays</span></span>
+                            </h5>
                         </div>
                         <div class="clearfix">
                             <h5><span id="day3"></span><span class="pull-right"><span class="label label-warning"> @d.StückeMinusThreeDays</span> </span></h5>

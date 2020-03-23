@@ -261,7 +261,7 @@ order by SchichtInfoID";
             return result;
         }
 
-
+        // dictionary for calculation of custom productivity 
         public Dictionary<string, float> GetProduktivitätCustomDictionary(int day, int month, int year, int ProduktionsanlageID, int FertigungsteilID, int MitarbeiterID, int Art)
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
@@ -461,6 +461,8 @@ order by SchichtInfoID";
             }
             return result;
         }
+
+        // dictionary for dropdown display
         public Dictionary<int, string> GetDictionaryProduktivität(string tableName, string labelString, string where)
         {
             Dictionary<int, string> result = new Dictionary<int, string>();
@@ -485,6 +487,7 @@ order by SchichtInfoID";
             return result;
         }
 
+        // dictionary methods for calculation of productivity for dashboard display
         public Dictionary<string, float> CalculateProductivityLastMonthAlleBänder()
         {
 

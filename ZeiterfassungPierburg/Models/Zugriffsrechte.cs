@@ -12,6 +12,7 @@ namespace ZeiterfassungPierburg.Models
     [Table("Zugriffsrechte")]
     public class Zugriffsrechte : BasicModelObject
     {
+
         [Required(ErrorMessage = "Du musst noch den Benutzernamen eingeben.")]
         public string Benutzername
         {

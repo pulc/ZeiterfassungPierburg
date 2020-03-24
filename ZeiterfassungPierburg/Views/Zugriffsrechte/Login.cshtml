@@ -11,6 +11,7 @@
 <link href="~/Content/dist/css/AdminLTE.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
 
+
 @using (Html.BeginForm("Login", "Zugriffsrechte", FormMethod.Post))
 {
     @Scripts.Render("~/bundles/jquery")
@@ -30,9 +31,9 @@
                 </div>
                 <!-- /.login-logo -->
                 <div class="login-box-body">
-                    <p class="login-box-msg"><big>Melde dich an.</big></p>
+                    <p class="login-box-msg"><big>Melde dich an. </big></p>
 
-                    <form  method="post">
+                    <form method="post">
                         <div class="form-group has-feedback">
                             @Html.TextBoxFor(a => a.Benutzername, new { @class = "form-control", @placeholder = "Benutzername" })
                         </div>
@@ -47,23 +48,19 @@
                             <br />
                         }
                         <div class="row">
-
                             <div class="col-xs-8">
                             </div>
                             <!-- /.col -->
                             <div class="col-xs-4">
-
                                 <button type="submit" class="btn btn-primary btn-block btn-flat">Anmelden</button>
                             </div>
                             <!-- /.col -->
                         </div>
                     </form>
                 </div>
-
                 <!-- /.login-box-body -->
             </div>
-        <!-- /.login-box -->
-
+            <!-- /.login-box -->
         </body>
     }
 }

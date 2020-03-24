@@ -52,14 +52,12 @@ namespace ZeiterfassungPierburg.Controllers
                     ViewBag.Message = "Der Benutzer mit diesem Benutzernamen existiert bereits. Wähle einen anderen Benutzernamen aus.";
                     return View(m);
                 }
-
                 SQLServer.Instance.InsertItem<Zugriffsrechte>(m);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-
-                ViewBag.ZugriffsrechteMessage = "Es ist ein Fehler aufgetreten. Kein Zugriffsrechte wurde hinzugefügt. Grund: " + e;
+                ViewBag.ZugriffsrechteMessage = "Es ist ein Fehler aufgetreten. Kein Zugriffsrecht wurde hinzugefügt. Grund: " + e;
                 return View(m);
             }
         }
@@ -99,8 +97,7 @@ namespace ZeiterfassungPierburg.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-        // FOR LOGIN PURPOSES
+        // For login purposes
         public ActionResult Login()
         {
             return View();
@@ -114,13 +111,15 @@ namespace ZeiterfassungPierburg.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // get password for the submitted username
                     string pw = SQLServer.Instance.GetOneString("Password", "Zugriffsrechte", "Benutzername = '" + o.Benutzername + "'");
 
+                    // if the password from the database equals the submitted pw
                     if (pw == o.Password)
                     {
-                        Session["UserID"] = o.ID;
-                        Session["UserName"] = o.Benutzername;
+                        Session["UserName"] = o.Benutzername; //set the username for the session
 
+                        // get the accesss layer based on the username
                         int al = SQLServer.Instance.GetInt("Select Zugriffsebene from Zugriffsrechte where Benutzername = '" + o.Benutzername + "'");
                         Session["AccessLayer"] = al;
 
@@ -148,7 +147,6 @@ namespace ZeiterfassungPierburg.Controllers
 
         public ActionResult DeleteSession()
         {
-            Session["UserID"] = null;
             Session["UserName"] = null;
             Session["AccessLayer"] = null;
 

@@ -331,6 +331,7 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="App_Data\backup" />
     <Content Include="Pieburg_Dokumentation.docx" />
+    <Content Include="build.zip" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile2.pubxml" />

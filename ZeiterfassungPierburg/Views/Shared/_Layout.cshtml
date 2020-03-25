@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     @if (@ViewBag.Title != null)
     {
         <title>Pierburg Zeiterfassung</title>
@@ -110,6 +109,8 @@
                                 <li class="dropdown user user-menu">
                                     <a href="/Zugriffsrechte/DeleteSession"><span class="glyphicon">&#xe163;</span></a>
                                 </li>
+
+
                             </ul>
                         </div>
                     </nav>
@@ -309,7 +310,7 @@
                                     <li>
                                         <a href="@Url.Action("Create", "Neuezeiterfassung")">
                                             <i class="fa fa-cogs" aria-hidden="true"></i>
-                                            <span>Montage</span>
+                                             <span>Montage</span>
                                         </a>
                                     </li>
                                     <li>
@@ -404,9 +405,10 @@
                                 </a>
                             </li>
                         </ul>
-                        <!-- /.sidebar-menu>
-                        </section>
-                        <!-- /.sidebar -->
+                    </section>
+
+                    <!-- /.sidebar-menu>
+                <!-- /.sidebar -->
                 </aside>
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper">

@@ -28,12 +28,12 @@ namespace ZeiterfassungPierburg.Data
             using (SqlConnection conn = NewOpenConnection)
             {
                 string sql = @"
-select  f.ID,f.Bezeichnung from 
+select  f.ID,f.ZeichenNr from 
 TeileInProduktionsanlage t
 LEFT OUTER JOIN Produktionsanlage p  ON t.ProduktionsanlageID = p.ID
 LEFT OUTER JOIN Fertigungsteil f  ON t.FertigungsteilID = f.ID
 where ProduktionsanlageID = 
-" + ProduktionsanlageID + " and f.Bezeichnung is not null ";
+" + ProduktionsanlageID + " and f.ZeichenNr is not null ";
 
                 SqlDataReader r = ExecuteSelectStatement(conn, sql);
                 while (r.Read())

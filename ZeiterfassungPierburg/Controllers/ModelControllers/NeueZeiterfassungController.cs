@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -153,8 +154,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                                 SchichtInfoID = SchichtInfoID,
                                 FertigungsteilID = Int32.Parse(Request.Form["fteil" + j]),
                                 MitarbeiterID = Int32.Parse(Request.Form["name" + i]),
-                                DirStunden = float.Parse(Request.Form["dirzeit" + i]),
-                                InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
+                                DirStunden = float.Parse(Request.Form["dirzeit" + i], CultureInfo.InvariantCulture),
+                                InDirStunden = float.Parse(Request.Form["indirzeit" + i], CultureInfo.InvariantCulture),
                                 Stück = Int32.Parse(Request.Form["st" + j]),
                                 ProduktionsanlageID = ProduktionsanlageID,
                                 ErstelltAm = date,
@@ -262,8 +263,8 @@ namespace ZeiterfassungPierburg.Controllers.ModelControllers
                         SchichtInfoID = SchichtInfoID,
                         FertigungsteilID = Int32.Parse(Request.Form["fteil" + i]),
                         MitarbeiterID = MitarbeiterID,
-                        DirStunden = float.Parse(Request.Form["dirzeit" + i]),
-                        InDirStunden = float.Parse(Request.Form["indirzeit" + i]),
+                        DirStunden = float.Parse(Request.Form["dirzeit" + i], CultureInfo.InvariantCulture),
+                        InDirStunden = float.Parse(Request.Form["indirzeit" + i], CultureInfo.InvariantCulture),
                         Stück = Int32.Parse(Request.Form["st" + i]),
                         ProduktionsanlageID = ProduktionsanlageID,
                         ErstelltAm = date,
